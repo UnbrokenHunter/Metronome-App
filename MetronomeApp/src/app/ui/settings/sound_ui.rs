@@ -6,17 +6,36 @@ pub fn sound_ui(app: &mut MyApp, ui: &mut Ui) {
         ui.label("Sounds:");
         ui.separator();
 
-        ui.vertical(|ui| {
-            ui.horizontal(|ui| {
-                ui.selectable_value(&mut app.sound, Sounds::Cowbell, "Cowbell");
-                ui.selectable_value(&mut app.sound, Sounds::Thump, "Thump");
-                ui.selectable_value(&mut app.sound, Sounds::Tone, "Tone");
+        use crate::app::Sounds;
+        use crate::app::logic::sound::play_metronome;
+        use egui::Grid;
+
+        Grid::new("sound_grid")
+            .num_columns(3)
+            .spacing([5.0, 10.0])
+            .show(ui, |ui| {
+                for &sound in [
+                    Sounds::Beep,
+                    Sounds::Thump,
+                    Sounds::Tone,
+                    Sounds::Clave,
+                    Sounds::Cowbell,
+                    Sounds::Click,
+                ]
+                .iter()
+                {
+                    if ui
+                        .selectable_value(&mut app.sound, sound, format!("{:?}", sound))
+                        .clicked()
+                    {
+                        play_metronome(app, sound);
+                    }
+
+                    // Move to next row every 3 buttons
+                    if (sound as usize + 1) % 3 == 0 {
+                        ui.end_row();
+                    }
+                }
             });
-            ui.horizontal(|ui| {
-                ui.selectable_value(&mut app.sound, Sounds::Beep, "Beep");
-                ui.selectable_value(&mut app.sound, Sounds::Clave, "Clave");
-                ui.selectable_value(&mut app.sound, Sounds::Click, "Click");
-            });
-        });
     });
 }
