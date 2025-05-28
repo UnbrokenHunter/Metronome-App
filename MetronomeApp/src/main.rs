@@ -1,118 +1,23 @@
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
-#![allow(rustdoc::missing_crate_level_docs)] // it's an example
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use eframe::egui;
-use egui_plot::{Line, Plot, PlotPoints};
+mod app;
 
-fn main() -> eframe::Result {
-    env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
+use app::MyApp;
+
+fn main() -> eframe::Result<()> {
+    env_logger::init();
+
     let options = eframe::NativeOptions {
-        viewport: egui::ViewportBuilder::default().with_inner_size([700.0, 400.0]),
+        viewport: eframe::egui::ViewportBuilder::default().with_inner_size([700.0, 400.0]),
         ..Default::default()
     };
+
     eframe::run_native(
         "Metronome",
         options,
         Box::new(|cc| {
-            // This gives us image support:
             egui_extras::install_image_loaders(&cc.egui_ctx);
-
             Ok(Box::<MyApp>::default())
         }),
     )
-}
-
-struct MyApp {
-    tempo: f64,
-    minimum_tempo: u32,
-    maximum_tempo: u32,
-    practice_length: u32,
-    points: Vec<[f64; 2]>,
-}
-
-impl Default for MyApp {
-    fn default() -> Self {
-        Self {
-            tempo: 100.0,
-            minimum_tempo: 100,
-            maximum_tempo: 150,
-            practice_length: 300,
-            points: Vec::new(),
-        }
-    }
-}
-
-impl eframe::App for MyApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| {
-            egui::TopBottomPanel::top("header").show(ctx, |ui| {
-                ui.heading("Metronome");
-            });
-
-            egui::SidePanel::left("settings").show(ctx, |ui| {
-                ui.label("Tempo:");
-                ui.add(egui::Separator::default());
-
-                ui.add(
-                    egui::Slider::new(&mut self.minimum_tempo, 0..=self.maximum_tempo).text("Min"),
-                );
-                assert!(
-                    self.minimum_tempo <= self.maximum_tempo,
-                    "Existing value should be clamped"
-                );
-
-                ui.add(
-                    egui::Slider::new(&mut self.maximum_tempo, self.minimum_tempo..=120)
-                        .text("Max"),
-                );
-                assert!(
-                    self.minimum_tempo <= self.maximum_tempo,
-                    "Existing value should be clamped"
-                );
-
-                ui.label("Practice:");
-                ui.add(egui::Separator::default());
-                ui.add(
-                    egui::Slider::new(&mut self.practice_length, 0..=600).text("Practice Length"),
-                );
-            });
-
-            egui::CentralPanel::default().show(ctx, |ui| {
-                ui.with_layout(
-                    egui::Layout::centered_and_justified(egui::Direction::TopDown),
-                    |ui| {
-                        ui.heading("Tempo");
-
-                        // Update data
-                        self.tempo += 0.1;
-                        let y = (self.tempo).sin();
-                        self.points.push([self.tempo, y]);
-
-                        // Limit how many points are stored
-                        if self.points.len() > 500 {
-                            self.points.remove(0);
-                        }
-
-                        // Plot UI
-                        egui::CentralPanel::default().show(ctx, |ui| {
-                            ui.heading("Live Updating Graph");
-
-                            Plot::new("live_plot")
-                                .view_aspect(2.0) // wider plot
-                                .show(ui, |plot_ui| {
-                                    let line = Line::new(
-                                        "line name",
-                                        PlotPoints::from(self.points.clone()),
-                                    );
-                                    plot_ui.line(line);
-                                });
-                        });
-
-                        // Repaint every frame
-                        ctx.request_repaint();
-                    },
-                );
-            });
-        });
-    }
 }
