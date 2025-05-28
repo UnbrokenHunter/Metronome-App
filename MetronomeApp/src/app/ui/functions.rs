@@ -38,5 +38,5 @@ fn exponential(x: f64, p: TempoParams) -> f64 {
 }
 
 fn constant(p: TempoParams) -> f64 {
-    return 0.0;
+    return p.min as f64;
 }
