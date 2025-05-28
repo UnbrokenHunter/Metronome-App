@@ -4,12 +4,29 @@ use eframe::egui::{self, Context};
 mod plot;
 mod ui;
 
+#[derive(Debug, Copy, Clone)]
+pub struct TempoParams {
+    pub min: u32,
+    pub max: u32,
+    pub length: u32,
+    pub scaler: f64,
+}
+
+#[derive(PartialEq, Copy, Clone, Debug)]
+pub enum GrowthType {
+    Linear,
+    Sigmoidal,
+    Logarithmic,
+    Exponential,
+    Constant,
+}
+
 pub struct MyApp {
     pub playing: bool,
+    pub time: f64,
     pub tempo: f64,
-    pub minimum_tempo: u32,
-    pub maximum_tempo: u32,
-    pub practice_length: u32,
+    pub tempo_params: TempoParams,
+    pub growth_type: GrowthType,
     pub points: Vec<[f64; 2]>,
 }
 
@@ -17,10 +34,15 @@ impl Default for MyApp {
     fn default() -> Self {
         Self {
             playing: false,
+            time: 0.0,
             tempo: 100.0,
-            minimum_tempo: 100,
-            maximum_tempo: 150,
-            practice_length: 300,
+            tempo_params: TempoParams {
+                min: 100,
+                max: 150,
+                length: 400,
+                scaler: 0.5,
+            },
+            growth_type: GrowthType::Linear,
             points: Vec::new(),
         }
     }

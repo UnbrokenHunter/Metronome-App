@@ -1,18 +1,90 @@
+use super::plot::draw_demo_plot;
 use super::plot::draw_plot;
+use crate::app::GrowthType;
 use crate::app::MyApp;
 use eframe::egui::{self, Ui};
+use functions::calculate;
+
+pub mod functions;
 
 pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
-    ui.label("Tempo:");
-    ui.separator();
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.label("Practice:");
+        ui.separator();
 
-    ui.add(egui::Slider::new(&mut app.minimum_tempo, 0..=app.maximum_tempo).text("Min"));
-    ui.add(egui::Slider::new(&mut app.maximum_tempo, app.minimum_tempo..=120).text("Max"));
+        ui.add(egui::Slider::new(&mut app.tempo_params.length, 1..=600).text("Practice Length"));
+    });
 
-    ui.label("Practice:");
-    ui.separator();
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.label("Tempo:");
+        ui.separator();
 
-    ui.add(egui::Slider::new(&mut app.practice_length, 0..=600).text("Practice Length"));
+        if app.growth_type == GrowthType::Constant {
+            ui.add(
+                egui::Slider::new(&mut app.tempo_params.min, 0..=app.tempo_params.max)
+                    .text("Tempo"),
+            );
+        } else {
+            ui.add(
+                egui::Slider::new(&mut app.tempo_params.min, 0..=app.tempo_params.max).text("Min"),
+            );
+            ui.add(
+                egui::Slider::new(&mut app.tempo_params.max, app.tempo_params.min..=120)
+                    .text("Max"),
+            );
+        }
+    });
+
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.label("Growth Behavior:");
+        ui.separator();
+
+        ui.horizontal(|ui: &mut Ui| {
+            ui.vertical(|ui| {
+                ui.selectable_value(&mut app.growth_type, GrowthType::Linear, "Linear");
+                if ui
+                    .selectable_value(&mut app.growth_type, GrowthType::Exponential, "Exponential")
+                    .clicked()
+                {
+                    app.tempo_params.scaler = 3.0;
+                }
+
+                if ui
+                    .selectable_value(&mut app.growth_type, GrowthType::Sigmoidal, "Sigmoidal")
+                    .clicked()
+                {
+                    app.tempo_params.scaler = 6.0;
+                }
+
+                if ui
+                    .selectable_value(&mut app.growth_type, GrowthType::Logarithmic, "Logarithmic")
+                    .clicked()
+                {
+                    app.tempo_params.scaler = 0.5;
+                }
+                ui.selectable_value(&mut app.growth_type, GrowthType::Constant, "Constant");
+            });
+
+            ui.vertical(|ui| {
+                // Display Scaler if type requires it
+                if app.growth_type == GrowthType::Exponential {
+                    ui.add(
+                        egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0).text("Scaler"),
+                    );
+                } else if app.growth_type == GrowthType::Logarithmic {
+                    ui.add(
+                        egui::Slider::new(&mut app.tempo_params.scaler, 0.0..=1.0).text("Scaler"),
+                    );
+                } else if app.growth_type == GrowthType::Sigmoidal {
+                    ui.add(
+                        egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0).text("Scaler"),
+                    );
+                }
+
+                draw_demo_plot(ui, app.growth_type, app.tempo_params);
+            });
+        });
+    });
 }
 
 pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
@@ -20,15 +92,12 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
         ui.heading("Tempo");
 
         if app.playing {
-            app.tempo += 0.1;
-            let y = app.tempo.sin();
-            app.points.push([app.tempo, y]);
-            if app.points.len() > 500 {
-                app.points.remove(0);
-            }
+            app.time += 0.1;
+            app.tempo = calculate(app.growth_type, app.time, app.tempo_params);
+            app.points.push([app.time, app.tempo]);
         }
 
-        draw_plot(ui, &app.points);
+        draw_plot(ui, &app.points, app.tempo_params);
 
         if ui.add(egui::Button::new("Play")).clicked() {
             app.playing = !app.playing
