@@ -1,0 +1,9 @@
+[package]
+name = "MetronomeApp"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+eframe = "0.31.1"
+egui_extras = { version = "0.31.1", features = ["image"] }
+env_logger = { version = "0.11.8", default-features = false, features = ["auto-color", "humantime"] }
