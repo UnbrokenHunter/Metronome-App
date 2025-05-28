@@ -4,8 +4,10 @@ use crate::app::GrowthType;
 use crate::app::MyApp;
 use eframe::egui::{self, Ui};
 use functions::calculate;
+use sound::play_metronome;
 
 pub mod functions;
+pub mod sound;
 
 pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
@@ -84,6 +86,29 @@ pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
                 draw_demo_plot(ui, app.growth_type, app.tempo_params);
             });
         });
+    });
+
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.label("Sounds:");
+        ui.separator();
+
+        ui.vertical(|ui| {
+            ui.horizontal(|ui: &mut Ui| {
+                ui.selectable_value(&mut app.sound, super::Sounds::Cowbell, "Cowbell");
+                ui.selectable_value(&mut app.sound, super::Sounds::Thump, "Thump");
+                ui.selectable_value(&mut app.sound, super::Sounds::Tone, "Tone");
+            });
+            ui.horizontal(|ui: &mut Ui| {
+                ui.selectable_value(&mut app.sound, super::Sounds::Beep, "Beep");
+                ui.selectable_value(&mut app.sound, super::Sounds::Clave, "Clave");
+                ui.selectable_value(&mut app.sound, super::Sounds::Click, "Click");
+            });
+        });
+
+        if ui.add(egui::Button::new("Play")).clicked() {
+            println!("Button Click");
+            play_metronome(app.sound);
+        }
     });
 }
 

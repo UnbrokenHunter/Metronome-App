@@ -52,6 +52,7 @@ pub struct MyApp {
     pub time: f64,
     pub tempo: f64,
     pub tempo_params: TempoParams,
+    pub sound: Sounds,
     pub growth_type: GrowthType,
     pub points: Vec<[f64; 2]>,
 }
@@ -68,6 +69,7 @@ impl Default for MyApp {
                 length: 400,
                 scaler: 0.5,
             },
+            sound: Sounds::Beep,
             growth_type: GrowthType::Linear,
             points: Vec::new(),
         }
