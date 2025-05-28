@@ -2,6 +2,9 @@ use super::plot::draw_plot;
 use crate::app::GrowthType;
 use crate::app::MyApp;
 use eframe::egui::{self, Ui};
+use functions::calculate;
+
+mod functions;
 
 pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
     ui.label("Practice:");
@@ -12,7 +15,7 @@ pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
     ui.label("Tempo:");
     ui.separator();
 
-    ui.add(egui::Slider::new(&mut app.minimum_tempo, 0..=app.maximum_tempo).text("Min"));
+    ui.add(egui::Slider::new(&mut app.tempo_params.min, 0..=app.tempo_params.max).text("Min"));
     ui.add(egui::Slider::new(&mut app.maximum_tempo, app.minimum_tempo..=120).text("Max"));
 
     ui.label("Growth Behavior:");
@@ -30,9 +33,9 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
         ui.heading("Tempo");
 
         if app.playing {
-            app.tempo += 0.1;
-            let y = app.tempo.sin();
-            app.points.push([app.tempo, y]);
+            app.time += 0.1;
+            let y = calculate(app.growth_type, app.time, app.tempo_params);
+            app.points.push([app.time, y]);
             if app.points.len() > 500 {
                 app.points.remove(0);
             }
