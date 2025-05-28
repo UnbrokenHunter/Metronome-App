@@ -2,6 +2,7 @@
 #![allow(rustdoc::missing_crate_level_docs)] // it's an example
 
 use eframe::egui;
+use egui_plot::{Line, Plot, PlotPoints};
 
 fn main() -> eframe::Result {
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
@@ -22,19 +23,21 @@ fn main() -> eframe::Result {
 }
 
 struct MyApp {
-    tempo: u32,
+    tempo: f64,
     minimum_tempo: u32,
     maximum_tempo: u32,
     practice_length: u32,
+    points: Vec<[f64; 2]>,
 }
 
 impl Default for MyApp {
     fn default() -> Self {
         Self {
-            tempo: 100,
+            tempo: 100.0,
             minimum_tempo: 100,
             maximum_tempo: 150,
             practice_length: 300,
+            points: Vec::new(),
         }
     }
 }
@@ -45,30 +48,71 @@ impl eframe::App for MyApp {
             egui::TopBottomPanel::top("header").show(ctx, |ui| {
                 ui.heading("Metronome");
             });
-            
-            egui::SidePanel::left("settings").show(ctx, |ui| {
 
+            egui::SidePanel::left("settings").show(ctx, |ui| {
                 ui.label("Tempo:");
                 ui.add(egui::Separator::default());
-                    
-                    ui.add(egui::Slider::new(&mut self.minimum_tempo, 0..=self.maximum_tempo).text("Min"));
-                    assert!(self.minimum_tempo <= self.maximum_tempo, "Existing value should be clamped");
-                    
-                    ui.add(egui::Slider::new(&mut self.maximum_tempo, self.minimum_tempo..=120).text("Max"));
-                    assert!(self.minimum_tempo <= self.maximum_tempo, "Existing value should be clamped");
-                    
+
+                ui.add(
+                    egui::Slider::new(&mut self.minimum_tempo, 0..=self.maximum_tempo).text("Min"),
+                );
+                assert!(
+                    self.minimum_tempo <= self.maximum_tempo,
+                    "Existing value should be clamped"
+                );
+
+                ui.add(
+                    egui::Slider::new(&mut self.maximum_tempo, self.minimum_tempo..=120)
+                        .text("Max"),
+                );
+                assert!(
+                    self.minimum_tempo <= self.maximum_tempo,
+                    "Existing value should be clamped"
+                );
+
                 ui.label("Practice:");
                 ui.add(egui::Separator::default());
-                    ui.add(egui::Slider::new(&mut self.practice_length, 0..=600).text("Practice Length"));
-                });
-
-            egui::CentralPanel::default().show(ctx, |ui| {
-                ui.with_layout(egui::Layout::centered_and_justified(egui::Direction::TopDown), |ui| {
-                    ui.heading("Tempo");
-                });
+                ui.add(
+                    egui::Slider::new(&mut self.practice_length, 0..=600).text("Practice Length"),
+                );
             });
 
+            egui::CentralPanel::default().show(ctx, |ui| {
+                ui.with_layout(
+                    egui::Layout::centered_and_justified(egui::Direction::TopDown),
+                    |ui| {
+                        ui.heading("Tempo");
 
+                        // Update data
+                        self.tempo += 0.1;
+                        let y = (self.tempo).sin();
+                        self.points.push([self.tempo, y]);
+
+                        // Limit how many points are stored
+                        if self.points.len() > 500 {
+                            self.points.remove(0);
+                        }
+
+                        // Plot UI
+                        egui::CentralPanel::default().show(ctx, |ui| {
+                            ui.heading("Live Updating Graph");
+
+                            Plot::new("live_plot")
+                                .view_aspect(2.0) // wider plot
+                                .show(ui, |plot_ui| {
+                                    let line = Line::new(
+                                        "line name",
+                                        PlotPoints::from(self.points.clone()),
+                                    );
+                                    plot_ui.line(line);
+                                });
+                        });
+
+                        // Repaint every frame
+                        ctx.request_repaint();
+                    },
+                );
+            });
         });
     }
 }
