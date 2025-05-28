@@ -19,13 +19,19 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
     ui.vertical_centered(|ui| {
         ui.heading("Tempo");
 
-        app.tempo += 0.1;
-        let y = app.tempo.sin();
-        app.points.push([app.tempo, y]);
-        if app.points.len() > 500 {
-            app.points.remove(0);
+        if app.playing {
+            app.tempo += 0.1;
+            let y = app.tempo.sin();
+            app.points.push([app.tempo, y]);
+            if app.points.len() > 500 {
+                app.points.remove(0);
+            }
         }
 
         draw_plot(ui, &app.points);
+
+        if ui.add(egui::Button::new("Play")).clicked() {
+            app.playing = !app.playing
+        }
     });
 }

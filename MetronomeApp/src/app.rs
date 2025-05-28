@@ -5,6 +5,7 @@ mod plot;
 mod ui;
 
 pub struct MyApp {
+    pub playing: bool,
     pub tempo: f64,
     pub minimum_tempo: u32,
     pub maximum_tempo: u32,
@@ -15,6 +16,7 @@ pub struct MyApp {
 impl Default for MyApp {
     fn default() -> Self {
         Self {
+            playing: false,
             tempo: 100.0,
             minimum_tempo: 100,
             maximum_tempo: 150,
