@@ -17,6 +17,7 @@ impl Default for MyApp {
                 scaler: 0.5,
             },
             sound: Sounds::Beep,
+            audio: None,
             growth_type: GrowthType::Linear,
             points: Vec::new(),
         }

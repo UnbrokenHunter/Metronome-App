@@ -19,10 +19,5 @@ pub fn sound_ui(app: &mut MyApp, ui: &mut Ui) {
                 ui.selectable_value(&mut app.sound, Sounds::Click, "Click");
             });
         });
-
-        if ui.add(egui::Button::new("Play")).clicked() {
-            println!("Button Click");
-            play_metronome(app.sound);
-        }
     });
 }

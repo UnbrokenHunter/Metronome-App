@@ -1,3 +1,4 @@
+use rodio::{OutputStream, Sink};
 use std::fmt;
 
 pub struct MyApp {
@@ -6,6 +7,7 @@ pub struct MyApp {
     pub tempo: f64,
     pub tempo_params: TempoParams,
     pub sound: Sounds,
+    pub audio: Option<(OutputStream, Sink)>,
     pub growth_type: GrowthType,
     pub points: Vec<[f64; 2]>,
 }
