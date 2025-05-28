@@ -34,11 +34,8 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
 
         if app.playing {
             app.time += 0.1;
-            let y = calculate(app.growth_type, app.time, app.tempo_params);
-            app.points.push([app.time, y]);
-            if app.points.len() > 500 {
-                app.points.remove(0);
-            }
+            app.tempo = calculate(app.growth_type, app.time, app.tempo_params);
+            app.points.push([app.time, app.tempo]);
         }
 
         draw_plot(ui, &app.points);

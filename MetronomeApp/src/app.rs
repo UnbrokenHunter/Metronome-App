@@ -9,6 +9,7 @@ pub struct TempoParams {
     pub min: u32,
     pub max: u32,
     pub length: u32,
+    pub scaler: f64,
 }
 
 #[derive(PartialEq, Copy, Clone, Debug)]
@@ -39,6 +40,7 @@ impl Default for MyApp {
                 min: 100,
                 max: 150,
                 length: 400,
+                scaler: 0.5,
             },
             growth_type: GrowthType::Linear,
             points: Vec::new(),
