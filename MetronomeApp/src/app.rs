@@ -1,3 +1,5 @@
+use std::fmt;
+
 use eframe::Frame;
 use eframe::egui::{self, Context};
 
@@ -22,12 +24,27 @@ pub enum GrowthType {
 }
 
 #[derive(PartialEq, Copy, Clone, Debug)]
-pub enum GrowthType {
-    Linear,
-    Sigmoidal,
-    Logarithmic,
-    Exponential,
-    Constant,
+pub enum Sounds {
+    Beep,
+    Clave,
+    Click,
+    Cowbell,
+    Thump,
+    Tone,
+}
+
+impl fmt::Display for Sounds {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let name = match self {
+            Sounds::Beep => "Beep",
+            Sounds::Clave => "Clave",
+            Sounds::Click => "Click",
+            Sounds::Cowbell => "Cowbell",
+            Sounds::Thump => "Thump",
+            Sounds::Tone => "Tone",
+        };
+        write!(f, "{}", name)
+    }
 }
 
 pub struct MyApp {
