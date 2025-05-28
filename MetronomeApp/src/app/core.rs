@@ -1,6 +1,9 @@
+use std::time::{SystemTime, UNIX_EPOCH};
+
 use eframe::Frame;
 use eframe::egui::{self, Context};
 
+use super::logic::clock;
 use super::{GrowthType, MyApp, Sounds};
 use crate::app::ui::layout::{main_ui, settings_ui};
 
@@ -20,6 +23,18 @@ impl Default for MyApp {
             audio: None,
             growth_type: GrowthType::Linear,
             points: Vec::new(),
+            time_data: crate::app::types::TimeData {
+                time: SystemTime::now()
+                    .duration_since(UNIX_EPOCH)
+                    .expect("Time went backwards")
+                    .as_millis(),
+                time_since_start: 0,
+                start_time: SystemTime::now()
+                    .duration_since(UNIX_EPOCH)
+                    .expect("Time went backwards")
+                    .as_millis(),
+                delta_time: 0,
+            },
         }
     }
 }
@@ -40,6 +55,7 @@ impl eframe::App for MyApp {
             });
         });
 
+        clock::update_time(&mut self.time_data);
         ctx.request_repaint();
     }
 }

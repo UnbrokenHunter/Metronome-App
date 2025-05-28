@@ -1,4 +1,3 @@
-use crate::app::logic::sound::play_metronome;
 use crate::app::{MyApp, Sounds};
 use eframe::egui::{self, Ui};
 

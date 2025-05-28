@@ -10,6 +10,15 @@ pub struct MyApp {
     pub audio: Option<(OutputStream, Sink)>,
     pub growth_type: GrowthType,
     pub points: Vec<[f64; 2]>,
+    pub time_data: TimeData,
+}
+
+#[derive(Debug, Copy, Clone)]
+pub struct TimeData {
+    pub time: u128,
+    pub time_since_start: u128,
+    pub delta_time: u128,
+    pub start_time: u128,
 }
 
 #[derive(Debug, Copy, Clone)]
