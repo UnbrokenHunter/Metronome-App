@@ -4,6 +4,15 @@ use eframe::egui::{self, Context};
 mod plot;
 mod ui;
 
+#[derive(PartialEq, Copy, Clone, Debug)]
+pub enum GrowthType {
+    Linear,
+    Sigmoidal,
+    Logarithmic,
+    Exponential,
+    Constant,
+}
+
 pub struct MyApp {
     pub playing: bool,
     pub tempo: f64,
@@ -11,6 +20,7 @@ pub struct MyApp {
     pub maximum_tempo: u32,
     pub practice_length: u32,
     pub points: Vec<[f64; 2]>,
+    pub growth_type: GrowthType,
 }
 
 impl Default for MyApp {
@@ -22,6 +32,7 @@ impl Default for MyApp {
             maximum_tempo: 150,
             practice_length: 300,
             points: Vec::new(),
+            growth_type: GrowthType::Linear,
         }
     }
 }
