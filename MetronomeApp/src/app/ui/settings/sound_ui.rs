@@ -6,7 +6,6 @@ pub fn sound_ui(app: &mut MyApp, ui: &mut Ui) {
         ui.label("Sounds:");
         ui.separator();
 
-        use crate::app::Sounds;
         use crate::app::logic::sound::play_metronome;
         use egui::Grid;
 

@@ -11,7 +11,6 @@ impl Default for MyApp {
     fn default() -> Self {
         Self {
             playing: false,
-            time: 0.0,
             tempo: 100.0,
             tempo_params: crate::app::types::TempoParams {
                 min: 100,
@@ -34,6 +33,8 @@ impl Default for MyApp {
                     .expect("Time went backwards")
                     .as_millis(),
                 delta_time: 0,
+                paused_time: 0,
+                calculated_time_since_start: 0,
             },
         }
     }
@@ -55,7 +56,7 @@ impl eframe::App for MyApp {
             });
         });
 
-        clock::update_time(&mut self.time_data);
+        clock::update_time(&mut self.time_data, self.playing);
         ctx.request_repaint();
     }
 }

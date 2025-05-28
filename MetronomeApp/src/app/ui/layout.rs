@@ -17,10 +17,18 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
         ui.heading("Tempo");
 
         if app.playing {
-            app.time += 0.1;
-            app.tempo = calculate(app.growth_type, app.time, app.tempo_params);
-            app.points.push([app.time, app.tempo]);
+            app.tempo = calculate(
+                app.growth_type,
+                app.time_data.calculated_time_since_start as f64 / 1000.0,
+                app.tempo_params,
+            );
+            app.points.push([
+                app.time_data.calculated_time_since_start as f64 / 1000.0,
+                app.tempo,
+            ]);
         }
+
+        println!("{}", app.time_data.calculated_time_since_start.to_string());
 
         draw_plot(ui, &app.points, app.tempo_params);
 

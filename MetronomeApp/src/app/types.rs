@@ -3,7 +3,6 @@ use std::fmt;
 
 pub struct MyApp {
     pub playing: bool,
-    pub time: f64,
     pub tempo: f64,
     pub tempo_params: TempoParams,
     pub sound: Sounds,
@@ -19,6 +18,8 @@ pub struct TimeData {
     pub time_since_start: u128,
     pub delta_time: u128,
     pub start_time: u128,
+    pub paused_time: u128,
+    pub calculated_time_since_start: u128,
 }
 
 #[derive(Debug, Copy, Clone)]
