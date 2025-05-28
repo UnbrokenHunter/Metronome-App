@@ -7,25 +7,52 @@ use functions::calculate;
 mod functions;
 
 pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
-    ui.label("Practice:");
-    ui.separator();
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.label("Practice:");
+        ui.separator();
 
-    ui.add(egui::Slider::new(&mut app.tempo_params.length, 0..=600).text("Practice Length"));
+        ui.add(egui::Slider::new(&mut app.tempo_params.length, 0..=600).text("Practice Length"));
+    });
 
-    ui.label("Tempo:");
-    ui.separator();
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.label("Tempo:");
+        ui.separator();
 
-    ui.add(egui::Slider::new(&mut app.tempo_params.min, 0..=app.tempo_params.max).text("Min"));
-    ui.add(egui::Slider::new(&mut app.tempo_params.max, app.tempo_params.min..=120).text("Max"));
+        ui.add(egui::Slider::new(&mut app.tempo_params.min, 0..=app.tempo_params.max).text("Min"));
+        ui.add(
+            egui::Slider::new(&mut app.tempo_params.max, app.tempo_params.min..=120).text("Max"),
+        );
+    });
 
-    ui.label("Growth Behavior:");
-    ui.separator();
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.label("Growth Behavior:");
+        ui.separator();
 
-    ui.selectable_value(&mut app.growth_type, GrowthType::Linear, "Linear");
-    ui.selectable_value(&mut app.growth_type, GrowthType::Sigmoidal, "Sigmoidal");
-    ui.selectable_value(&mut app.growth_type, GrowthType::Logarithmic, "Logarithmic");
-    ui.selectable_value(&mut app.growth_type, GrowthType::Exponential, "Exponential");
-    ui.selectable_value(&mut app.growth_type, GrowthType::Constant, "Constant");
+        ui.horizontal(|ui| {
+            ui.vertical(|ui| {
+                ui.selectable_value(&mut app.growth_type, GrowthType::Linear, "Linear");
+                ui.selectable_value(&mut app.growth_type, GrowthType::Sigmoidal, "Sigmoidal");
+                ui.selectable_value(&mut app.growth_type, GrowthType::Logarithmic, "Logarithmic");
+                ui.selectable_value(&mut app.growth_type, GrowthType::Exponential, "Exponential");
+                ui.selectable_value(&mut app.growth_type, GrowthType::Constant, "Constant");
+            });
+
+            // Display Scaler if type requires it
+            if app.growth_type == GrowthType::Exponential {
+                ui.vertical(|ui| {
+                    ui.add(
+                        egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0).text("Scaler"),
+                    );
+                });
+            } else if app.growth_type == GrowthType::Logarithmic {
+                ui.vertical(|ui| {
+                    ui.add(
+                        egui::Slider::new(&mut app.tempo_params.scaler, 0.0..=1.0).text("Scaler"),
+                    );
+                });
+            }
+        });
+    });
 }
 
 pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
@@ -38,7 +65,7 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
             app.points.push([app.time, app.tempo]);
         }
 
-        draw_plot(ui, &app.points);
+        draw_plot(ui, &app.points, app.tempo_params);
 
         if ui.add(egui::Button::new("Play")).clicked() {
             app.playing = !app.playing
