@@ -21,6 +21,15 @@ pub enum GrowthType {
     Constant,
 }
 
+#[derive(PartialEq, Copy, Clone, Debug)]
+pub enum GrowthType {
+    Linear,
+    Sigmoidal,
+    Logarithmic,
+    Exponential,
+    Constant,
+}
+
 pub struct MyApp {
     pub playing: bool,
     pub time: f64,
