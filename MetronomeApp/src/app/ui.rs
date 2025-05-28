@@ -10,13 +10,13 @@ pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
     ui.label("Practice:");
     ui.separator();
 
-    ui.add(egui::Slider::new(&mut app.practice_length, 0..=600).text("Practice Length"));
+    ui.add(egui::Slider::new(&mut app.tempo_params.length, 0..=600).text("Practice Length"));
 
     ui.label("Tempo:");
     ui.separator();
 
     ui.add(egui::Slider::new(&mut app.tempo_params.min, 0..=app.tempo_params.max).text("Min"));
-    ui.add(egui::Slider::new(&mut app.maximum_tempo, app.minimum_tempo..=120).text("Max"));
+    ui.add(egui::Slider::new(&mut app.tempo_params.max, app.tempo_params.min..=120).text("Max"));
 
     ui.label("Growth Behavior:");
     ui.separator();
