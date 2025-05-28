@@ -1,10 +1,11 @@
+use super::plot::draw_demo_plot;
 use super::plot::draw_plot;
 use crate::app::GrowthType;
 use crate::app::MyApp;
 use eframe::egui::{self, Ui};
 use functions::calculate;
 
-mod functions;
+pub mod functions;
 
 pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
@@ -28,29 +29,50 @@ pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
         ui.label("Growth Behavior:");
         ui.separator();
 
-        ui.horizontal(|ui| {
+        ui.horizontal(|ui: &mut Ui| {
             ui.vertical(|ui| {
                 ui.selectable_value(&mut app.growth_type, GrowthType::Linear, "Linear");
-                ui.selectable_value(&mut app.growth_type, GrowthType::Sigmoidal, "Sigmoidal");
-                ui.selectable_value(&mut app.growth_type, GrowthType::Logarithmic, "Logarithmic");
-                ui.selectable_value(&mut app.growth_type, GrowthType::Exponential, "Exponential");
+                if ui
+                    .selectable_value(&mut app.growth_type, GrowthType::Exponential, "Exponential")
+                    .clicked()
+                {
+                    app.tempo_params.scaler = 3.0;
+                }
+
+                if ui
+                    .selectable_value(&mut app.growth_type, GrowthType::Sigmoidal, "Sigmoidal")
+                    .clicked()
+                {
+                    app.tempo_params.scaler = 6.0;
+                }
+
+                if ui
+                    .selectable_value(&mut app.growth_type, GrowthType::Logarithmic, "Logarithmic")
+                    .clicked()
+                {
+                    app.tempo_params.scaler = 0.5;
+                }
                 ui.selectable_value(&mut app.growth_type, GrowthType::Constant, "Constant");
             });
 
-            // Display Scaler if type requires it
-            if app.growth_type == GrowthType::Exponential {
-                ui.vertical(|ui| {
+            ui.vertical(|ui| {
+                // Display Scaler if type requires it
+                if app.growth_type == GrowthType::Exponential {
                     ui.add(
                         egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0).text("Scaler"),
                     );
-                });
-            } else if app.growth_type == GrowthType::Logarithmic {
-                ui.vertical(|ui| {
+                } else if app.growth_type == GrowthType::Logarithmic {
                     ui.add(
                         egui::Slider::new(&mut app.tempo_params.scaler, 0.0..=1.0).text("Scaler"),
                     );
-                });
-            }
+                } else if app.growth_type == GrowthType::Sigmoidal {
+                    ui.add(
+                        egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0).text("Scaler"),
+                    );
+                }
+
+                draw_demo_plot(ui, app.growth_type, app.tempo_params);
+            });
         });
     });
 }
