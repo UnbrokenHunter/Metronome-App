@@ -12,13 +12,8 @@ pub fn tempo_ui(app: &mut MyApp, ui: &mut Ui) {
                     .text("Tempo"),
             );
         } else {
-            ui.add(
-                egui::Slider::new(&mut app.tempo_params.min, 1..=app.tempo_params.max).text("Min"),
-            );
-            ui.add(
-                egui::Slider::new(&mut app.tempo_params.max, app.tempo_params.min..=400)
-                    .text("Max"),
-            );
+            ui.add(egui::Slider::new(&mut app.tempo_params.min, 1..=400).text("Starting Tempo"));
+            ui.add(egui::Slider::new(&mut app.tempo_params.max, 1..=400).text("Ending Tempo"));
         }
     });
 }
