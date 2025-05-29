@@ -7,8 +7,6 @@ pub fn update_metronome(app: &mut MyApp) {
     let time_since_last_click: f64 =
         (app.time_data.calculated_time_since_start - (app.last_click_time)) as f64 / 1000.0;
 
-    println!("{}", time_since_last_click);
-
     if time_since_last_click > period {
         click(&mut app.last_click_time, app.time_data); // ← pass as mutable reference
         play_metronome(app, app.sound)

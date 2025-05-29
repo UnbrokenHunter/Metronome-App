@@ -7,6 +7,7 @@ pub struct MyApp {
     pub tempo_params: TempoParams,
     pub sound: Sounds,
     pub audio: Option<(OutputStream, Sink)>,
+    pub volume: f32,
     pub growth_type: GrowthType,
     pub points: Vec<[f64; 2]>,
     pub time_data: TimeData,

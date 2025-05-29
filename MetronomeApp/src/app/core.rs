@@ -21,6 +21,7 @@ impl Default for MyApp {
             },
             sound: Sounds::Beep,
             audio: None,
+            volume: 0.7,
             growth_type: GrowthType::Linear,
             points: Vec::new(),
             time_data: crate::app::types::TimeData {
