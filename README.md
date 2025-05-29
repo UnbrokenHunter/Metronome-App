@@ -1,4 +1,4 @@
-# 🎵 MetronomeApp
+# 🎵 Metronome
 
 A customizable metronome made with change over time in mind, built in Rust using `eframe`/`egui`. Easily adjust tempo behavior, select metronome sounds, visualize progress, and train with dynamic speed curves.
 
