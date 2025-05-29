@@ -1,8 +1,8 @@
-use crate::app::MyApp;
 use crate::app::logic::functions::calculate;
 use crate::app::ui::plot::draw_plot;
 use crate::app::ui::settings;
-use eframe::egui::{self, RichText, Ui};
+use crate::app::{MyApp, logic::functions::derivative};
+use eframe::egui::{self, Frame, Grid, RichText, Ui};
 
 pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
     settings::practice_ui(app, ui);
@@ -63,12 +63,49 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
             });
 
             ui.vertical(|ui| {
-                ui.with_layout(egui::Layout::top_down(egui::Align::Center), |ui| {
-                    egui::Frame::group(ui.style()).show(ui, |ui| {
-                        ui.label(RichText::new("Tempo").size(30.0));
-                        ui.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(25.0));
+                Frame::group(ui.style())
+                    .inner_margin(crate::app::ui::layout::egui::Margin::same(4)) // default is often ~6.0
+                    .outer_margin(crate::app::ui::layout::egui::Margin::same(0))
+                    .show(ui, |ui| {
+                        Grid::new("tempo_time_grid")
+                            .num_columns(2)
+                            .spacing(egui::vec2(20.0, 10.0))
+                            .striped(true)
+                            .show(ui, |ui| {
+                                // Row 1: Tempo
+                                ui.label(RichText::new("BPM:").size(28.0));
+                                ui.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(23.0));
+                                ui.end_row();
+
+                                // Row 2: Time
+                                ui.label(RichText::new("Time:").size(28.0));
+                                ui.label(
+                                    RichText::new(format!(
+                                        "{:.2} Seconds",
+                                        app.time_data.calculated_time_since_start as f64 / 1000.0
+                                    ))
+                                    .size(23.0),
+                                );
+                                ui.end_row();
+
+                                // Row 3: Delta
+                                let f = |x: f64| calculate(app.growth_type, x, app.tempo_params);
+
+                                ui.label(RichText::new("ΔBPM:").size(28.0));
+                                ui.label(
+                                    RichText::new(format!(
+                                        "{:.2} BPM/s",
+                                        derivative(
+                                            f,
+                                            app.time_data.calculated_time_since_start as f64
+                                                / 1000.0
+                                        )
+                                    ))
+                                    .size(23.0),
+                                );
+                                ui.end_row();
+                            });
                     });
-                });
             });
         });
     });
