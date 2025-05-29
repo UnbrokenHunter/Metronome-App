@@ -1,6 +1,10 @@
 [package]
-name = "MetronomeApp"
+name = "Metronome App"
 version = "0.1.0"
+authors = ["Hunter <huntersfred@gmail.com>"]
+description = "A customizable tempo metronome with tempo curves and sound options"
+repository = "https://github.com/UnbrokenHunter/Metronome-App"
+license = "MIT"
 edition = "2024"
 build = "build.rs"
 
