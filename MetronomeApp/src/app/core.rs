@@ -43,6 +43,62 @@ impl Default for MyApp {
     }
 }
 
+impl MyApp {
+    pub fn reset_metronome(&mut self) {
+        self.playing = false;
+        self.tempo = 100.0;
+        self.points.clear();
+
+        let now = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_millis();
+
+        self.time_data = crate::app::types::TimeData {
+            time: now,
+            start_time: now,
+            time_since_start: 0,
+            delta_time: 0,
+            paused_time: 0,
+            calculated_time_since_start: 0,
+        };
+
+        self.last_click_time = 0;
+    }
+
+    pub fn reset_all_settings(&mut self) {
+        self.playing = false;
+        self.tempo = 100.0;
+        self.tempo_params = crate::app::types::TempoParams {
+            min: 100,
+            max: 150,
+            length: 400,
+            scaler: 0.5,
+        };
+        self.sound = Sounds::Beep;
+        self.audio = None;
+        self.volume = 0.7;
+        self.growth_type = GrowthType::Linear;
+        self.points.clear();
+
+        let now = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("Time went backwards")
+            .as_millis();
+
+        self.time_data = crate::app::types::TimeData {
+            time: now,
+            start_time: now,
+            time_since_start: 0,
+            delta_time: 0,
+            paused_time: 0,
+            calculated_time_since_start: 0,
+        };
+
+        self.last_click_time = 0;
+    }
+}
+
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &Context, _frame: &mut Frame) {
         egui::CentralPanel::default().show(ctx, |_ui| {
