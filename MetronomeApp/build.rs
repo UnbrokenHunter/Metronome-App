@@ -5,6 +5,8 @@ use std::path::PathBuf;
 fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
 
+    let _ = embed_resource::compile("assets/images/icon.rc", embed_resource::NONE);
+
     // Path to your assets directory
     let asset_dir = PathBuf::from("assets");
     let target_dir = PathBuf::from(out_dir)

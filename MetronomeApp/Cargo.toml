@@ -1,5 +1,5 @@
 [package]
-name = "Metronome App"
+name = "MetronomeApp"
 version = "0.1.0"
 authors = ["Hunter <huntersfred@gmail.com>"]
 description = "A customizable tempo metronome with tempo curves and sound options"
@@ -12,5 +12,9 @@ build = "build.rs"
 eframe = "0.31.1"
 egui_extras = { version = "0.31.1", features = ["image"] }
 egui_plot = "0.32.1"
+embed-resource = "3.0.3"
 env_logger = { version = "0.11.8", default-features = false, features = ["auto-color", "humantime"] }
 rodio = "0.20.1"
+
+[build-dependencies]
+embed-resource = "3.0.3"
