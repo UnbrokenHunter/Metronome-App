@@ -3,7 +3,7 @@ use crate::app::types::{GrowthType, TempoParams};
 use eframe::egui::Ui;
 use egui_plot::{Line, Plot, PlotPoints};
 
-pub fn draw_plot(ui: &mut Ui, points: &[[f64; 2]], params: TempoParams) {
+pub fn draw_plot(ui: &mut Ui, points: &[[f64; 2]], _params: TempoParams) {
     Plot::new("live_plot")
         .view_aspect(2.0)
         // .default_x_bounds(-10.0, params.length as f64 + 10.0)

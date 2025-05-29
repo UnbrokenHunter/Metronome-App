@@ -102,13 +102,15 @@ impl MyApp {
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &Context, _frame: &mut Frame) {
         egui::CentralPanel::default().show(ctx, |_ui| {
-            egui::TopBottomPanel::top("header").show(ctx, |ui| {
-                ui.heading("Metronome");
-            });
+            // egui::TopBottomPanel::top("header").show(ctx, |ui| {
+            //     ui.heading("Metronome");
+            // });
 
-            egui::SidePanel::left("settings").show(ctx, |ui| {
-                settings_ui(self, ui);
-            });
+            egui::SidePanel::left("settings")
+                .resizable(false)
+                .show(ctx, |ui| {
+                    settings_ui(self, ui);
+                });
 
             egui::CentralPanel::default().show(ctx, |ui| {
                 main_ui(self, ui);

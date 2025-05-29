@@ -1,5 +1,3 @@
-use std::fmt::format;
-
 use crate::app::MyApp;
 use crate::app::logic::functions::calculate;
 use crate::app::ui::plot::draw_plot;
