@@ -14,30 +14,30 @@ pub fn calculate(growth_type: GrowthType, time: f64, params: TempoParams) -> f64
 }
 
 fn linear(x: f64, p: TempoParams) -> f64 {
-    let normalized = x / p.length as f64;
+    let normalized = x / p.length / 60.0;
     return (1.0 - normalized) * p.min as f64 + normalized * p.max as f64;
 }
 
 fn sigmoidal(x: f64, p: TempoParams) -> f64 {
-    let normalized = x / p.length as f64;
+    let normalized = x / p.length / 60.0;
     let shape = 1.0 / (1.0 + E.powf(-p.scaler * (normalized - 0.5)));
     interpolate(p.min, p.max, shape)
 }
 
 fn logarithmic(x: f64, p: TempoParams) -> f64 {
-    let normalized = x / p.length as f64;
+    let normalized = x / p.length / 60.0;
     let shape = normalized.powf(p.scaler); // value from 0 to 1
     interpolate(p.min, p.max, shape)
 }
 
 fn exponential(x: f64, p: TempoParams) -> f64 {
-    let normalized = x / p.length as f64;
+    let normalized = x / p.length / 60.0;
     let shape = normalized.powf(p.scaler); // value from 0 to 1
     interpolate(p.min, p.max, shape)
 }
 
 fn sine(x: f64, p: TempoParams) -> f64 {
-    let normalized = x / p.length as f64;
+    let normalized = x / p.length / 60.0;
     let shape = (f64::sin(normalized * p.scaler)) / 2.0 + 0.5;
     interpolate(p.min, p.max, shape)
 }

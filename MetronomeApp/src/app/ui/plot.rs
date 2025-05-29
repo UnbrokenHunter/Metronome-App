@@ -27,7 +27,7 @@ pub fn draw_demo_plot(ui: &mut Ui, growth_type: GrowthType, params: TempoParams)
         "demo",
         PlotPoints::from_explicit_callback(
             f,                         // your function
-            0.0..params.length as f64, // domain
+            0.0..params.length / 60.0, // domain
             512,                       // resolution: more points = smoother curve
         ),
     );

@@ -16,7 +16,7 @@ impl Default for MyApp {
             tempo_params: crate::app::types::TempoParams {
                 min: 100,
                 max: 150,
-                length: 400,
+                length: 5.0,
                 scaler: 0.5,
             },
             sound: Sounds::Beep,
@@ -72,7 +72,7 @@ impl MyApp {
         self.tempo_params = crate::app::types::TempoParams {
             min: 100,
             max: 150,
-            length: 400,
+            length: 5.0,
             scaler: 0.5,
         };
         self.sound = Sounds::Beep;

@@ -28,7 +28,7 @@ pub struct TimeData {
 pub struct TempoParams {
     pub min: u32,
     pub max: u32,
-    pub length: u32,
+    pub length: f64,
     pub scaler: f64,
 }
 
