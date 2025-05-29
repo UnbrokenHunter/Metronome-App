@@ -1,5 +1,4 @@
 use crate::app::{MyApp, logic::sound::play_metronome, types::TimeData};
-use std::time::{SystemTime, UNIX_EPOCH};
 
 pub fn update_metronome(app: &mut MyApp) {
     let tempo_seconds = app.tempo / 60.0;
