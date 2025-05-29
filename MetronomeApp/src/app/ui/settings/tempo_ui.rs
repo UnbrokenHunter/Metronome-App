@@ -7,10 +7,7 @@ pub fn tempo_ui(app: &mut MyApp, ui: &mut Ui) {
         ui.separator();
 
         if app.growth_type == GrowthType::Constant {
-            ui.add(
-                egui::Slider::new(&mut app.tempo_params.min, 1..=app.tempo_params.max)
-                    .text("Tempo"),
-            );
+            ui.add(egui::Slider::new(&mut app.tempo_params.min, 1..=400).text("Tempo"));
         } else {
             ui.add(egui::Slider::new(&mut app.tempo_params.min, 1..=400).text("Starting Tempo"));
             ui.add(egui::Slider::new(&mut app.tempo_params.max, 1..=400).text("Ending Tempo"));
