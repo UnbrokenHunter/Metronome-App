@@ -20,6 +20,14 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
                 app.time_data.calculated_time_since_start as f64 / 1000.0,
                 app.tempo_params,
             );
+            // Clamp Values
+            if app.tempo > app.tempo_params.max as f64 {
+                app.tempo = app.tempo_params.max as f64;
+            }
+            if app.tempo < app.tempo_params.min as f64 {
+                app.tempo = app.tempo_params.min as f64;
+            }
+
             app.points.push([
                 app.time_data.calculated_time_since_start as f64 / 1000.0,
                 app.tempo,
