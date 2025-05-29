@@ -77,12 +77,19 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
                                 ui.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(23.0));
                                 ui.end_row();
 
-                                // Row 2: Time
+                                let total_seconds =
+                                    app.time_data.calculated_time_since_start / 1000;
+                                let hours = total_seconds / 3600;
+                                let minutes = (total_seconds % 3600) / 60;
+                                let seconds = (app.time_data.calculated_time_since_start as f64
+                                    / 1000.0)
+                                    % 60.0;
+
                                 ui.label(RichText::new("Time:").size(28.0));
                                 ui.label(
                                     RichText::new(format!(
-                                        "{:.2} Seconds",
-                                        app.time_data.calculated_time_since_start as f64 / 1000.0
+                                        "{:02}:{:02}:{:05.2}",
+                                        hours, minutes, seconds
                                     ))
                                     .size(23.0),
                                 );
