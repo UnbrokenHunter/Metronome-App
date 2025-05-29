@@ -4,6 +4,7 @@ use eframe::Frame;
 use eframe::egui::{self, Context};
 
 use super::logic::clock;
+use super::logic::metronome;
 use super::{GrowthType, MyApp, Sounds};
 use crate::app::ui::layout::{main_ui, settings_ui};
 
@@ -36,6 +37,7 @@ impl Default for MyApp {
                 paused_time: 0,
                 calculated_time_since_start: 0,
             },
+            last_click_time: 0,
         }
     }
 }
@@ -57,6 +59,7 @@ impl eframe::App for MyApp {
         });
 
         clock::update_time(&mut self.time_data, self.playing);
+        metronome::update_metronome(self);
         ctx.request_repaint();
     }
 }

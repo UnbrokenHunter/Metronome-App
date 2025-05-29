@@ -28,8 +28,6 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
             ]);
         }
 
-        println!("{}", app.time_data.calculated_time_since_start.to_string());
-
         draw_plot(ui, &app.points, app.tempo_params);
 
         if ui.add(egui::Button::new("Play")).clicked() {

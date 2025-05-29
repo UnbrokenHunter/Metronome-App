@@ -10,6 +10,7 @@ pub struct MyApp {
     pub growth_type: GrowthType,
     pub points: Vec<[f64; 2]>,
     pub time_data: TimeData,
+    pub last_click_time: u128,
 }
 
 #[derive(Debug, Copy, Clone)]
