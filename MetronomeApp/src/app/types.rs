@@ -38,6 +38,7 @@ pub enum GrowthType {
     Sigmoidal,
     Logarithmic,
     Exponential,
+    Sine,
     Constant,
 }
 

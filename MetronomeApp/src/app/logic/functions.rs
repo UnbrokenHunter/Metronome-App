@@ -1,4 +1,4 @@
-use std::f64::consts::E;
+use std::f64::consts::{E, PI};
 
 use crate::app::{GrowthType, TempoParams};
 
@@ -8,6 +8,7 @@ pub fn calculate(growth_type: GrowthType, time: f64, params: TempoParams) -> f64
         GrowthType::Sigmoidal => sigmoidal(time, params),
         GrowthType::Logarithmic => logarithmic(time, params),
         GrowthType::Exponential => exponential(time, params),
+        GrowthType::Sine => sine(time, params),
         GrowthType::Constant => constant(params),
     }
 }
@@ -32,6 +33,12 @@ fn logarithmic(x: f64, p: TempoParams) -> f64 {
 fn exponential(x: f64, p: TempoParams) -> f64 {
     let normalized = x / p.length as f64;
     let shape = normalized.powf(p.scaler); // value from 0 to 1
+    interpolate(p.min, p.max, shape)
+}
+
+fn sine(x: f64, p: TempoParams) -> f64 {
+    let normalized = x / p.length as f64;
+    let shape = (f64::sin(normalized * p.scaler)) / 2.0 + 0.5;
     interpolate(p.min, p.max, shape)
 }
 

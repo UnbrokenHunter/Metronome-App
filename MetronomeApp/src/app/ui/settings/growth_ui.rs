@@ -28,6 +28,13 @@ pub fn growth_ui(app: &mut MyApp, ui: &mut Ui) {
                 {
                     app.tempo_params.scaler = 0.5;
                 }
+                if ui
+                    .selectable_value(&mut app.growth_type, GrowthType::Sine, "Sine")
+                    .clicked()
+                {
+                    app.tempo_params.scaler = 3.0;
+                }
+
                 ui.selectable_value(&mut app.growth_type, GrowthType::Constant, "Constant");
             });
 
@@ -54,6 +61,13 @@ pub fn growth_ui(app: &mut MyApp, ui: &mut Ui) {
                                     .text("Scaler"),
                             );
                         }
+                        GrowthType::Sine => {
+                            ui.add(
+                                egui::Slider::new(&mut app.tempo_params.scaler, 1.00..=50.0)
+                                    .text("Scaler"),
+                            );
+                        }
+
                         _ => {}
                     }
                 });
