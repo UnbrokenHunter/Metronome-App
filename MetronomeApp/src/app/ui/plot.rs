@@ -37,6 +37,7 @@ pub fn draw_demo_plot(ui: &mut Ui, growth_type: GrowthType, params: TempoParams)
         .allow_drag(false)
         .allow_scroll(false)
         .allow_boxed_zoom(false)
+        .show_axes(false)
         .show(ui, |plot_ui| {
             plot_ui.line(line);
         });

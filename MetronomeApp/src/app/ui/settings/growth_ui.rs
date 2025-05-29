@@ -32,29 +32,31 @@ pub fn growth_ui(app: &mut MyApp, ui: &mut Ui) {
             });
 
             ui.vertical(|ui| {
-                match app.growth_type {
-                    GrowthType::Exponential => {
-                        ui.add(
-                            egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0)
-                                .text("Scaler"),
-                        );
-                    }
-                    GrowthType::Logarithmic => {
-                        ui.add(
-                            egui::Slider::new(&mut app.tempo_params.scaler, 0.0..=1.0)
-                                .text("Scaler"),
-                        );
-                    }
-                    GrowthType::Sigmoidal => {
-                        ui.add(
-                            egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0)
-                                .text("Scaler"),
-                        );
-                    }
-                    _ => {}
-                }
+                egui::Frame::group(ui.style()).show(ui, |ui| {
+                    draw_demo_plot(ui, app.growth_type, app.tempo_params);
 
-                draw_demo_plot(ui, app.growth_type, app.tempo_params);
+                    match app.growth_type {
+                        GrowthType::Exponential => {
+                            ui.add(
+                                egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0)
+                                    .text("Scaler"),
+                            );
+                        }
+                        GrowthType::Logarithmic => {
+                            ui.add(
+                                egui::Slider::new(&mut app.tempo_params.scaler, 0.0..=1.0)
+                                    .text("Scaler"),
+                            );
+                        }
+                        GrowthType::Sigmoidal => {
+                            ui.add(
+                                egui::Slider::new(&mut app.tempo_params.scaler, 1.0..=10.0)
+                                    .text("Scaler"),
+                            );
+                        }
+                        _ => {}
+                    }
+                });
             });
         });
     });

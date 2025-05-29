@@ -28,7 +28,9 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
             ]);
         }
 
-        draw_plot(ui, &app.points, app.tempo_params);
+        egui::Frame::group(ui.style()).show(ui, |ui| {
+            draw_plot(ui, &app.points, app.tempo_params);
+        });
 
         ui.horizontal(|ui: &mut Ui| {
             let half_width = ui.available_width() / 2.0;
