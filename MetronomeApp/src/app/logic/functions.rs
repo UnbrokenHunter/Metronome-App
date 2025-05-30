@@ -1,4 +1,4 @@
-use std::f64::consts::{E, PI};
+use std::f64::consts::E;
 
 use crate::app::{GrowthType, TempoParams};
 

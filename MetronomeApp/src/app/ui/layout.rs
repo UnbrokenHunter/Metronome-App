@@ -28,6 +28,8 @@ pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
                 app.tempo = app.tempo_params.min as f64;
             }
 
+            app.tempo += app.tempo_params.manual_offset;
+
             app.points.push([
                 app.time_data.calculated_time_since_start as f64 / 1000.0,
                 app.tempo,

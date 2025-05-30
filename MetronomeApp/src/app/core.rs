@@ -3,8 +3,8 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use eframe::Frame;
 use eframe::egui::{self, Context};
 
-use super::logic::clock;
 use super::logic::metronome;
+use super::logic::{clock, keyboard};
 use super::{GrowthType, MyApp, Sounds};
 use crate::app::ui::layout::{main_ui, settings_ui};
 
@@ -18,6 +18,7 @@ impl Default for MyApp {
                 max: 150,
                 length: 5.0,
                 scaler: 0.5,
+                manual_offset: 0.0,
             },
             sound: Sounds::Beep,
             audio: None,
@@ -63,6 +64,7 @@ impl MyApp {
             calculated_time_since_start: 0,
         };
 
+        self.tempo_params.manual_offset = 0.0;
         self.last_click_time = 0;
     }
 
@@ -74,6 +76,7 @@ impl MyApp {
             max: 150,
             length: 5.0,
             scaler: 0.5,
+            manual_offset: 0.0,
         };
         self.sound = Sounds::Beep;
         self.audio = None;
@@ -117,6 +120,7 @@ impl eframe::App for MyApp {
             });
         });
 
+        keyboard::check_keyboard(self, ctx.clone());
         clock::update_time(&mut self.time_data, self.playing);
         metronome::update_metronome(self);
         ctx.request_repaint();
