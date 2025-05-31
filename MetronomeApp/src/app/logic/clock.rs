@@ -17,3 +17,11 @@ pub fn update_time(time_data: &mut TimeData, playing: bool) {
     }
     time_data.calculated_time_since_start = time_data.time_since_start - time_data.paused_time;
 }
+
+pub fn format_time(time: u128) -> String {
+    let total_seconds = time / 1000;
+    let hours = total_seconds / 3600;
+    let minutes = (total_seconds % 3600) / 60;
+    let seconds = (time as f64 / 1000.0) % 60.0;
+    format!("{:02}:{:02}:{:05.2}", hours, minutes, seconds)
+}
