@@ -3,3 +3,4 @@ pub mod functions;
 pub mod keyboard;
 pub mod metronome;
 pub mod sound;
+pub mod tempo;
