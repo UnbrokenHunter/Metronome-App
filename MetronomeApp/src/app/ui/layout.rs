@@ -54,6 +54,12 @@ fn main_ui(app: &mut MyApp, ui: &mut Ui) {
     ui.vertical_centered(|ui| {
         logic::tempo::calculate_tempo(app);
 
+        ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
+            ui.label(format!(
+                "Manual Offset: {} BPM",
+                app.tempo_params.manual_offset
+            ));
+        });
         settings::plot_ui(app, ui);
         ui.horizontal(|ui: &mut Ui| {
             settings::play_ui(app, ui);
