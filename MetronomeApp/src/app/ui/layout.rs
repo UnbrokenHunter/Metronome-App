@@ -1,16 +1,30 @@
 use crate::app::ui::settings;
 use crate::app::{MyApp, logic};
-use eframe::egui::Ui;
+use eframe::egui::{self, Context, Ui};
 
-pub fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
-    settings::practice_ui(app, ui);
-    settings::tempo_ui(app, ui);
+pub fn layout(app: &mut MyApp, ctx: &Context) {
+    egui::SidePanel::left("settings")
+        .resizable(false)
+        .show(ctx, |ui| {
+            settings_ui(app, ui);
+        });
 
-    settings::growth_ui(app, ui);
-    settings::sound_ui(app, ui);
+    egui::CentralPanel::default().show(ctx, |ui| {
+        main_ui(app, ui);
+    });
 }
 
-pub fn main_ui(app: &mut MyApp, ui: &mut Ui) {
+fn settings_ui(app: &mut MyApp, ui: &mut Ui) {
+    if !app.playing {
+        settings::practice_ui(app, ui);
+        settings::tempo_ui(app, ui);
+
+        settings::growth_ui(app, ui);
+        settings::sound_ui(app, ui);
+    }
+}
+
+fn main_ui(app: &mut MyApp, ui: &mut Ui) {
     ui.vertical_centered(|ui| {
         logic::tempo::calculate_tempo(app);
 
