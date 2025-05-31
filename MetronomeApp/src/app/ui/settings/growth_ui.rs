@@ -51,7 +51,7 @@ pub fn growth_ui(app: &mut MyApp, ui: &mut Ui) {
                         }
                         GrowthType::Logarithmic => {
                             ui.add(
-                                egui::Slider::new(&mut app.tempo_params.scaler, 0.0..=1.0)
+                                egui::Slider::new(&mut app.tempo_params.scaler, 0.01..=1.0)
                                     .text("Scaler"),
                             );
                         }
