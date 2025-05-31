@@ -14,9 +14,9 @@ pub fn info_ui(app: &mut MyApp, ui: &mut Ui) {
                     .striped(true)
                     .show(ui, |ui| {
                         // Row 1: Tempo
-                        ui.label(RichText::new("BPM:").size(28.0));
-                        ui.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(23.0));
-                        ui.end_row();
+                        // ui.label(RichText::new("BPM:").size(28.0));
+                        // ui.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(23.0));
+                        // ui.end_row();
 
                         let total_seconds = app.time_data.calculated_time_since_start / 1000;
                         let hours = total_seconds / 3600;
