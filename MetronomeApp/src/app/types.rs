@@ -9,6 +9,7 @@ pub struct MyApp {
     pub audio: Option<(OutputStream, Sink)>,
     pub volume: f32,
     pub growth_type: GrowthType,
+    pub infinte: bool,
     pub points: Vec<[f64; 2]>,
     pub time_data: TimeData,
     pub last_click_time: u128,

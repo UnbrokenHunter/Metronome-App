@@ -3,25 +3,7 @@ use crate::app::{MyApp, logic};
 use eframe::egui::{self, Context, RichText, ScrollArea, Ui};
 
 pub fn layout(app: &mut MyApp, ctx: &Context) {
-    // egui::TopBottomPanel::top("header")
-    //     .resizable(false)
-    //     .show(ctx, |ui| {
-    //         ui.horizontal(|ui| {
-    //             ui.label(RichText::new("BPM:").size(45.0));
-    //             ui.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(45.0));
-    //         });
-    //     });
-
     settings_ui(app, ctx);
-
-    // if app.playing {
-    //     egui::SidePanel::right("info")
-    //         .resizable(false)
-    //         .show(ctx, |ui| {
-    //             settings::info_ui(app, ui);
-    //             settings::play_ui(app, ui);
-    //         });
-    // }
 
     egui::CentralPanel::default().show(ctx, |ui| {
         main_ui(app, ui);

@@ -9,11 +9,13 @@ pub fn calculate_tempo(app: &mut MyApp) {
             app.tempo_params,
         );
         // Clamp Values
-        if app.tempo > app.tempo_params.max as f64 {
-            app.tempo = app.tempo_params.max as f64;
-        }
-        if app.tempo < app.tempo_params.min as f64 {
-            app.tempo = app.tempo_params.min as f64;
+        if !app.infinte {
+            if app.tempo > app.tempo_params.max as f64 {
+                app.tempo = app.tempo_params.max as f64;
+            }
+            if app.tempo < app.tempo_params.min as f64 {
+                app.tempo = app.tempo_params.min as f64;
+            }
         }
 
         app.tempo += app.tempo_params.manual_offset;

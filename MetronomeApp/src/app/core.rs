@@ -24,6 +24,7 @@ impl Default for MyApp {
             audio: None,
             volume: 0.7,
             growth_type: GrowthType::Linear,
+            infinte: false,
             points: Vec::new(),
             time_data: crate::app::types::TimeData {
                 time: SystemTime::now()
@@ -82,6 +83,7 @@ impl MyApp {
         self.audio = None;
         self.volume = 0.7;
         self.growth_type = GrowthType::Linear;
+        self.infinte = false;
         self.points.clear();
 
         let now = SystemTime::now()
