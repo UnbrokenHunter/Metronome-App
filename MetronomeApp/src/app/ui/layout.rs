@@ -20,8 +20,19 @@ pub fn layout(app: &mut MyApp, ctx: &Context) {
 }
 
 fn settings_ui(app: &mut MyApp, ctx: &Context) {
+    // IF hovering over the thing, or the thing is displayed and you are hovering over that
+    let mut hover = false;
+    let tab_size = 25.0;
+    if let Some(pos) = ctx.input(|i| i.pointer.hover_pos()) {
+        hover = pos.x < tab_size;
+    } else {
+        if hover {
+            // hover = pos.x < tab_size;
+        }
+    }
+
     // Paused
-    if !app.playing {
+    if !app.playing || hover {
         egui::SidePanel::left("settings")
             .resizable(false)
             .show(ctx, |ui| {
@@ -33,8 +44,6 @@ fn settings_ui(app: &mut MyApp, ctx: &Context) {
             });
     } else {
         // Unpaused
-        let tab_size = 25.0;
-
         egui::SidePanel::left("settings")
             .resizable(false)
             .frame(egui::Frame {
