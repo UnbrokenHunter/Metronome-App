@@ -5,16 +5,41 @@ use eframe::egui::Context;
 
 use super::logic::metronome;
 use super::logic::{clock, keyboard};
-use super::types::{self, AppData};
+use super::types::{AppData, AppRunningData, AppSaveData, TimeData};
 use super::ui::layout;
-use super::{GrowthType, Sounds};
+use super::{GrowthType, Sounds, TempoParams};
+
+use serde_json;
+use std::fs;
+use std::io::Write;
+use std::path::Path;
 
 impl Default for AppData {
     fn default() -> Self {
-        Self {
-            save: types::AppSaveData {
+        let save_path = "settings.json";
+
+        // Try to load from save file
+        if Path::new(save_path).exists() {
+            if let Ok(contents) = fs::read_to_string(save_path) {
+                if let Ok(save_data) = serde_json::from_str::<AppSaveData>(&contents) {
+                    return AppData {
+                        save: save_data,
+                        runtime: AppRunningData {
+                            points: Vec::new(),
+                            audio: None,
+                            playing: false,
+                            last_click_time: 0,
+                        },
+                    };
+                }
+            }
+        }
+
+        // Fall back to defaults
+        AppData {
+            save: AppSaveData {
                 tempo: 100.0,
-                tempo_params: crate::app::types::TempoParams {
+                tempo_params: TempoParams {
                     min: 100,
                     max: 150,
                     length: 5.0,
@@ -26,7 +51,7 @@ impl Default for AppData {
                 volume: 0.7,
                 growth_type: GrowthType::Linear,
                 infinte: false,
-                time_data: crate::app::types::TimeData {
+                time_data: TimeData {
                     time: SystemTime::now()
                         .duration_since(UNIX_EPOCH)
                         .expect("Time went backwards")
@@ -41,7 +66,7 @@ impl Default for AppData {
                     calculated_time_since_start: 0,
                 },
             },
-            runtime: types::AppRunningData {
+            runtime: AppRunningData {
                 points: Vec::new(),
                 audio: None,
                 playing: false,
@@ -109,6 +134,17 @@ impl AppData {
         };
 
         self.runtime.last_click_time = 0;
+    }
+}
+
+impl Drop for AppData {
+    fn drop(&mut self) {
+        // Serialize only the `save` part
+        if let Ok(json) = serde_json::to_string_pretty(&self.save) {
+            if let Ok(mut file) = fs::File::create("settings.json") {
+                let _ = file.write_all(json.as_bytes());
+            }
+        }
     }
 }
 

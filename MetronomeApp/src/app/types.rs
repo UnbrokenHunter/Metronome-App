@@ -1,4 +1,6 @@
 use rodio::{OutputStream, Sink};
+use serde::Deserialize;
+use serde::Serialize;
 use std::fmt;
 
 pub struct AppData {
@@ -13,6 +15,7 @@ pub struct AppRunningData {
     pub last_click_time: u128,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct AppSaveData {
     pub tempo: f64,
     pub tempo_params: TempoParams,
@@ -23,7 +26,7 @@ pub struct AppSaveData {
     pub time_data: TimeData,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct TimeData {
     pub time: u128,
     pub time_since_start: u128,
@@ -33,7 +36,7 @@ pub struct TimeData {
     pub calculated_time_since_start: u128,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct TempoParams {
     pub min: u32,
     pub max: u32,
@@ -43,7 +46,7 @@ pub struct TempoParams {
     pub manual_time_offset: f64,
 }
 
-#[derive(PartialEq, Copy, Clone, Debug)]
+#[derive(PartialEq, Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum GrowthType {
     Linear,
     Sigmoidal,
@@ -53,7 +56,7 @@ pub enum GrowthType {
     Constant,
 }
 
-#[derive(PartialEq, Copy, Clone, Debug)]
+#[derive(PartialEq, Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Sounds {
     Beep,
     Clave,
