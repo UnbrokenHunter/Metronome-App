@@ -1,18 +1,26 @@
 use rodio::{OutputStream, Sink};
 use std::fmt;
 
-pub struct MyApp {
+pub struct AppData {
+    pub save: AppSaveData,
+    pub runtime: AppRunningData,
+}
+
+pub struct AppRunningData {
     pub playing: bool,
+    pub audio: Option<(OutputStream, Sink)>,
+    pub points: Vec<[f64; 2]>,
+    pub last_click_time: u128,
+}
+
+pub struct AppSaveData {
     pub tempo: f64,
     pub tempo_params: TempoParams,
-    pub sound: Sounds,
-    pub audio: Option<(OutputStream, Sink)>,
     pub volume: f32,
+    pub sound: Sounds,
     pub growth_type: GrowthType,
     pub infinte: bool,
-    pub points: Vec<[f64; 2]>,
     pub time_data: TimeData,
-    pub last_click_time: u128,
 }
 
 #[derive(Debug, Copy, Clone)]

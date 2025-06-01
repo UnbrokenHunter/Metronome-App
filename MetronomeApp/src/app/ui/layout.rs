@@ -1,8 +1,8 @@
 use crate::app::ui::settings;
-use crate::app::{MyApp, logic};
+use crate::app::{AppData, logic};
 use eframe::egui::{self, Context, RichText, ScrollArea, Ui};
 
-pub fn layout(app: &mut MyApp, ctx: &Context) {
+pub fn layout(app: &mut AppData, ctx: &Context) {
     settings_ui(app, ctx);
 
     egui::CentralPanel::default().show(ctx, |ui| {
@@ -10,12 +10,12 @@ pub fn layout(app: &mut MyApp, ctx: &Context) {
     });
 }
 
-fn settings_ui(app: &mut MyApp, ctx: &Context) {
+fn settings_ui(app: &mut AppData, ctx: &Context) {
     egui::SidePanel::left("settings")
         .resizable(false)
         .show(ctx, |ui| {
             egui::Frame::group(ui.style()).show(ui, |ui| {
-                ui.label(RichText::new(format!("BPM: {:.2} BPM", app.tempo)).size(45.0));
+                ui.label(RichText::new(format!("BPM: {:.2} BPM", app.save.tempo)).size(45.0));
                 ui.separator();
 
                 ScrollArea::vertical().show(ui, |ui| {
@@ -29,7 +29,7 @@ fn settings_ui(app: &mut MyApp, ctx: &Context) {
         });
 }
 
-fn main_ui(app: &mut MyApp, ui: &mut Ui) {
+fn main_ui(app: &mut AppData, ui: &mut Ui) {
     ui.vertical_centered(|ui| {
         logic::tempo::calculate_tempo(app);
 

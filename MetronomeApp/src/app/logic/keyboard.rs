@@ -1,38 +1,38 @@
 use eframe::egui::{Context, Key};
 
-use crate::app::MyApp;
+use crate::app::AppData;
 
-pub fn check_keyboard(app: &mut MyApp, ctx: Context) {
+pub fn check_keyboard(app: &mut AppData, ctx: Context) {
     ctx.input(|i| {
         // Manual Adjustment
         let manual_increment = 5.0;
         if i.key_pressed(Key::ArrowUp) {
-            app.tempo_params.manual_offset += manual_increment;
+            app.save.tempo_params.manual_offset += manual_increment;
         }
         if i.key_pressed(Key::ArrowDown) {
-            if app.tempo - manual_increment >= 0.0 {
-                app.tempo_params.manual_offset -= manual_increment;
+            if app.save.tempo - manual_increment >= 0.0 {
+                app.save.tempo_params.manual_offset -= manual_increment;
             }
         }
 
         // Manual Time Adjustment
         let manual_time_increment = 5.0;
         if i.key_pressed(Key::ArrowRight) {
-            app.tempo_params.manual_time_offset += manual_time_increment;
+            app.save.tempo_params.manual_time_offset += manual_time_increment;
         }
         if i.key_pressed(Key::ArrowLeft) {
-            let new_offset = app.tempo_params.manual_time_offset - manual_time_increment;
-            let adjusted_time =
-                app.time_data.calculated_time_since_start as i128 + (new_offset as i128 * 1000);
+            let new_offset = app.save.tempo_params.manual_time_offset - manual_time_increment;
+            let adjusted_time = app.save.time_data.calculated_time_since_start as i128
+                + (new_offset as i128 * 1000);
             println!(
                 "Test {} -- {}",
-                app.time_data.calculated_time_since_start,
+                app.save.time_data.calculated_time_since_start,
                 new_offset as i128 * 1000
             );
 
             if adjusted_time > 0 {
-                println!("Test {}", app.tempo_params.manual_time_offset);
-                app.tempo_params.manual_time_offset = new_offset;
+                println!("Test {}", app.save.tempo_params.manual_time_offset);
+                app.save.tempo_params.manual_time_offset = new_offset;
             }
         }
 
@@ -43,21 +43,21 @@ pub fn check_keyboard(app: &mut MyApp, ctx: Context) {
 
         // Max Tempo
         if i.key_pressed(Key::W) {
-            app.tempo_params.max += 5
+            app.save.tempo_params.max += 5
         }
         if i.key_pressed(Key::S) {
-            app.tempo_params.max -= 5
+            app.save.tempo_params.max -= 5
         }
         // Min Tempo
         if i.key_pressed(Key::A) {
-            app.tempo_params.min -= 5
+            app.save.tempo_params.min -= 5
         }
         if i.key_pressed(Key::D) {
-            app.tempo_params.min += 5
+            app.save.tempo_params.min += 5
         }
         // Space
         if i.key_pressed(Key::Space) {
-            app.playing = !app.playing
+            app.runtime.playing = !app.runtime.playing
         }
     });
 }

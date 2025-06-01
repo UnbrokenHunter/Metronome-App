@@ -1,15 +1,16 @@
-use crate::app::{MyApp, logic::sound::play_metronome, types::TimeData};
+use crate::app::{AppData, logic::sound::play_metronome, types::TimeData};
 
-pub fn update_metronome(app: &mut MyApp) {
-    let tempo_seconds = app.tempo / 60.0;
+pub fn update_metronome(app: &mut AppData) {
+    let tempo_seconds = app.save.tempo / 60.0;
     let period = 1.0 / tempo_seconds;
 
-    let time_since_last_click: f64 =
-        (app.time_data.calculated_time_since_start - (app.last_click_time)) as f64 / 1000.0;
+    let time_since_last_click: f64 = (app.save.time_data.calculated_time_since_start
+        - (app.runtime.last_click_time)) as f64
+        / 1000.0;
 
     if time_since_last_click > period {
-        click(&mut app.last_click_time, app.time_data); // ← pass as mutable reference
-        play_metronome(app, app.sound)
+        click(&mut app.runtime.last_click_time, app.save.time_data); // ← pass as mutable reference
+        play_metronome(app, app.save.sound)
     }
 }
 

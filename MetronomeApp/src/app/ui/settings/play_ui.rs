@@ -1,8 +1,8 @@
 use eframe::egui::{self, Ui};
 
-use crate::app::MyApp;
+use crate::app::AppData;
 
-pub fn play_ui(app: &mut MyApp, ui: &mut Ui) {
+pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
     let half_width: f32 = ui.available_width() / 2.0;
 
     ui.vertical(|ui| {
@@ -10,7 +10,7 @@ pub fn play_ui(app: &mut MyApp, ui: &mut Ui) {
             .add_sized([half_width, 30.0], egui::Button::new("Play"))
             .clicked()
         {
-            app.playing = !app.playing;
+            app.runtime.playing = !app.runtime.playing;
         }
         if ui
             .add_sized([half_width, 30.0], egui::Button::new("Reset"))

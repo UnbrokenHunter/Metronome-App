@@ -4,7 +4,7 @@ use std::fs;
 
 mod app;
 
-use app::MyApp;
+use crate::app::types::AppData;
 
 fn main() -> eframe::Result<()> {
     env_logger::init();
@@ -25,7 +25,7 @@ fn main() -> eframe::Result<()> {
         options,
         Box::new(|cc| {
             egui_extras::install_image_loaders(&cc.egui_ctx);
-            Ok(Box::<MyApp>::default())
+            Ok(Box::<AppData>::default())
         }),
     )
 }

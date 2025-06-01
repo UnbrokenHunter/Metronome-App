@@ -1,7 +1,7 @@
-use crate::app::{MyApp, Sounds};
+use crate::app::{AppData, Sounds};
 use eframe::egui::{self, Ui};
 
-pub fn sound_ui(app: &mut MyApp, ui: &mut Ui) {
+pub fn sound_ui(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
         ui.label("Sounds:");
         ui.separator();
@@ -26,7 +26,11 @@ pub fn sound_ui(app: &mut MyApp, ui: &mut Ui) {
                             .iter()
                             {
                                 if ui
-                                    .selectable_value(&mut app.sound, sound, format!("{:?}", sound))
+                                    .selectable_value(
+                                        &mut app.save.sound,
+                                        sound,
+                                        format!("{:?}", sound),
+                                    )
                                     .clicked()
                                 {
                                     play_metronome(app, sound);
@@ -42,7 +46,7 @@ pub fn sound_ui(app: &mut MyApp, ui: &mut Ui) {
             });
 
             ui.vertical(|ui| {
-                ui.add(egui::Slider::new(&mut app.volume, 0.0..=1.0).text("Volume"));
+                ui.add(egui::Slider::new(&mut app.save.volume, 0.0..=1.0).text("Volume"));
             });
         });
     });

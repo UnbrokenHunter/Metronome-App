@@ -1,8 +1,8 @@
-use crate::app::{MyApp, ui::plot::draw_plot};
+use crate::app::{AppData, ui::plot::draw_plot};
 use eframe::egui::{self, Ui};
 
-pub fn plot_ui(app: &mut MyApp, ui: &mut Ui) {
+pub fn plot_ui(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
-        draw_plot(ui, &app.points, app.tempo_params);
+        draw_plot(ui, &app.runtime.points, app.save.tempo_params);
     });
 }
