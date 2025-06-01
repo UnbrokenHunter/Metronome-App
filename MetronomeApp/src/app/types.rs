@@ -32,6 +32,7 @@ pub struct TempoParams {
     pub length: f64,
     pub scaler: f64,
     pub manual_offset: f64,
+    pub manual_time_offset: f64,
 }
 
 #[derive(PartialEq, Copy, Clone, Debug)]

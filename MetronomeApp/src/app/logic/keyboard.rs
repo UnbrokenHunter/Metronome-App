@@ -5,12 +5,34 @@ use crate::app::MyApp;
 pub fn check_keyboard(app: &mut MyApp, ctx: Context) {
     ctx.input(|i| {
         // Manual Adjustment
+        let manual_increment = 5.0;
         if i.key_pressed(Key::ArrowUp) {
-            app.tempo_params.manual_offset += 5.0;
+            app.tempo_params.manual_offset += manual_increment;
         }
         if i.key_pressed(Key::ArrowDown) {
-            if app.tempo - 5.0 >= 0.0 {
-                app.tempo_params.manual_offset -= 5.0;
+            if app.tempo - manual_increment >= 0.0 {
+                app.tempo_params.manual_offset -= manual_increment;
+            }
+        }
+
+        // Manual Time Adjustment
+        let manual_time_increment = 5.0;
+        if i.key_pressed(Key::ArrowRight) {
+            app.tempo_params.manual_time_offset += manual_time_increment;
+        }
+        if i.key_pressed(Key::ArrowLeft) {
+            let new_offset = app.tempo_params.manual_time_offset - manual_time_increment;
+            let adjusted_time =
+                app.time_data.calculated_time_since_start as i128 + (new_offset as i128 * 1000);
+            println!(
+                "Test {} -- {}",
+                app.time_data.calculated_time_since_start,
+                new_offset as i128 * 1000
+            );
+
+            if adjusted_time > 0 {
+                println!("Test {}", app.tempo_params.manual_time_offset);
+                app.tempo_params.manual_time_offset = new_offset;
             }
         }
 

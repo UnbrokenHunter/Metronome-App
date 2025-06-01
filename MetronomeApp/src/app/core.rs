@@ -19,6 +19,7 @@ impl Default for MyApp {
                 length: 5.0,
                 scaler: 0.5,
                 manual_offset: 0.0,
+                manual_time_offset: 0.0,
             },
             sound: Sounds::Beep,
             audio: None,
@@ -66,6 +67,7 @@ impl MyApp {
         };
 
         self.tempo_params.manual_offset = 0.0;
+        self.tempo_params.manual_time_offset = 0.0;
         self.last_click_time = 0;
     }
 
@@ -78,6 +80,7 @@ impl MyApp {
             length: 5.0,
             scaler: 0.5,
             manual_offset: 0.0,
+            manual_time_offset: 0.0,
         };
         self.sound = Sounds::Beep;
         self.audio = None;

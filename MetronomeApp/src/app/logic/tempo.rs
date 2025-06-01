@@ -3,11 +3,10 @@ use crate::app::logic::functions::calculate;
 
 pub fn calculate_tempo(app: &mut MyApp) {
     if app.playing {
-        app.tempo = calculate(
-            app.growth_type,
-            app.time_data.calculated_time_since_start as f64 / 1000.0,
-            app.tempo_params,
-        );
+        let x = app.time_data.calculated_time_since_start as f64 / 1000.0
+            + app.tempo_params.manual_time_offset;
+        app.tempo = calculate(app.growth_type, x, app.tempo_params);
+
         // Clamp Values
         if !app.infinte {
             if app.tempo > app.tempo_params.max as f64 {

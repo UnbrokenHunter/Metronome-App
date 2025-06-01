@@ -19,12 +19,33 @@ pub fn info_ui(app: &mut MyApp, ui: &mut Ui) {
                         // ui.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(23.0));
                         // ui.end_row();
 
-                        ui.label(RichText::new("Time:").size(28.0));
+                        ui.label(
+                            RichText::new(if app.tempo_params.manual_time_offset.abs() < 1e-6 {
+                                "Time"
+                            } else {
+                                "ET:"
+                            })
+                            .size(28.0),
+                        );
                         ui.label(
                             RichText::new(format_time(app.time_data.calculated_time_since_start))
-                                .size(23.0),
+                                .size(28.0),
                         );
                         ui.end_row();
+
+                        // Manual Time Offset Time
+                        if app.tempo_params.manual_time_offset != 0.0 {
+                            ui.label(RichText::new("MT:").size(28.0));
+                            ui.label(
+                                RichText::new(format_time(
+                                    (app.time_data.calculated_time_since_start as f64
+                                        + app.tempo_params.manual_time_offset * 1000.0)
+                                        as u128,
+                                ))
+                                .size(28.0),
+                            );
+                            ui.end_row();
+                        }
 
                         // Row 3: Delta
                         let f = |x: f64| calculate(app.growth_type, x, app.tempo_params);
@@ -38,7 +59,7 @@ pub fn info_ui(app: &mut MyApp, ui: &mut Ui) {
                                     app.time_data.calculated_time_since_start as f64 / 1000.0
                                 )
                             ))
-                            .size(23.0),
+                            .size(28.0),
                         );
                         ui.end_row();
                     });
