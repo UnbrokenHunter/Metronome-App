@@ -6,6 +6,7 @@ use std::fmt;
 pub struct AppData {
     pub save: AppSaveData,
     pub runtime: AppRunningData,
+    pub practice: AppPracticeData,
 }
 
 pub struct AppRunningData {
@@ -24,6 +25,19 @@ pub struct AppSaveData {
     pub growth_type: GrowthType,
     pub infinte: bool,
     pub time_data: TimeData,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct AppPracticeData {
+    pub logs: Vec<PracticeLog>,
+}
+
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+pub struct PracticeLog {
+    pub time_started: u128, // milliseconds since UNIX_EPOCH
+    pub duration_ms: u64,   // duration in milliseconds
+    pub min_tempo: u32,
+    pub max_tempo: u32,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]

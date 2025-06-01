@@ -5,7 +5,7 @@ use eframe::egui::Context;
 
 use super::logic::metronome;
 use super::logic::{clock, keyboard};
-use super::types::{AppData, AppRunningData, AppSaveData, TimeData};
+use super::types::{AppData, AppPracticeData, AppRunningData, AppSaveData, PracticeLog, TimeData};
 use super::ui::layout;
 use super::{GrowthType, Sounds, TempoParams};
 
@@ -16,29 +16,35 @@ use std::path::Path;
 
 impl Default for AppData {
     fn default() -> Self {
-        let save_path = "settings.json";
+        let settings_path: &'static str = "settings.json";
+        let practice_path: &'static str = "practice.json";
 
-        // Try to load from save file
-        if Path::new(save_path).exists() {
-            if let Ok(contents) = fs::read_to_string(save_path) {
-                if let Ok(save_data) = serde_json::from_str::<AppSaveData>(&contents) {
-                    return AppData {
-                        save: save_data,
-                        runtime: AppRunningData {
-                            points: Vec::new(),
-                            audio: None,
-                            playing: false,
-                            last_click_time: 0,
-                        },
-                    };
-                }
+        let save = if Path::new(settings_path).exists() {
+            if let Ok(contents) = fs::read_to_string(settings_path) {
+                serde_json::from_str::<AppSaveData>(&contents)
+                    .unwrap_or_else(|_| AppData::default_save_data())
+            } else {
+                AppData::default_save_data()
             }
-        }
+        } else {
+            AppData::default_save_data()
+        };
 
-        // Fall back to defaults
+        let practice = if Path::new(practice_path).exists() {
+            if let Ok(contents) = fs::read_to_string(practice_path) {
+                serde_json::from_str::<AppPracticeData>(&contents)
+                    .unwrap_or_else(|_| AppPracticeData { logs: Vec::new() })
+            } else {
+                AppPracticeData { logs: Vec::new() }
+            }
+        } else {
+            AppPracticeData { logs: Vec::new() }
+        };
+
         AppData {
-            save: Self::default_save_data(),
-            runtime: Self::default_runtime_data(),
+            save,
+            runtime: AppData::default_runtime_data(),
+            practice,
         }
     }
 }
@@ -115,13 +121,40 @@ impl AppData {
             .expect("Time went backwards")
             .as_millis()
     }
+
+    pub fn try_add_log(&mut self, duration_ms: u64, min_tempo: u32, max_tempo: u32) {
+        if duration_ms > 0 {
+            let now = Self::current_time();
+
+            self.practice.logs.push(PracticeLog {
+                time_started: now,
+                duration_ms,
+                min_tempo,
+                max_tempo,
+            });
+            println!("Add Log")
+        }
+    }
 }
 
 impl Drop for AppData {
     fn drop(&mut self) {
+        // Save the log if app is closed without reseting
+        self.try_add_log(
+            self.save.time_data.calculated_time_since_start as u64,
+            self.save.tempo_params.min,
+            self.save.tempo_params.max,
+        );
+
         // Serialize only the `save` part
         if let Ok(json) = serde_json::to_string_pretty(&self.save) {
             if let Ok(mut file) = fs::File::create("settings.json") {
+                let _ = file.write_all(json.as_bytes());
+            }
+        }
+
+        if let Ok(json) = serde_json::to_string_pretty(&self.practice) {
+            if let Ok(mut file) = fs::File::create("practice.json") {
                 let _ = file.write_all(json.as_bytes());
             }
         }

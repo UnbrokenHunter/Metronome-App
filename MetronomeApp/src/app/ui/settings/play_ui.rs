@@ -16,12 +16,22 @@ pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
             .add_sized([half_width, 30.0], egui::Button::new("Reset"))
             .clicked()
         {
+            app.try_add_log(
+                app.save.time_data.calculated_time_since_start as u64,
+                app.save.tempo_params.min,
+                app.save.tempo_params.max,
+            );
             app.reset_metronome();
         }
         if ui
             .add_sized([half_width, 30.0], egui::Button::new("Revert Defaults"))
             .clicked()
         {
+            app.try_add_log(
+                app.save.time_data.calculated_time_since_start as u64,
+                app.save.tempo_params.min,
+                app.save.tempo_params.max,
+            );
             app.reset_all_settings();
         }
     });
