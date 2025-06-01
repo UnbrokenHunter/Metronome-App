@@ -3,4 +3,3 @@
 - log hours practiced
 - Save settings from previous startup
 - Hide settings panel when unpaused, and make it appear when you hover over it (to make the bpm text bigger)
-- Add Time rewind, to undo growth such that it will continue to go up again afterwords (rather than a fixed offset)
