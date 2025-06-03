@@ -52,7 +52,7 @@ impl Default for AppData {
 impl AppData {
     pub fn reset_metronome(&mut self) {
         self.runtime.playing = false;
-        self.save.tempo = 100.0;
+        self.runtime.tempo = 100.0;
         self.runtime.points.clear();
 
         let now = SystemTime::now()
@@ -60,7 +60,7 @@ impl AppData {
             .expect("Time went backwards")
             .as_millis();
 
-        self.save.time_data = crate::app::types::TimeData {
+        self.runtime.time_data = crate::app::types::TimeData {
             time: now,
             start_time: now,
             time_since_start: 0,
@@ -80,9 +80,7 @@ impl AppData {
     }
 
     fn default_save_data() -> AppSaveData {
-        let now = Self::current_time();
         AppSaveData {
-            tempo: 100.0,
             tempo_params: TempoParams {
                 min: 100,
                 max: 150,
@@ -95,6 +93,17 @@ impl AppData {
             volume: 0.7,
             growth_type: GrowthType::Linear,
             infinte: false,
+        }
+    }
+
+    fn default_runtime_data() -> AppRunningData {
+        let now = Self::current_time();
+        AppRunningData {
+            playing: false,
+            audio: None,
+            points: Vec::new(),
+            last_click_time: 0,
+            tempo: 100.0,
             time_data: TimeData {
                 time: now,
                 start_time: now,
@@ -103,15 +112,6 @@ impl AppData {
                 paused_time: 0,
                 calculated_time_since_start: 0,
             },
-        }
-    }
-
-    fn default_runtime_data() -> AppRunningData {
-        AppRunningData {
-            playing: false,
-            audio: None,
-            points: Vec::new(),
-            last_click_time: 0,
         }
     }
 
@@ -141,7 +141,7 @@ impl Drop for AppData {
     fn drop(&mut self) {
         // Save the log if app is closed without reseting
         self.try_add_log(
-            self.save.time_data.calculated_time_since_start as u64,
+            self.runtime.time_data.calculated_time_since_start as u64,
             self.save.tempo_params.min,
             self.save.tempo_params.max,
         );
@@ -166,7 +166,7 @@ impl eframe::App for AppData {
         layout::layout(self, ctx);
 
         keyboard::check_keyboard(self, ctx.clone());
-        clock::update_time(&mut self.save.time_data, self.runtime.playing);
+        clock::update_time(&mut self.runtime.time_data, self.runtime.playing);
         metronome::update_metronome(self);
         ctx.request_repaint();
     }

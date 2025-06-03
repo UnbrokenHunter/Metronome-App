@@ -15,7 +15,7 @@ fn settings_ui(app: &mut AppData, ctx: &Context) {
         .resizable(false)
         .show(ctx, |ui| {
             egui::Frame::group(ui.style()).show(ui, |ui| {
-                ui.label(RichText::new(format!("BPM: {:.2} BPM", app.save.tempo)).size(45.0));
+                ui.label(RichText::new(format!("BPM: {:.2} BPM", app.runtime.tempo)).size(45.0));
                 ui.separator();
 
                 ScrollArea::vertical().show(ui, |ui| {

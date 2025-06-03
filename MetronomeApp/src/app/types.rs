@@ -14,17 +14,17 @@ pub struct AppRunningData {
     pub audio: Option<(OutputStream, Sink)>,
     pub points: Vec<[f64; 2]>,
     pub last_click_time: u128,
+    pub tempo: f64,
+    pub time_data: TimeData,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct AppSaveData {
-    pub tempo: f64,
     pub tempo_params: TempoParams,
     pub volume: f32,
     pub sound: Sounds,
     pub growth_type: GrowthType,
     pub infinte: bool,
-    pub time_data: TimeData,
 }
 
 #[derive(Serialize, Deserialize)]

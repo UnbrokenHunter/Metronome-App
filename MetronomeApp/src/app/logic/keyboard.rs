@@ -10,7 +10,7 @@ pub fn check_keyboard(app: &mut AppData, ctx: Context) {
             app.save.tempo_params.manual_offset += manual_increment;
         }
         if i.key_pressed(Key::ArrowDown) {
-            if app.save.tempo - manual_increment >= 0.0 {
+            if app.runtime.tempo - manual_increment >= 0.0 {
                 app.save.tempo_params.manual_offset -= manual_increment;
             }
         }
@@ -22,11 +22,11 @@ pub fn check_keyboard(app: &mut AppData, ctx: Context) {
         }
         if i.key_pressed(Key::ArrowLeft) {
             let new_offset = app.save.tempo_params.manual_time_offset - manual_time_increment;
-            let adjusted_time = app.save.time_data.calculated_time_since_start as i128
+            let adjusted_time = app.runtime.time_data.calculated_time_since_start as i128
                 + (new_offset as i128 * 1000);
             println!(
                 "Test {} -- {}",
-                app.save.time_data.calculated_time_since_start,
+                app.runtime.time_data.calculated_time_since_start,
                 new_offset as i128 * 1000
             );
 

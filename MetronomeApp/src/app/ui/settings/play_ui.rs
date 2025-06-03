@@ -17,7 +17,7 @@ pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
             .clicked()
         {
             app.try_add_log(
-                app.save.time_data.calculated_time_since_start as u64,
+                app.runtime.time_data.calculated_time_since_start as u64,
                 app.save.tempo_params.min,
                 app.save.tempo_params.max,
             );
@@ -28,7 +28,7 @@ pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
             .clicked()
         {
             app.try_add_log(
-                app.save.time_data.calculated_time_since_start as u64,
+                app.runtime.time_data.calculated_time_since_start as u64,
                 app.save.tempo_params.min,
                 app.save.tempo_params.max,
             );

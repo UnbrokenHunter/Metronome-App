@@ -31,7 +31,7 @@ pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
                         );
                         ui.label(
                             RichText::new(format_time(
-                                app.save.time_data.calculated_time_since_start,
+                                app.runtime.time_data.calculated_time_since_start,
                             ))
                             .size(28.0),
                         );
@@ -42,7 +42,7 @@ pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
                             ui.label(RichText::new("MT:").size(28.0));
                             ui.label(
                                 RichText::new(format_time(
-                                    (app.save.time_data.calculated_time_since_start as f64
+                                    (app.runtime.time_data.calculated_time_since_start as f64
                                         + app.save.tempo_params.manual_time_offset * 1000.0)
                                         as u128,
                                 ))
@@ -60,7 +60,8 @@ pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
                                 "{:.2} BPM/s",
                                 derivative(
                                     f,
-                                    app.save.time_data.calculated_time_since_start as f64 / 1000.0
+                                    app.runtime.time_data.calculated_time_since_start as f64
+                                        / 1000.0
                                 )
                             ))
                             .size(28.0),
