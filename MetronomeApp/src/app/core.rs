@@ -126,13 +126,26 @@ impl AppData {
         if duration_ms > 0 {
             let now = Self::current_time();
 
+            let tempos: Vec<f64> = self.runtime.points.iter().map(|pair| pair[1]).collect();
+            let average_tempo = (tempos.iter().sum::<f64>() / tempos.len() as f64) as f32;
+
+            let mut deltas_sum: f64 = 0.0;
+            for i in 1..self.runtime.points.len() {
+                let delta = (self.runtime.points[i][1] - self.runtime.points[i - 1][1])
+                    / (self.runtime.points[i][0] - self.runtime.points[i - 1][0]);
+                deltas_sum += delta;
+            }
+            let average_delta = (deltas_sum / (self.runtime.points.len() - 1) as f64) as f32;
+
             self.practice.logs.push(PracticeLog {
                 time_started: now,
                 duration_ms,
                 min_tempo,
                 max_tempo,
+                average_tempo,
+                average_delta,
             });
-            println!("Add Log")
+            println!("Add Log");
         }
     }
 }

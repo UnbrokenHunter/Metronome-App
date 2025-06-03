@@ -3,6 +3,4 @@
 - log hours practiced
 - Hide settings panel when unpaused, and make it appear when you hover over it (to make the bpm text bigger)
 - Make resizable, make it so that it will hide settings if below a certain size, and hide the plot if below a certain width
-- Take time parameters out of save data
 - make inverse sigmoid possible
-- add average tempo and average delta to logs

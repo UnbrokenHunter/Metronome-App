@@ -38,6 +38,8 @@ pub struct PracticeLog {
     pub duration_ms: u64,   // duration in milliseconds
     pub min_tempo: u32,
     pub max_tempo: u32,
+    pub average_tempo: f32,
+    pub average_delta: f32,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
