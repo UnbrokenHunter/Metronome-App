@@ -4,3 +4,6 @@
 - Hide settings panel when unpaused, and make it appear when you hover over it (to make the bpm text bigger)
 - Make resizable, make it so that it will hide settings if below a certain size, and hide the plot if below a certain width
 - make inverse sigmoid possible
+- Input patterns into a sudo-drum machine to click out different stickings for rudiments etc
+- Add uptime to log data
+- rethink log format (log each program close, add sublogs for each reset practice)
