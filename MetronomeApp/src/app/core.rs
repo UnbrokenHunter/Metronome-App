@@ -7,7 +7,7 @@ use super::logic::metronome;
 use super::logic::{clock, keyboard};
 use super::types::{AppData, AppPracticeData, AppRunningData, AppSaveData, PracticeLog, TimeData};
 use super::ui::layout;
-use super::{GrowthType, Sounds, TempoParams};
+use super::{GrowthType, Menus, Sounds, TempoParams};
 
 use serde_json;
 use std::fs;
@@ -103,7 +103,8 @@ impl AppData {
             audio: None,
             points: Vec::new(),
             last_click_time: 0,
-            tempo: 100.0,
+            tempo: 120.0,
+            menu: Menus::Metronome,
             time_data: TimeData {
                 time: now,
                 start_time: now,

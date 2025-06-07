@@ -3,11 +3,28 @@ use crate::app::{AppData, logic};
 use eframe::egui::{self, Context, RichText, ScrollArea, Ui};
 
 pub fn layout(app: &mut AppData, ctx: &Context) {
+    header_ui(app, ctx);
     settings_ui(app, ctx);
 
     egui::CentralPanel::default().show(ctx, |ui| {
         main_ui(app, ui);
     });
+}
+
+fn header_ui(app: &mut AppData, ctx: &Context) {
+    egui::TopBottomPanel::top("tabs")
+        .resizable(false)
+        .show(ctx, |ui| {
+            egui::Frame::group(ui.style()).show(ui, |ui| {
+                // Open Logs Button
+                if ui
+                    .add_sized([ui.available_width(), 30.0], egui::Button::new("Open Logs"))
+                    .clicked()
+                {
+                    app.runtime.playing = !app.runtime.playing;
+                }
+            });
+        });
 }
 
 fn settings_ui(app: &mut AppData, ctx: &Context) {

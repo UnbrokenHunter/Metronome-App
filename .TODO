@@ -7,3 +7,6 @@
 - Input patterns into a sudo-drum machine to click out different stickings for rudiments etc
 - Add uptime to log data
 - rethink log format (log each program close, add sublogs for each reset practice)
+- Save Points from a session and display them in the logs
+- Enable auto delete more than past x many sessions
+- allow for removing logs from the app entirely
