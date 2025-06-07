@@ -1,5 +1,5 @@
 use crate::app::ui::settings;
-use crate::app::{AppData, logic};
+use crate::app::{AppData, Menus, logic};
 use eframe::egui::{self, Context, RichText, ScrollArea, Ui};
 
 pub fn layout(app: &mut AppData, ctx: &Context) {
@@ -18,10 +18,17 @@ fn header_ui(app: &mut AppData, ctx: &Context) {
             egui::Frame::group(ui.style()).show(ui, |ui| {
                 // Open Logs Button
                 if ui
-                    .add_sized([ui.available_width(), 30.0], egui::Button::new("Open Logs"))
+                    .add_sized([ui.available_width(), 30.0], egui::Button::new("Logs"))
                     .clicked()
                 {
-                    app.runtime.playing = !app.runtime.playing;
+                    app.runtime.menu = Menus::Logs;
+                }
+                // Open Metronome
+                if ui
+                    .add_sized([ui.available_width(), 30.0], egui::Button::new("Metronome"))
+                    .clicked()
+                {
+                    app.runtime.menu = Menus::Metronome;
                 }
             });
         });
