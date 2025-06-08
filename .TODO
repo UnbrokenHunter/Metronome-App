@@ -1,10 +1,25 @@
-- Time signitures with accents on downbeat
-- Beat subdivision
-- Hide settings panel when unpaused, and make it appear when you hover over it (to make the bpm text bigger)
-- Make resizable, make it so that it will hide settings if below a certain size, and hide the plot if below a certain width
-- make inverse sigmoid possible
-- Input patterns into a sudo-drum machine to click out different stickings for rudiments etc
-- Add uptime to log data
-- rethink log format (log each program close, add sublogs for each reset practice)
-- Enable auto delete more than past x many sessions
-- Tap Tempo for min and max
+- log changes
+
+  - rethink log format (log each program close, add sublogs for each reset practice)
+  - Add uptime to log data
+  - add a logs homepage with statistics based on logs
+  - allow for naming logs
+  - allow for notes on logs
+  - allow for deleting individual logs
+
+- features
+
+  - Enable auto delete more than past x many sessions
+  - Tap Tempo for min and max
+  - make inverse sigmoid possible
+  - Make resizable
+  - Add Presets/Preset Saving/Creating to parameters
+
+- refactor
+
+  - refactor types and core to move things out of it
+
+- v2
+  - Time signitures with accents on downbeat
+  - Beat subdivision
+  - Input patterns into a sudo-drum machine to click out different stickings for rudiments etc
