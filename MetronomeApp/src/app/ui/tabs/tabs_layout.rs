@@ -20,6 +20,13 @@ pub fn tabs_layout(app: &mut AppData, ctx: &Context) {
                 {
                     app.runtime.menu = Menus::Logs;
                 }
+                // Open Settings Button
+                if ui
+                    .add_sized([ui.available_width(), 30.0], egui::Button::new("Settings"))
+                    .clicked()
+                {
+                    app.runtime.menu = Menus::Settings;
+                }
             });
         });
 }
