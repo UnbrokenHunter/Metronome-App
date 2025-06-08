@@ -1,12 +1,13 @@
-use crate::app::{AppData, ui::settings::log_settings_ui::log_settings_ui};
-use eframe::egui::{self, Ui};
+use crate::app::{
+    AppData,
+    ui::settings::{general_settings_ui::general_settings_ui, log_settings_ui::log_settings_ui},
+};
+use eframe::egui::Ui;
 
 pub fn settings_center_layout(app: &mut AppData, ui: &mut Ui) {
-    // ui.vertical_centered(|ui| {
     if app.runtime.menu_state == 0 {
-        log_settings_ui(app, ui);
+        general_settings_ui(app, ui)
     } else if app.runtime.menu_state == 1 {
-        egui::Frame::group(ui.style()).show(ui, |ui| ui.label("Menu State 1"));
+        log_settings_ui(app, ui);
     }
-    // });
 }

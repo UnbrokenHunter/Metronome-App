@@ -94,6 +94,10 @@ impl AppData {
         self.parameters = Self::default_parameters_data();
     }
 
+    pub fn reset_settings(&mut self) {
+        self.settings = Self::default_settings_data();
+    }
+
     fn default_parameters_data() -> AppSaveData {
         AppSaveData {
             tempo_params: TempoParams {
