@@ -1,4 +1,4 @@
-use crate::app::ui::plot::draw_demo_plot;
+use crate::app::ui::graph::plot::draw_demo_plot;
 use crate::app::{AppData, GrowthType};
 use eframe::egui::{self, Ui};
 
