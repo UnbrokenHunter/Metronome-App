@@ -6,7 +6,7 @@ use crate::app::{AppData, Menus};
 use eframe::egui::{self, Context, Ui};
 
 pub fn layout(app: &mut AppData, ctx: &Context) {
-    header_ui(app, ctx);
+    header_panel_ui(app, ctx);
     left_panel_ui(app, ctx);
 
     egui::CentralPanel::default().show(ctx, |ui| {
@@ -14,7 +14,7 @@ pub fn layout(app: &mut AppData, ctx: &Context) {
     });
 }
 
-fn header_ui(app: &mut AppData, ctx: &Context) {
+fn header_panel_ui(app: &mut AppData, ctx: &Context) {
     tabs_layout(app, ctx);
 }
 
