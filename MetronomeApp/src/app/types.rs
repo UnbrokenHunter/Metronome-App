@@ -30,7 +30,7 @@ pub struct AppSaveData {
     pub infinte: bool,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct AppSettingsData {
     pub save_logs: bool,
     pub save_plots: bool,
@@ -42,7 +42,7 @@ pub struct AppPracticeData {
     pub logs: Vec<PracticeLog>,
 }
 
-#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PracticeLog {
     pub time_started: u128, // milliseconds since UNIX_EPOCH
     pub duration_ms: u64,   // duration in milliseconds
@@ -50,6 +50,7 @@ pub struct PracticeLog {
     pub max_tempo: u32,
     pub average_tempo: f32,
     pub average_delta: f32,
+    pub points: Vec<[f64; 2]>,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]

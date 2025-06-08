@@ -20,6 +20,8 @@ pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
                 app.runtime.time_data.calculated_time_since_start as u64,
                 app.parameters.tempo_params.min,
                 app.parameters.tempo_params.max,
+                app.runtime.points.clone(),
+                app.settings,
             );
             app.reset_metronome();
         }
@@ -31,6 +33,8 @@ pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
                 app.runtime.time_data.calculated_time_since_start as u64,
                 app.parameters.tempo_params.min,
                 app.parameters.tempo_params.max,
+                app.runtime.points.clone(),
+                app.settings,
             );
             app.reset_all_parameters();
         }

@@ -147,13 +147,22 @@ impl AppData {
             .as_millis()
     }
 
-    pub fn try_add_log(&mut self, duration_ms: u64, min_tempo: u32, max_tempo: u32) {
-        if duration_ms > 0 {
+    pub fn try_add_log(
+        &mut self,
+        duration_ms: u64,
+        min_tempo: u32,
+        max_tempo: u32,
+        datapoints: Vec<[f64; 2]>,
+        settings: AppSettingsData,
+    ) {
+        if duration_ms > 0 && settings.save_logs {
             let now = Self::current_time();
 
+            // Calculate Average Tempo
             let tempos: Vec<f64> = self.runtime.points.iter().map(|pair| pair[1]).collect();
             let average_tempo = (tempos.iter().sum::<f64>() / tempos.len() as f64) as f32;
 
+            // Caluclate Average Delta
             let mut deltas_sum: f64 = 0.0;
             for i in 1..self.runtime.points.len() {
                 let delta = (self.runtime.points[i][1] - self.runtime.points[i - 1][1])
@@ -162,6 +171,29 @@ impl AppData {
             }
             let average_delta = (deltas_sum / (self.runtime.points.len() - 1) as f64) as f32;
 
+            let points: Vec<[f64; 2]> = if settings.save_plots {
+                let step = match settings.plot_granularity {
+                    0 => 4,
+                    1 => 3,
+                    2 => 2,
+                    3 => 1,
+                    _ => 1,
+                };
+
+                let mut condensed: Vec<[f64; 2]> =
+                    datapoints.iter().step_by(step).cloned().collect();
+
+                if let Some(last) = datapoints.last() {
+                    if condensed.last() != Some(last) {
+                        condensed.push(*last);
+                    }
+                }
+
+                condensed
+            } else {
+                Vec::new()
+            };
+
             self.practice.logs.push(PracticeLog {
                 time_started: now,
                 duration_ms,
@@ -169,6 +201,7 @@ impl AppData {
                 max_tempo,
                 average_tempo,
                 average_delta,
+                points,
             });
             println!("Add Log");
         }
@@ -182,6 +215,8 @@ impl Drop for AppData {
             self.runtime.time_data.calculated_time_since_start as u64,
             self.parameters.tempo_params.min,
             self.parameters.tempo_params.max,
+            self.runtime.points.clone(),
+            self.settings,
         );
 
         // Serialize only the `save` part
