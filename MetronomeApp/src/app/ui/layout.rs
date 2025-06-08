@@ -1,5 +1,5 @@
 use crate::app::ui::graph::graph_layout;
-use crate::app::ui::logs::logs_panel_layout;
+use crate::app::ui::logs::{logs_center_layout, logs_panel_layout};
 use crate::app::ui::parameters::parameters_layout;
 use crate::app::ui::settings::{settings_center_layout, settings_panel_layout};
 use crate::app::ui::tabs::tabs_layout;
@@ -33,6 +33,7 @@ fn main_panel_ui(app: &mut AppData, ui: &mut Ui) {
     if app.runtime.menu == Menus::Metronome {
         graph_layout(app, ui);
     } else if app.runtime.menu == Menus::Logs {
+        logs_center_layout(app, ui);
     } else if app.runtime.menu == Menus::Settings {
         settings_center_layout(app, ui)
     }
