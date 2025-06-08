@@ -11,22 +11,27 @@ pub fn tabs_layout(app: &mut AppData, ctx: &Context) {
                     .add_sized([ui.available_width(), 30.0], egui::Button::new("Metronome"))
                     .clicked()
                 {
-                    app.runtime.menu = Menus::Metronome;
+                    change_menus(app, Menus::Metronome);
                 }
                 // Open Logs Button
                 if ui
                     .add_sized([ui.available_width(), 30.0], egui::Button::new("Logs"))
                     .clicked()
                 {
-                    app.runtime.menu = Menus::Logs;
+                    change_menus(app, Menus::Logs);
                 }
                 // Open Settings Button
                 if ui
                     .add_sized([ui.available_width(), 30.0], egui::Button::new("Settings"))
                     .clicked()
                 {
-                    app.runtime.menu = Menus::Settings;
+                    change_menus(app, Menus::Settings);
                 }
             });
         });
+}
+
+fn change_menus(app: &mut AppData, menu: Menus) {
+    app.runtime.menu_state = 0;
+    app.runtime.menu = menu;
 }

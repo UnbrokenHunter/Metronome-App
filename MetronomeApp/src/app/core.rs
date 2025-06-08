@@ -113,6 +113,7 @@ impl AppData {
                 paused_time: 0,
                 calculated_time_since_start: 0,
             },
+            menu_state: 0,
         }
     }
 

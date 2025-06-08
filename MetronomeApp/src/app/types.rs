@@ -17,6 +17,7 @@ pub struct AppRunningData {
     pub tempo: f64,
     pub time_data: TimeData,
     pub menu: Menus,
+    pub menu_state: u32,
 }
 
 #[derive(Serialize, Deserialize)]
