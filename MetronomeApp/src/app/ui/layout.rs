@@ -1,7 +1,7 @@
+use crate::app::ui::graph::graph_layout;
 use crate::app::ui::logs::logs_panel_layout;
 use crate::app::ui::parameters::parameters_layout;
-use crate::app::ui::{general, graph, parameters};
-use crate::app::{AppData, Menus, logic};
+use crate::app::{AppData, Menus};
 use eframe::egui::{self, Context, Ui};
 
 pub fn layout(app: &mut AppData, ctx: &Context) {
@@ -9,7 +9,7 @@ pub fn layout(app: &mut AppData, ctx: &Context) {
     left_panel_ui(app, ctx);
 
     egui::CentralPanel::default().show(ctx, |ui| {
-        main_ui(app, ui);
+        main_panel_ui(app, ui);
     });
 }
 
@@ -44,18 +44,9 @@ fn left_panel_ui(app: &mut AppData, ctx: &Context) {
     }
 }
 
-fn main_ui(app: &mut AppData, ui: &mut Ui) {
-    ui.vertical_centered(|ui| {
-        if app.runtime.menu == Menus::Metronome {
-            logic::tempo::calculate_tempo(app);
-
-            parameters::parameters_ui(app, ui);
-            graph::plot_ui(app, ui);
-            ui.horizontal(|ui: &mut Ui| {
-                general::play_ui(app, ui);
-                general::info_ui(app, ui);
-            });
-        } else if app.runtime.menu == Menus::Logs {
-        }
-    });
+fn main_panel_ui(app: &mut AppData, ui: &mut Ui) {
+    if app.runtime.menu == Menus::Metronome {
+        graph_layout(app, ui);
+    } else if app.runtime.menu == Menus::Logs {
+    }
 }
