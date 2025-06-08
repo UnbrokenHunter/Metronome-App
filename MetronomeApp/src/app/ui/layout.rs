@@ -1,4 +1,4 @@
-use crate::app::ui::settings;
+use crate::app::ui::{general, graph, parameters};
 use crate::app::{AppData, Menus, logic};
 use eframe::egui::{self, Context, RichText, ScrollArea, Ui};
 
@@ -46,11 +46,11 @@ fn settings_ui(app: &mut AppData, ctx: &Context) {
                     ui.separator();
 
                     ScrollArea::vertical().show(ui, |ui| {
-                        settings::practice_ui(app, ui);
-                        settings::tempo_ui(app, ui);
+                        parameters::practice_ui(app, ui);
+                        parameters::tempo_ui(app, ui);
 
-                        settings::growth_ui(app, ui);
-                        settings::sound_ui(app, ui);
+                        parameters::growth_ui(app, ui);
+                        parameters::sound_ui(app, ui);
                     });
                 });
             } else if app.runtime.menu == Menus::Logs {
@@ -102,11 +102,11 @@ fn main_ui(app: &mut AppData, ui: &mut Ui) {
         if app.runtime.menu == Menus::Metronome {
             logic::tempo::calculate_tempo(app);
 
-            settings::parameters_ui(app, ui);
-            settings::plot_ui(app, ui);
+            parameters::parameters_ui(app, ui);
+            graph::plot_ui(app, ui);
             ui.horizontal(|ui: &mut Ui| {
-                settings::play_ui(app, ui);
-                settings::info_ui(app, ui);
+                general::play_ui(app, ui);
+                general::info_ui(app, ui);
             });
         } else if app.runtime.menu == Menus::Logs {
         }

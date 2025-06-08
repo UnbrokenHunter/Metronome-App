@@ -1,4 +1,4 @@
-use crate::app::{AppData, ui::plot::draw_plot};
+use crate::app::{AppData, ui::graph::plot::draw_plot};
 use eframe::egui::{self, Ui};
 
 pub fn plot_ui(app: &mut AppData, ui: &mut Ui) {
