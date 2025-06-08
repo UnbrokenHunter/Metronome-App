@@ -1,34 +1,35 @@
 use crate::app::{AppData, Menus};
-use eframe::egui::{self, Context};
+use eframe::egui::{self, Context, Ui};
 
 pub fn tabs_layout(app: &mut AppData, ctx: &Context) {
     egui::TopBottomPanel::top("tabs")
         .resizable(false)
         .show(ctx, |ui| {
-            egui::Frame::group(ui.style()).show(ui, |ui| {
+            // egui::Frame::group(ui.style()).show(ui, |ui| {
+            ui.horizontal(|ui: &mut Ui| {
+                let tab_size = [ui.available_width() / 10.0, 25.0];
+
                 // Open Metronome
                 if ui
-                    .add_sized([ui.available_width(), 30.0], egui::Button::new("Metronome"))
+                    .add_sized(tab_size, egui::Button::new("Metronome"))
                     .clicked()
                 {
                     change_menus(app, Menus::Metronome);
                 }
                 // Open Logs Button
-                if ui
-                    .add_sized([ui.available_width(), 30.0], egui::Button::new("Logs"))
-                    .clicked()
-                {
+                if ui.add_sized(tab_size, egui::Button::new("Logs")).clicked() {
                     change_menus(app, Menus::Logs);
                 }
                 // Open Settings Button
                 if ui
-                    .add_sized([ui.available_width(), 30.0], egui::Button::new("Settings"))
+                    .add_sized(tab_size, egui::Button::new("Settings"))
                     .clicked()
                 {
                     change_menus(app, Menus::Settings);
                 }
             });
         });
+    // });
 }
 
 fn change_menus(app: &mut AppData, menu: Menus) {
