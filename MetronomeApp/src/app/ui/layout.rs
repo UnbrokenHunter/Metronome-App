@@ -1,7 +1,7 @@
 use crate::app::ui::graph::graph_layout;
 use crate::app::ui::logs::logs_panel_layout;
 use crate::app::ui::parameters::parameters_layout;
-use crate::app::ui::settings::{settings_panel_layout, settings_side_layout};
+use crate::app::ui::settings::{settings_center_layout, settings_panel_layout};
 use crate::app::ui::tabs::tabs_layout;
 use crate::app::{AppData, Menus};
 use eframe::egui::{self, Context, Ui};
@@ -25,7 +25,7 @@ fn left_panel_ui(app: &mut AppData, ctx: &Context) {
     } else if app.runtime.menu == Menus::Logs {
         logs_panel_layout(app, ctx);
     } else if app.runtime.menu == Menus::Settings {
-        settings_side_layout(app, ctx);
+        settings_panel_layout(app, ctx);
     }
 }
 
@@ -34,6 +34,6 @@ fn main_panel_ui(app: &mut AppData, ui: &mut Ui) {
         graph_layout(app, ui);
     } else if app.runtime.menu == Menus::Logs {
     } else if app.runtime.menu == Menus::Settings {
-        settings_panel_layout(app, ui)
+        settings_center_layout(app, ui)
     }
 }
