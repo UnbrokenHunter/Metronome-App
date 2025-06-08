@@ -9,7 +9,7 @@ pub fn play_metronome(app: &mut AppData, sound: Sounds) {
     let s = sound.to_string().to_lowercase();
     let path = format!("assets/sounds/{}.wav", s);
 
-    app.runtime.audio = Some(play_sound(path.as_str(), app.save.volume));
+    app.runtime.audio = Some(play_sound(path.as_str(), app.parameters.volume));
 }
 
 fn play_sound(path: &str, volume: f32) -> (OutputStream, Sink) {

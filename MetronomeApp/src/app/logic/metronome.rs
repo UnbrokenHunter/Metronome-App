@@ -10,7 +10,7 @@ pub fn update_metronome(app: &mut AppData) {
 
     if time_since_last_click > period {
         click(&mut app.runtime.last_click_time, app.runtime.time_data); // ← pass as mutable reference
-        play_metronome(app, app.save.sound)
+        play_metronome(app, app.parameters.sound)
     }
 }
 

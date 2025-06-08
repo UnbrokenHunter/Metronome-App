@@ -27,7 +27,7 @@ pub fn sound_ui(app: &mut AppData, ui: &mut Ui) {
                             {
                                 if ui
                                     .selectable_value(
-                                        &mut app.save.sound,
+                                        &mut app.parameters.sound,
                                         sound,
                                         format!("{:?}", sound),
                                     )
@@ -46,7 +46,7 @@ pub fn sound_ui(app: &mut AppData, ui: &mut Ui) {
             });
 
             ui.vertical(|ui| {
-                ui.add(egui::Slider::new(&mut app.save.volume, 0.0..=1.0).text("Volume"));
+                ui.add(egui::Slider::new(&mut app.parameters.volume, 0.0..=1.0).text("Volume"));
             });
         });
     });

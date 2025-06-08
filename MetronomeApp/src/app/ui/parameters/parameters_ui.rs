@@ -14,7 +14,7 @@ pub fn parameters_ui(app: &mut AppData, ui: &mut Ui) {
         ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
             ui.label(format!(
                 "Manual Offset: {} BPM",
-                app.save.tempo_params.manual_offset
+                app.parameters.tempo_params.manual_offset
             ));
         });
     });

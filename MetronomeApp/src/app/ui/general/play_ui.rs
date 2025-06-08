@@ -18,8 +18,8 @@ pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
         {
             app.try_add_log(
                 app.runtime.time_data.calculated_time_since_start as u64,
-                app.save.tempo_params.min,
-                app.save.tempo_params.max,
+                app.parameters.tempo_params.min,
+                app.parameters.tempo_params.max,
             );
             app.reset_metronome();
         }
@@ -29,10 +29,10 @@ pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
         {
             app.try_add_log(
                 app.runtime.time_data.calculated_time_since_start as u64,
-                app.save.tempo_params.min,
-                app.save.tempo_params.max,
+                app.parameters.tempo_params.min,
+                app.parameters.tempo_params.max,
             );
-            app.reset_all_settings();
+            app.reset_all_parameters();
         }
     });
 }

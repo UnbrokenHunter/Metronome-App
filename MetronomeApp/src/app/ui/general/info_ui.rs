@@ -21,7 +21,7 @@ pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
 
                         ui.label(
                             RichText::new(
-                                if app.save.tempo_params.manual_time_offset.abs() < 1e-6 {
+                                if app.parameters.tempo_params.manual_time_offset.abs() < 1e-6 {
                                     "Time"
                                 } else {
                                     "ET:"
@@ -38,12 +38,12 @@ pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
                         ui.end_row();
 
                         // Manual Time Offset Time
-                        if app.save.tempo_params.manual_time_offset != 0.0 {
+                        if app.parameters.tempo_params.manual_time_offset != 0.0 {
                             ui.label(RichText::new("MT:").size(28.0));
                             ui.label(
                                 RichText::new(format_time(
                                     (app.runtime.time_data.calculated_time_since_start as f64
-                                        + app.save.tempo_params.manual_time_offset * 1000.0)
+                                        + app.parameters.tempo_params.manual_time_offset * 1000.0)
                                         as u128,
                                 ))
                                 .size(28.0),
@@ -52,7 +52,7 @@ pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
                         }
 
                         // Row 3: Delta
-                        let f = |x: f64| calculate(app.save.growth_type, x, app.save.tempo_params);
+                        let f = |x: f64| calculate(app.parameters.growth_type, x, app.parameters.tempo_params);
 
                         ui.label(RichText::new("ΔBPM:").size(28.0));
                         ui.label(

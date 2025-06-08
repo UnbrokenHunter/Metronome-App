@@ -4,8 +4,9 @@ use serde::Serialize;
 use std::fmt;
 
 pub struct AppData {
-    pub save: AppSaveData,
+    pub parameters: AppSaveData,
     pub runtime: AppRunningData,
+    pub settings: AppSettingsData,
     pub practice: AppPracticeData,
 }
 
@@ -27,6 +28,13 @@ pub struct AppSaveData {
     pub sound: Sounds,
     pub growth_type: GrowthType,
     pub infinte: bool,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct AppSettingsData {
+    pub save_logs: bool,
+    pub save_plots: bool,
+    pub plot_granularity: u8, // 0 = Low, 1 = Medium, 2 = High, 3 = Lossless
 }
 
 #[derive(Serialize, Deserialize)]

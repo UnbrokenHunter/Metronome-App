@@ -2,7 +2,7 @@ use crate::app::AppData;
 use eframe::egui::{self, Context};
 
 pub fn settings_side_layout(app: &mut AppData, ctx: &Context) {
-    egui::SidePanel::left("logs_panel")
+    egui::SidePanel::left("settings_side_panel")
         .resizable(false)
         .show(ctx, |ui| {
             egui::Frame::group(ui.style()).show(ui, |ui: &mut egui::Ui| {

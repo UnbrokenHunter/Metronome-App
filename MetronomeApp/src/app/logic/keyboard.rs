@@ -7,21 +7,21 @@ pub fn check_keyboard(app: &mut AppData, ctx: Context) {
         // Manual Adjustment
         let manual_increment = 5.0;
         if i.key_pressed(Key::ArrowUp) {
-            app.save.tempo_params.manual_offset += manual_increment;
+            app.parameters.tempo_params.manual_offset += manual_increment;
         }
         if i.key_pressed(Key::ArrowDown) {
             if app.runtime.tempo - manual_increment >= 0.0 {
-                app.save.tempo_params.manual_offset -= manual_increment;
+                app.parameters.tempo_params.manual_offset -= manual_increment;
             }
         }
 
         // Manual Time Adjustment
         let manual_time_increment = 5.0;
         if i.key_pressed(Key::ArrowRight) {
-            app.save.tempo_params.manual_time_offset += manual_time_increment;
+            app.parameters.tempo_params.manual_time_offset += manual_time_increment;
         }
         if i.key_pressed(Key::ArrowLeft) {
-            let new_offset = app.save.tempo_params.manual_time_offset - manual_time_increment;
+            let new_offset = app.parameters.tempo_params.manual_time_offset - manual_time_increment;
             let adjusted_time = app.runtime.time_data.calculated_time_since_start as i128
                 + (new_offset as i128 * 1000);
             println!(
@@ -31,8 +31,8 @@ pub fn check_keyboard(app: &mut AppData, ctx: Context) {
             );
 
             if adjusted_time > 0 {
-                println!("Test {}", app.save.tempo_params.manual_time_offset);
-                app.save.tempo_params.manual_time_offset = new_offset;
+                println!("Test {}", app.parameters.tempo_params.manual_time_offset);
+                app.parameters.tempo_params.manual_time_offset = new_offset;
             }
         }
 
@@ -43,17 +43,17 @@ pub fn check_keyboard(app: &mut AppData, ctx: Context) {
 
         // Max Tempo
         if i.key_pressed(Key::W) {
-            app.save.tempo_params.max += 5
+            app.parameters.tempo_params.max += 5
         }
         if i.key_pressed(Key::S) {
-            app.save.tempo_params.max -= 5
+            app.parameters.tempo_params.max -= 5
         }
         // Min Tempo
         if i.key_pressed(Key::A) {
-            app.save.tempo_params.min -= 5
+            app.parameters.tempo_params.min -= 5
         }
         if i.key_pressed(Key::D) {
-            app.save.tempo_params.min += 5
+            app.parameters.tempo_params.min += 5
         }
         // Space
         if i.key_pressed(Key::Space) {
