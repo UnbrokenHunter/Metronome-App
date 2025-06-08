@@ -6,13 +6,13 @@ pub fn tempo_ui(app: &mut AppData, ui: &mut Ui) {
         ui.label("Tempo:");
         ui.separator();
 
-        if app.save.growth_type == GrowthType::Constant {
-            ui.add(egui::Slider::new(&mut app.save.tempo_params.min, 1..=400).text("Tempo"));
+        if app.parameters.growth_type == GrowthType::Constant {
+            ui.add(egui::Slider::new(&mut app.parameters.tempo_params.min, 1..=400).text("Tempo"));
         } else {
             ui.add(
-                egui::Slider::new(&mut app.save.tempo_params.min, 1..=400).text("Starting Tempo"),
+                egui::Slider::new(&mut app.parameters.tempo_params.min, 1..=400).text("Starting Tempo"),
             );
-            ui.add(egui::Slider::new(&mut app.save.tempo_params.max, 1..=400).text("Ending Tempo"));
+            ui.add(egui::Slider::new(&mut app.parameters.tempo_params.max, 1..=400).text("Ending Tempo"));
         }
     });
 }

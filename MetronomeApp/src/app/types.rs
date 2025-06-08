@@ -4,8 +4,9 @@ use serde::Serialize;
 use std::fmt;
 
 pub struct AppData {
-    pub save: AppSaveData,
+    pub parameters: AppSaveData,
     pub runtime: AppRunningData,
+    pub settings: AppSettingsData,
     pub practice: AppPracticeData,
 }
 
@@ -17,6 +18,7 @@ pub struct AppRunningData {
     pub tempo: f64,
     pub time_data: TimeData,
     pub menu: Menus,
+    pub menu_state: u32,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -28,12 +30,19 @@ pub struct AppSaveData {
     pub infinte: bool,
 }
 
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+pub struct AppSettingsData {
+    pub save_logs: bool,
+    pub save_plots: bool,
+    pub plot_granularity: u8, // 0 = Low, 1 = Medium, 2 = High, 3 = Lossless
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct AppPracticeData {
     pub logs: Vec<PracticeLog>,
 }
 
-#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PracticeLog {
     pub time_started: u128, // milliseconds since UNIX_EPOCH
     pub duration_ms: u64,   // duration in milliseconds
@@ -41,6 +50,7 @@ pub struct PracticeLog {
     pub max_tempo: u32,
     pub average_tempo: f32,
     pub average_delta: f32,
+    pub points: Vec<[f64; 2]>,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
