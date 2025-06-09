@@ -16,6 +16,7 @@ pub struct AppRunningData {
     pub points: Vec<[f64; 2]>,
     pub last_click_time: u128,
     pub tempo: f64,
+    pub last_tap_tempo_click: u128,
     pub time_data: TimeData,
     pub menu: Menus,
     pub menu_state: u32,

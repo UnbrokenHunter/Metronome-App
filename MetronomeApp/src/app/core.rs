@@ -123,6 +123,7 @@ impl AppData {
             points: Vec::new(),
             last_click_time: 0,
             tempo: 120.0,
+            last_tap_tempo_click: 0,
             menu: Menus::Metronome,
             time_data: TimeData {
                 time: now,
