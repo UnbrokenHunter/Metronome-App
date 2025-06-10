@@ -3,11 +3,9 @@ use std::fs::File;
 use std::io::BufReader;
 
 use crate::app::AppData;
-use crate::app::Sounds;
 
-pub fn play_metronome(app: &mut AppData, sound: Sounds) {
-    let s = sound.to_string().to_lowercase();
-    let path = format!("assets/sounds/{}.wav", s);
+pub fn play_metronome(app: &mut AppData, sound: String) {
+    let path = format!("assets/sounds/{}.wav", sound);
 
     app.runtime.audio = Some(play_sound(path.as_str(), app.parameters.volume));
 }
@@ -22,5 +20,5 @@ fn play_sound(path: &str, volume: f32) -> (OutputStream, Sink) {
     let source = Decoder::new(BufReader::new(file)).unwrap();
 
     sink.append(source);
-    (stream, sink) // ✅ keep stream alive by returning it
+    (stream, sink)
 }

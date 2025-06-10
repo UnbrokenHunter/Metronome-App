@@ -33,7 +33,7 @@ pub fn sound_ui(app: &mut AppData, ui: &mut Ui) {
                                     )
                                     .clicked()
                                 {
-                                    play_metronome(app, sound);
+                                    play_metronome(app, sound.to_string().to_lowercase());
                                 }
 
                                 // Move to next row every 3 buttons
