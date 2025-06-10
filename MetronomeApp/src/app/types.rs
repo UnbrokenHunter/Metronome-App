@@ -72,7 +72,7 @@ pub struct BeatData {
     pub state: BeatState,
 }
 
-#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Copy, Clone, Serialize, Deserialize)]
 pub enum BeatState {
     Strong,
     Weak,
