@@ -10,7 +10,7 @@
 - features
 
   - Enable auto delete more than past x many sessions
-  - Tap Tempo for min and max
+  - Make Tap Tempo Average Accross X many taps
   - make inverse sigmoid possible
   - Make resizable
   - Add Presets/Preset Saving/Creating to parameters
