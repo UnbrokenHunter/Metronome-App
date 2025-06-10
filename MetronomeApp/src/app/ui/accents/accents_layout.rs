@@ -1,8 +1,8 @@
 use crate::app::{
     AppData,
-    types::{BeatData, BeatState},
+    types::{AccentData, BeatData, BeatState},
 };
-use eframe::egui::{self, Color32, Image, ImageButton, Ui};
+use eframe::egui::{self, Button, Color32, Image, ImageButton, Margin, ScrollArea, Ui};
 
 pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
@@ -11,24 +11,50 @@ pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
 
         // Box for the Chain
         egui::Frame::group(ui.style()).show(ui, |ui| {
-            ui.vertical_centered(|ui: &mut Ui| {
-                let mut i = 0;
-                while i < app.parameters.accents.accents.len() {
-                    draw_accent(app, ui, i);
+            ScrollArea::vertical().show(ui, |ui| {
+                ui.vertical_centered(|ui: &mut Ui| {
+                    insert_accent_button(app, ui, 0);
 
-                    if i != app.parameters.accents.accents.len() - 1 {
-                        ui.add_sized(
-                            [30.0, 30.0],
-                            Image::new(egui::include_image!(
-                                "../../../../assets/images/down_arrow.png"
-                            )),
-                        );
+                    let mut i = 0;
+                    while i < app.parameters.accents.accents.len() {
+                        draw_accent(app, ui, i);
+                        insert_accent_button(app, ui, i + 1);
+                        i += 1;
                     }
-                    i += 1;
-                }
+                });
             });
         });
     });
+}
+
+fn insert_accent_button(app: &mut AppData, ui: &mut Ui, i: usize) {
+    egui::Frame::group(ui.style())
+        .corner_radius(5)
+        .fill(egui::Color32::from_rgb(40, 40, 40))
+        .inner_margin(Margin {
+            left: 8,
+            right: 8,
+            top: 2,
+            bottom: 2,
+        })
+        .show(ui, |ui| {
+            if ui
+                .add_sized(
+                    [20.0, 20.0],
+                    ImageButton::new(egui::include_image!(
+                        "../../../../assets/images/down_arrow.png"
+                    ))
+                    .frame(false),
+                )
+                .clicked()
+            {
+                println!("Insert clicked!");
+                app.parameters
+                    .accents
+                    .accents
+                    .insert(i, AccentData { beats: vec![] });
+            }
+        });
 }
 
 fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
@@ -49,7 +75,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
                 if ui
                     .add_sized(
-                        [30.0, 30.0],
+                        [20.0, 20.0],
                         ImageButton::new(egui::include_image!(
                             "../../../../assets/images/trash.png"
                         ))
@@ -142,7 +168,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
         });
     });
     if let Some(index) = to_delete {
-        if index < app.practice.logs.len() {
+        if index < app.parameters.accents.accents.len() {
             app.parameters.accents.accents.remove(index);
         }
     }
