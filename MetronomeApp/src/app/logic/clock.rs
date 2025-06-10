@@ -1,6 +1,6 @@
 extern crate chrono;
 use chrono::prelude::DateTime;
-use chrono::{TimeZone, Utc};
+use chrono::{Datelike, TimeZone, Utc, Weekday};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::app::types::TimeData;
@@ -29,33 +29,6 @@ pub fn format_time(time: u128) -> String {
     format!("{:02}:{:02}:{:05.2}", hours, minutes, seconds)
 }
 
-/// Formats a Unix timestamp in milliseconds into a human-readable date string.
-///
-/// # Arguments
-///
-/// * `date` - A `u128` Unix timestamp in **milliseconds** since the Unix epoch.
-/// * `format` - An optional format string following `chrono::format` syntax.  
-///              If `None` is provided, defaults to `"%d-%m-%Y %H:%M:%S"`.
-///
-/// # Returns
-///
-/// A `String` containing the formatted date and time in UTC.
-///
-/// # Example
-///
-/// ```
-/// let now = std::time::SystemTime::now()
-///     .duration_since(std::time::UNIX_EPOCH)
-///     .unwrap()
-///     .as_millis();
-///
-/// let default = format_date(now, None); // "08-06-2025 14:45:23"
-/// let custom = format_date(now, Some("%Y/%m/%d")); // "2025/06/08"
-/// ```
-///
-/// # Panics
-///
-/// Panics if the timestamp cannot be converted into a valid UTC time.
 pub fn format_date(date: u128, format: Option<&str>) -> String {
     // Convert milliseconds to seconds and nanoseconds
     let seconds = (date / 1000) as i64;
@@ -67,7 +40,52 @@ pub fn format_date(date: u128, format: Option<&str>) -> String {
         .single()
         .expect("Invalid timestamp");
 
-    // Use provided format or default to "%d-%m-%Y %H:%M:%S"
-    let format_str = format.unwrap_or("%d-%m-%Y %H:%M:%S");
-    datetime.format(format_str).to_string()
+    if let Some(fmt) = format {
+        // Use provided format if given
+        return datetime.format(fmt).to_string();
+    }
+
+    // Default format: "June 10th, 2025"
+    let day = datetime.day();
+    let suffix = match day {
+        11 | 12 | 13 => "th", // special case
+        _ => match day % 10 {
+            1 => "st",
+            2 => "nd",
+            3 => "rd",
+            _ => "th",
+        },
+    };
+
+    format!(
+        "{} {}{}, {}",
+        datetime.format("%B"), // Full month name
+        day,
+        suffix,
+        datetime.year()
+    )
+}
+
+fn full_weekday_name(weekday: Weekday) -> &'static str {
+    match weekday {
+        Weekday::Mon => "Monday",
+        Weekday::Tue => "Tuesday",
+        Weekday::Wed => "Wednesday",
+        Weekday::Thu => "Thursday",
+        Weekday::Fri => "Friday",
+        Weekday::Sat => "Saturday",
+        Weekday::Sun => "Sunday",
+    }
+}
+
+pub fn weekday_from_unix_ms(unix_ms: u128) -> &'static str {
+    let seconds = (unix_ms / 1000) as i64;
+    let nanos = ((unix_ms % 1000) * 1_000_000) as u32;
+
+    let datetime = Utc
+        .timestamp_opt(seconds, nanos)
+        .single()
+        .expect("Invalid timestamp");
+
+    full_weekday_name(datetime.weekday())
 }

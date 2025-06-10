@@ -199,6 +199,9 @@ impl AppData {
                 Vec::new()
             };
 
+            let title = "".to_owned();
+            let notes = "".to_owned();
+
             self.practice.logs.push(PracticeLog {
                 time_started: now,
                 duration_ms,
@@ -207,6 +210,8 @@ impl AppData {
                 average_tempo,
                 average_delta,
                 points,
+                title,
+                notes,
             });
             println!("Add Log");
         }

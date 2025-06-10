@@ -52,6 +52,8 @@ pub struct PracticeLog {
     pub average_tempo: f32,
     pub average_delta: f32,
     pub points: Vec<[f64; 2]>,
+    pub title: String,
+    pub notes: String,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
