@@ -2,7 +2,7 @@ use crate::app::{
     AppData,
     types::{AccentData, BeatData, BeatState},
 };
-use eframe::egui::{self, Button, Color32, Image, ImageButton, Margin, ScrollArea, Ui};
+use eframe::egui::{self, Color32, ImageButton, Margin, ScrollArea, Ui};
 
 pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
