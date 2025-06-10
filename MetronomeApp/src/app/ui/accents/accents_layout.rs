@@ -2,7 +2,7 @@ use crate::app::{
     AppData,
     types::{BeatData, BeatState},
 };
-use eframe::egui::{self, Color32, ImageButton, Ui};
+use eframe::egui::{self, Color32, Image, ImageButton, Ui};
 
 pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
@@ -11,11 +11,22 @@ pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
 
         // Box for the Chain
         egui::Frame::group(ui.style()).show(ui, |ui| {
-            let mut i = 0;
-            while i < app.parameters.accents.accents.len() {
-                draw_accent(app, ui, i);
-                i += 1;
-            }
+            ui.vertical_centered(|ui: &mut Ui| {
+                let mut i = 0;
+                while i < app.parameters.accents.accents.len() {
+                    draw_accent(app, ui, i);
+
+                    if i != app.parameters.accents.accents.len() - 1 {
+                        ui.add_sized(
+                            [30.0, 30.0],
+                            Image::new(egui::include_image!(
+                                "../../../../assets/images/down_arrow.png"
+                            )),
+                        );
+                    }
+                    i += 1;
+                }
+            });
         });
     });
 }
@@ -41,7 +52,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
                     };
 
                     let response = ui.add(
-                        egui::Button::new("")
+                        egui::Button::new(format!("{}", i + 1))
                             .fill(custom_color)
                             .min_size(egui::vec2(20.0, 20.0)),
                     );
@@ -73,7 +84,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
                     .corner_radius(5)
                     .fill(Color32::from_rgb(40, 40, 40))
                     .show(ui, |ui| {
-                        let size = [15.0, 15.0];
+                        let size = [10.0, 10.0];
                         ui.horizontal(|ui: &mut Ui| {
                             if ui
                                 .add_sized(
