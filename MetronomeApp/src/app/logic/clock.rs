@@ -5,11 +5,15 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::app::types::TimeData;
 
-pub fn update_time(time_data: &mut TimeData, playing: bool) {
-    let unix: u128 = SystemTime::now()
+pub fn current_time() -> u128 {
+    SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .expect("Time went backwards")
-        .as_millis();
+        .as_millis()
+}
+
+pub fn update_time(time_data: &mut TimeData, playing: bool) {
+    let unix: u128 = current_time();
 
     time_data.delta_time = unix - time_data.time; // Time since last update
     time_data.time = unix; // Set current time
