@@ -8,7 +8,7 @@ use crate::app::types::AppSettingsData;
 
 use super::logic::metronome;
 use super::logic::{clock, keyboard};
-use super::types::{AppData, AppPracticeData, AppRunningData, AppSaveData, PracticeLog, TimeData};
+use super::types::{AppData, AppPracticeData, AppRunningData, AppSaveData, TimeData};
 use super::ui::layout;
 use super::{GrowthType, Menus, Sounds, TempoParams};
 
