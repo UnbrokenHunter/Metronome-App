@@ -6,6 +6,7 @@ use crate::app::{
 use eframe::egui::{self, Color32, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 
 pub fn logs_center_layout(app: &mut AppData, ui: &mut Ui) {
+    let mut to_delete: Option<usize> = None;
     egui::Frame::group(ui.style()).show(ui, |ui| {
         ScrollArea::vertical().show(ui, |ui| {
             if let Some(log) = app.practice.logs.get_mut(app.runtime.menu_state as usize) {
@@ -96,8 +97,70 @@ pub fn logs_center_layout(app: &mut AppData, ui: &mut Ui) {
                         [ui.available_width(), 100.0], // width = fill available; height = 100 px
                         egui::TextEdit::multiline(&mut log.notes).hint_text("Add Notes..."),
                     );
+
+                    // Copy Data
+                    if ui
+                        .add_sized(
+                            [ui.available_width(), 30.0],
+                            egui::Button::new("Copy To Clipboard"),
+                        )
+                        .clicked()
+                    {
+                        let clipboard_content = log_text_info(log);
+
+                        ui.ctx().copy_text(clipboard_content);
+                    }
+
+                    // Delete Log Button
+                    if ui
+                        .add_sized(
+                            [ui.available_width(), 30.0],
+                            egui::Button::new("Delete Log"),
+                        )
+                        .clicked()
+                    {
+                        to_delete = Some(app.runtime.menu_state as usize);
+                    }
                 });
             }
         });
     });
+    if let Some(index) = to_delete {
+        if index < app.practice.logs.len() {
+            app.practice.logs.remove(index);
+            // Optional: reset menu state to prevent out-of-bounds
+            app.runtime.menu_state = app.runtime.menu_state.saturating_sub(1);
+        }
+    }
+}
+
+fn log_text_info(log: &mut crate::app::types::PracticeLog) -> String {
+    let date = format_date(log.time_started, None);
+    let title_line = if log.title.is_empty() {
+        format!("{date}")
+    } else {
+        format!("{}, {date}", log.title)
+    };
+
+    let clipboard_content = format!(
+        "\
+{title_line}
+------------------------------------
+Duration:        {}
+Average Tempo:   {}
+Average Delta:   {}
+Starting Tempo:  {}
+Ending Tempo:    {}
+Notes:
+{}
+
+",
+        format_time(log.duration_ms as u128),
+        log.average_tempo,
+        log.average_delta,
+        log.min_tempo,
+        log.max_tempo,
+        log.notes.trim()
+    );
+    clipboard_content
 }
