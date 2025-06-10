@@ -39,8 +39,29 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
         .get_mut(accent_index)
         .unwrap();
 
+    let mut to_delete: Option<usize> = None;
+
     egui::Frame::group(ui.style()).show(ui, |ui| {
-        ui.heading(format!("{} Beats", accent.beats.len()));
+        ui.horizontal(|ui: &mut Ui| {
+            ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui| {
+                ui.heading(format!("{} Beats", accent.beats.len()));
+            });
+            ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
+                if ui
+                    .add_sized(
+                        [30.0, 30.0],
+                        ImageButton::new(egui::include_image!(
+                            "../../../../assets/images/trash.png"
+                        ))
+                        .frame(false),
+                    )
+                    .clicked()
+                {
+                    println!("Trash clicked!");
+                    to_delete = Some(accent_index as usize);
+                }
+            });
+        });
         ui.separator();
         ui.horizontal(|ui: &mut Ui| {
             ui.horizontal(|ui: &mut Ui| {
@@ -120,4 +141,9 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
             });
         });
     });
+    if let Some(index) = to_delete {
+        if index < app.practice.logs.len() {
+            app.parameters.accents.accents.remove(index);
+        }
+    }
 }
