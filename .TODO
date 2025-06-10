@@ -17,6 +17,10 @@
   - refactor types and core to move things out of it
 
 - v2
-  - Time signitures with accents on downbeat
-  - Beat subdivision
-  - Input patterns into a sudo-drum machine to click out different stickings for rudiments etc
+  - Add Beat Subdivision per accent data
+  - Add a third type of beat called downbeat that is the loudest
+  - Add weak versions of all metronomes
+  - Fix any offsets in the audio files
+  - Add Presets (Especially with rudiments)
+  - Make the side panel be condensed version that has a play button, tempo adjustment, and a tempo display
+  - Highlight the beat that is currently being played
