@@ -4,7 +4,7 @@ use eframe::Frame;
 use eframe::egui::Context;
 
 use crate::app::logic::logs;
-use crate::app::types::AppSettingsData;
+use crate::app::types::{AccentChain, AccentData, AppSettingsData, BeatData, BeatState};
 
 use super::logic::metronome;
 use super::logic::{clock, keyboard};
@@ -113,6 +113,39 @@ impl AppData {
             volume: 0.7,
             growth_type: GrowthType::Linear,
             infinte: false,
+            accents: AccentChain {
+                accents: vec![
+                    AccentData {
+                        beats: vec![
+                            BeatData {
+                                state: BeatState::Strong,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
+                                state: BeatState::Off,
+                            },
+                        ],
+                    },
+                    AccentData {
+                        beats: vec![
+                            BeatData {
+                                state: BeatState::Strong,
+                            },
+                            BeatData {
+                                state: BeatState::Off,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                        ],
+                    },
+                ],
+            },
         }
     }
 

@@ -29,6 +29,7 @@ pub struct AppSaveData {
     pub sound: Sounds,
     pub growth_type: GrowthType,
     pub infinte: bool,
+    pub accents: AccentChain,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
@@ -54,6 +55,28 @@ pub struct PracticeLog {
     pub points: Vec<[f64; 2]>,
     pub title: String,
     pub notes: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AccentChain {
+    pub accents: Vec<AccentData>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AccentData {
+    pub beats: Vec<BeatData>,
+}
+
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+pub struct BeatData {
+    pub state: BeatState,
+}
+
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+pub enum BeatState {
+    Strong,
+    Weak,
+    Off,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
