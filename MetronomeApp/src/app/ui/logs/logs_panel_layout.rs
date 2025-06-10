@@ -18,23 +18,37 @@ pub fn logs_panel_layout(app: &mut AppData, ctx: &Context) {
                                         egui::vec2(ui.available_width(), 0.0),
                                         egui::Layout::top_down(egui::Align::Min),
                                         |ui| {
-                                            ui.heading(format!(
-                                                "{}",
-                                                logic::clock::format_date(log.time_started, None)
-                                            ));
+                                            let header = if log.title.is_empty() {
+                                                format!(
+                                                    "{}",
+                                                    logic::clock::format_date(
+                                                        log.time_started,
+                                                        None
+                                                    )
+                                                )
+                                            } else {
+                                                log.title.clone()
+                                            };
+                                            ui.heading(header);
+
                                             ui.separator();
                                             ui.label(format!(
                                                 "Duration: {}",
                                                 logic::clock::format_time(log.duration_ms as u128)
                                             ));
-                                            ui.label(format!(
-                                                "Average Tempo: {}",
-                                                log.average_tempo
-                                            ));
-                                            ui.label(format!(
-                                                "Average Delta: {}",
-                                                log.average_delta
-                                            ));
+
+                                            if log.notes.is_empty() {
+                                                ui.label(format!(
+                                                    "Average Tempo: {}",
+                                                    log.average_tempo
+                                                ));
+                                                ui.label(format!(
+                                                    "Average Delta: {}",
+                                                    log.average_delta
+                                                ));
+                                            } else {
+                                                ui.label(format!("Notes: {}", log.notes));
+                                            }
                                         },
                                     );
                                 });
