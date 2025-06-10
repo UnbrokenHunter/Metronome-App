@@ -16,6 +16,14 @@ pub fn tabs_layout(app: &mut AppData, ctx: &Context) {
                 {
                     change_menus(app, Menus::Metronome);
                 }
+                // Open Accents
+                if ui
+                    .add_sized(tab_size, egui::Button::new("Accents"))
+                    .clicked()
+                {
+                    change_menus(app, Menus::Accents);
+                }
+
                 // Open Logs Button
                 if ui.add_sized(tab_size, egui::Button::new("Logs")).clicked() {
                     change_menus(app, Menus::Logs);

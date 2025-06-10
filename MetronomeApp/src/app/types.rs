@@ -79,6 +79,7 @@ pub struct TempoParams {
 #[derive(PartialEq, Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Menus {
     Metronome,
+    Accents,
     Logs,
     Settings,
 }
