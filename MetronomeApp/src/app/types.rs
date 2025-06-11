@@ -123,7 +123,7 @@ pub enum GrowthType {
 pub enum Sounds {
     Beep,
     Clave,
-    Click,
+    Drums,
     Cowbell,
     Thump,
     Tone,
@@ -134,7 +134,7 @@ impl fmt::Display for Sounds {
         let name = match self {
             Sounds::Beep => "Beep",
             Sounds::Clave => "Clave",
-            Sounds::Click => "Click",
+            Sounds::Drums => "Drums",
             Sounds::Cowbell => "Cowbell",
             Sounds::Thump => "Thump",
             Sounds::Tone => "Tone",
