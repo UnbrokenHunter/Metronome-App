@@ -88,6 +88,7 @@ impl AppData {
         self.parameters.tempo_params.manual_offset = 0.0;
         self.parameters.tempo_params.manual_time_offset = 0.0;
         self.runtime.last_click_time = 0;
+        self.runtime.last_click_accent = 0;
     }
 
     pub fn reset_all_parameters(&mut self) {
