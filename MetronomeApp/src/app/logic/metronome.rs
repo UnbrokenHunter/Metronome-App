@@ -49,6 +49,6 @@ pub fn update_metronome(app: &mut AppData) {
         // Only do the subdivision if not a main beat
         app.runtime.last_subdivision_time = app.runtime.time_data.calculated_time_since_start;
         let sound: String = app.parameters.sound.to_string().to_lowercase();
-        play_metronome(app, format!("{}/{}_weak", sound, sound));
+        play_metronome(app, format!("{}/{}_subdivision", sound, sound));
     }
 }
