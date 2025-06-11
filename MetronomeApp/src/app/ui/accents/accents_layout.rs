@@ -1,5 +1,6 @@
 use crate::app::{
     AppData,
+    logic::accents::get_accent_and_beat_index,
     types::{AccentData, BeatData, BeatState},
 };
 use eframe::egui::{self, Color32, ImageButton, Margin, ScrollArea, Ui};
@@ -58,6 +59,8 @@ fn insert_accent_button(app: &mut AppData, ui: &mut Ui, i: usize) {
 }
 
 fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
+    let current_click = get_accent_and_beat_index(app, app.runtime.last_click_accent as usize);
+
     let accent = app
         .parameters
         .accents
@@ -92,11 +95,16 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
         ui.horizontal(|ui: &mut Ui| {
             ui.horizontal(|ui: &mut Ui| {
                 for (i, beat) in accent.beats.iter_mut().enumerate() {
-                    let custom_color = match beat.state {
-                        BeatState::Strong => Color32::from_rgb(100, 40, 40), // dark red
-                        BeatState::Weak => Color32::from_rgb(40, 60, 100),   // dark blue
-                        BeatState::Off => Color32::from_rgb(30, 30, 30),     // dark gray
-                    };
+                    let custom_color =
+                        if current_click == Some((accent_index, i)) && app.runtime.playing {
+                            Color32::from_rgb(90, 90, 90)
+                        } else {
+                            match beat.state {
+                                BeatState::Strong => Color32::from_rgb(100, 40, 40), // dark red
+                                BeatState::Weak => Color32::from_rgb(40, 60, 100),   // dark blue
+                                BeatState::Off => Color32::from_rgb(30, 30, 30),     // dark gray
+                            }
+                        };
 
                     let response = ui.add(
                         egui::Button::new(format!("{}", i + 1))
