@@ -119,18 +119,19 @@ impl AppData {
                     AccentData {
                         beats: vec![
                             BeatData {
+                                state: BeatState::Downbeat,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
                                 state: BeatState::Strong,
                             },
                             BeatData {
                                 state: BeatState::Weak,
                             },
-                            BeatData {
-                                state: BeatState::Weak,
-                            },
-                            BeatData {
-                                state: BeatState::Off,
-                            },
                         ],
+                        subdivision: 2,
                     },
                     AccentData {
                         beats: vec![
@@ -138,12 +139,16 @@ impl AppData {
                                 state: BeatState::Strong,
                             },
                             BeatData {
-                                state: BeatState::Off,
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
+                                state: BeatState::Strong,
                             },
                             BeatData {
                                 state: BeatState::Weak,
                             },
                         ],
+                        subdivision: 2,
                     },
                 ],
             },

@@ -50,10 +50,13 @@ fn insert_accent_button(app: &mut AppData, ui: &mut Ui, i: usize) {
                 .clicked()
             {
                 println!("Insert clicked!");
-                app.parameters
-                    .accents
-                    .accents
-                    .insert(i, AccentData { beats: vec![] });
+                app.parameters.accents.accents.insert(
+                    i,
+                    AccentData {
+                        beats: vec![],
+                        subdivision: 2,
+                    },
+                );
             }
         });
 }
@@ -71,14 +74,32 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
     let mut to_delete: Option<usize> = None;
 
     egui::Frame::group(ui.style()).show(ui, |ui| {
-        ui.horizontal(|ui: &mut Ui| {
+        ui.horizontal(|ui| {
+            // === Left-aligned: Beat count ===
             ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui| {
                 ui.heading(format!("{} Beats", accent.beats.len()));
             });
+
+            // === Spacer: push subdivision to ~60% across
+            let total_width = ui.available_width();
+            let target_offset = total_width * 0.60;
+            let used_width = ui.min_size().x;
+            let spacer_width = (target_offset - used_width).max(0.0);
+            ui.add_space(spacer_width);
+
+            // === Center-right: Subdivision ===
+            ui.horizontal(|ui| {
+                ui.label("Subdivision:");
+                for value in [1, 2, 3, 4, 6, 8] {
+                    ui.selectable_value(&mut accent.subdivision, value, value.to_string());
+                }
+            });
+
+            // === Right-aligned: Trash icon ===
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
                 if ui
                     .add_sized(
-                        [20.0, 20.0],
+                        [18.0, 18.0],
                         ImageButton::new(egui::include_image!(
                             "../../../../assets/images/trash.png"
                         ))
@@ -87,7 +108,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
                     .clicked()
                 {
                     println!("Trash clicked!");
-                    to_delete = Some(accent_index as usize);
+                    to_delete = Some(accent_index);
                 }
             });
         });
