@@ -18,8 +18,5 @@
 
 - v2
   - Add Beat Subdivision per accent data
-  - Add a third type of beat called downbeat that is the loudest
-  - Add weak versions of all metronomes
-  - Fix any offsets in the audio files
   - Add Presets (Especially with rudiments)
   - Make the side panel be condensed version that has a play button, tempo adjustment, and a tempo display
