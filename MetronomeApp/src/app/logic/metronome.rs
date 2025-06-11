@@ -30,11 +30,11 @@ pub fn update_metronome(app: &mut AppData) {
             get_beat_at_index(app, app.runtime.last_click_accent as usize).unwrap();
 
         if beat.state == BeatState::Downbeat {
-            play_metronome(app, sound);
+            play_metronome(app, format!("{}/{}", sound, sound));
         } else if beat.state == BeatState::Strong {
-            play_metronome(app, format!("{}_strong", sound));
+            play_metronome(app, format!("{}/{}_strong", sound, sound));
         } else if beat.state == BeatState::Weak {
-            play_metronome(app, format!("{}_weak", sound));
+            play_metronome(app, format!("{}/{}_weak", sound, sound));
         }
     }
 }
