@@ -1,4 +1,4 @@
-use crate::app::ui::accents::accents_layout;
+use crate::app::ui::accents::{accents_layout, accents_panel_layout};
 use crate::app::ui::graph::graph_layout;
 use crate::app::ui::logs::{logs_center_layout, logs_panel_layout};
 use crate::app::ui::parameters::parameters_layout;
@@ -24,7 +24,7 @@ fn left_panel_ui(app: &mut AppData, ctx: &Context) {
     if app.runtime.menu == Menus::Metronome {
         parameters_layout(app, ctx);
     } else if app.runtime.menu == Menus::Accents {
-        parameters_layout(app, ctx);
+        accents_panel_layout(app, ctx);
     } else if app.runtime.menu == Menus::Logs {
         logs_panel_layout(app, ctx);
     } else if app.runtime.menu == Menus::Settings {
