@@ -97,13 +97,13 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
                 for (i, beat) in accent.beats.iter_mut().enumerate() {
                     let custom_color =
                         if current_click == Some((accent_index, i)) && app.runtime.playing {
-                            Color32::from_rgb(90, 90, 90)
+                            Color32::from_rgb(60, 70, 100)
                         } else {
                             match beat.state {
-                                BeatState::Downbeat => Color32::from_rgb(30, 90, 130), // muted blue
-                                BeatState::Strong => Color32::from_rgb(140, 60, 40), // earthy red-orange
-                                BeatState::Weak => Color32::from_rgb(110, 110, 60),  // olive
-                                BeatState::Off => Color32::from_rgb(40, 40, 40),     // dark gray
+                                BeatState::Downbeat => Color32::from_rgb(80, 80, 120), // Desaturated indigo
+                                BeatState::Strong => Color32::from_rgb(130, 130, 130), // Light gray
+                                BeatState::Weak => Color32::from_rgb(80, 80, 80),      // Mid gray
+                                BeatState::Off => Color32::from_rgb(40, 40, 40),       // Dark gray
                             }
                         };
 
