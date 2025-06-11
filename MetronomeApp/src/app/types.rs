@@ -75,6 +75,7 @@ pub struct BeatData {
 
 #[derive(PartialEq, Debug, Copy, Clone, Serialize, Deserialize)]
 pub enum BeatState {
+    Downbeat,
     Strong,
     Weak,
     Off,

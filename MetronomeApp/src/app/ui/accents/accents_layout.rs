@@ -100,9 +100,10 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
                             Color32::from_rgb(90, 90, 90)
                         } else {
                             match beat.state {
-                                BeatState::Strong => Color32::from_rgb(100, 40, 40), // dark red
-                                BeatState::Weak => Color32::from_rgb(40, 60, 100),   // dark blue
-                                BeatState::Off => Color32::from_rgb(30, 30, 30),     // dark gray
+                                BeatState::Downbeat => Color32::from_rgb(30, 90, 130), // muted blue
+                                BeatState::Strong => Color32::from_rgb(140, 60, 40), // earthy red-orange
+                                BeatState::Weak => Color32::from_rgb(110, 110, 60),  // olive
+                                BeatState::Off => Color32::from_rgb(40, 40, 40),     // dark gray
                             }
                         };
 
@@ -115,7 +116,8 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
                     if response.clicked() {
                         // Left click: cycle forward
                         beat.state = match beat.state {
-                            BeatState::Off => BeatState::Strong,
+                            BeatState::Off => BeatState::Downbeat,
+                            BeatState::Downbeat => BeatState::Strong,
                             BeatState::Strong => BeatState::Weak,
                             BeatState::Weak => BeatState::Off,
                         };
@@ -127,7 +129,8 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
                         beat.state = match beat.state {
                             BeatState::Off => BeatState::Weak,
                             BeatState::Weak => BeatState::Strong,
-                            BeatState::Strong => BeatState::Off,
+                            BeatState::Strong => BeatState::Downbeat,
+                            BeatState::Downbeat => BeatState::Off,
                         };
                         println!("Right click: Beat {} → {:?}", i, beat.state);
                     }

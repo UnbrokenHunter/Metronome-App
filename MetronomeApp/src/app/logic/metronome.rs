@@ -29,8 +29,10 @@ pub fn update_metronome(app: &mut AppData) {
         let beat: &mut crate::app::types::BeatData =
             get_beat_at_index(app, app.runtime.last_click_accent as usize).unwrap();
 
-        if beat.state == BeatState::Strong {
-            play_metronome(app, sound.clone());
+        if beat.state == BeatState::Downbeat {
+            play_metronome(app, sound);
+        } else if beat.state == BeatState::Strong {
+            play_metronome(app, format!("{}_strong", sound));
         } else if beat.state == BeatState::Weak {
             play_metronome(app, format!("{}_weak", sound));
         }
