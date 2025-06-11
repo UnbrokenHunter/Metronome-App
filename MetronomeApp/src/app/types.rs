@@ -15,6 +15,7 @@ pub struct AppRunningData {
     pub audio: Option<(OutputStream, Sink)>,
     pub points: Vec<[f64; 2]>,
     pub last_click_time: u128,
+    pub last_subdivision_time: u128,
     pub last_click_accent: u32,
     pub tempo: f64,
     pub last_tap_tempo_click: u128,

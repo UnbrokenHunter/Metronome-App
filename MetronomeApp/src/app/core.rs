@@ -88,6 +88,7 @@ impl AppData {
         self.parameters.tempo_params.manual_offset = 0.0;
         self.parameters.tempo_params.manual_time_offset = 0.0;
         self.runtime.last_click_time = 0;
+        self.runtime.last_subdivision_time = 0;
         self.runtime.last_click_accent = 0;
     }
 
@@ -164,6 +165,7 @@ impl AppData {
             last_click_time: 0,
             tempo: 120.0,
             last_tap_tempo_click: 0,
+            last_subdivision_time: 0,
             last_click_accent: 0,
             menu: Menus::Metronome,
             time_data: TimeData {

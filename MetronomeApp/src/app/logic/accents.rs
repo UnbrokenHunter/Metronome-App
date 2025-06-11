@@ -1,4 +1,7 @@
-use crate::app::{AppData, types::BeatData};
+use crate::app::{
+    AppData,
+    types::{AccentData, BeatData},
+};
 
 pub fn calculate_number_of_beats(app: &mut AppData) -> usize {
     return app
@@ -16,6 +19,20 @@ pub fn get_beat_at_index(app: &mut AppData, index: usize) -> Option<&mut BeatDat
     for accent in &mut app.parameters.accents.accents {
         if remaining < accent.beats.len() {
             return Some(&mut accent.beats[remaining]);
+        } else {
+            remaining -= accent.beats.len();
+        }
+    }
+
+    None // index out of bounds
+}
+
+pub fn get_accent_at_beat_index(app: &mut AppData, index: usize) -> Option<&mut AccentData> {
+    let mut remaining = index;
+
+    for accent in &mut app.parameters.accents.accents {
+        if remaining < accent.beats.len() {
+            return Some(accent);
         } else {
             remaining -= accent.beats.len();
         }
