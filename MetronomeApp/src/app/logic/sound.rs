@@ -7,7 +7,7 @@ use crate::app::AppData;
 pub fn play_metronome(app: &mut AppData, sound: String) {
     let path = format!("assets/sounds/{}.wav", sound);
 
-    println!("Playing Sound: {}", path.as_str());
+    // println!("Playing Sound: {}", path.as_str());
     app.runtime.audio = Some(play_sound(path.as_str(), app.parameters.volume));
 }
 

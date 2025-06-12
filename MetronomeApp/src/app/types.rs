@@ -62,6 +62,7 @@ pub struct PracticeLog {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AccentChain {
     pub accents: Vec<AccentData>,
+    pub name: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

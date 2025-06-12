@@ -116,6 +116,7 @@ impl AppData {
             growth_type: GrowthType::Linear,
             infinte: false,
             accents: AccentChain {
+                name: "Untitled Accent Chain".to_owned(),
                 accents: vec![
                     AccentData {
                         beats: vec![

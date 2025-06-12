@@ -3,11 +3,26 @@ use crate::app::{
     logic::accents::get_accent_and_beat_index,
     types::{AccentData, BeatData, BeatState},
 };
-use eframe::egui::{self, Color32, ImageButton, Margin, ScrollArea, Ui};
+use eframe::egui::{self, Color32, ImageButton, Margin, ScrollArea, TextEdit, TextStyle, Ui};
 
 pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
-        ui.heading("Accents");
+        ui.horizontal(|ui| {
+            if ui
+                .add_sized(
+                    [25.0, 25.0],
+                    ImageButton::new(egui::include_image!("../../../../assets/images/more.png"))
+                        .frame(false),
+                )
+                .clicked()
+            {}
+            ui.add_sized(
+                [ui.available_width(), 27.0],
+                TextEdit::singleline(&mut app.parameters.accents.name)
+                    .font(TextStyle::Heading)
+                    .hint_text("Title..."),
+            );
+        });
         ui.separator();
 
         // Box for the Chain
