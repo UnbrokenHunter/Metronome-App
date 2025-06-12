@@ -8,6 +8,7 @@ pub struct AppData {
     pub runtime: AppRunningData,
     pub settings: AppSettingsData,
     pub practice: AppPracticeData,
+    pub accent_presets: AppAccentPresetData,
 }
 
 pub struct AppRunningData {
@@ -44,6 +45,11 @@ pub struct AppSettingsData {
 #[derive(Serialize, Deserialize)]
 pub struct AppPracticeData {
     pub logs: Vec<PracticeLog>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct AppAccentPresetData {
+    pub accent_chains: Vec<AccentChain>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

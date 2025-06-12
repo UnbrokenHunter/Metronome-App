@@ -4,7 +4,9 @@ use eframe::Frame;
 use eframe::egui::Context;
 
 use crate::app::logic::logs;
-use crate::app::types::{AccentChain, AccentData, AppSettingsData, BeatData, BeatState};
+use crate::app::types::{
+    AccentChain, AccentData, AppAccentPresetData, AppSettingsData, BeatData, BeatState,
+};
 
 use super::logic::metronome;
 use super::logic::{clock, keyboard};
@@ -22,6 +24,7 @@ impl Default for AppData {
         let parameters_path: &'static str = "parameters.json";
         let settings_path: &'static str = "settings.json";
         let practice_path: &'static str = "practice.json";
+        let accent_presets_path: &'static str = "accent_presets.json";
 
         let save: AppSaveData = if Path::new(parameters_path).exists() {
             if let Ok(contents) = fs::read_to_string(parameters_path) {
@@ -45,6 +48,17 @@ impl Default for AppData {
             AppData::default_settings_data()
         };
 
+        let accent_presets: AppAccentPresetData = if Path::new(accent_presets_path).exists() {
+            if let Ok(contents) = fs::read_to_string(accent_presets_path) {
+                serde_json::from_str::<AppAccentPresetData>(&contents)
+                    .unwrap_or_else(|_| AppData::default_accent_presets_data())
+            } else {
+                AppData::default_accent_presets_data()
+            }
+        } else {
+            AppData::default_accent_presets_data()
+        };
+
         let practice = if Path::new(practice_path).exists() {
             if let Ok(contents) = fs::read_to_string(practice_path) {
                 serde_json::from_str::<AppPracticeData>(&contents)
@@ -61,6 +75,7 @@ impl Default for AppData {
             runtime: AppData::default_runtime_data(),
             settings,
             practice,
+            accent_presets,
         }
     }
 }
@@ -188,6 +203,87 @@ impl AppData {
             plot_granularity: (2),
         }
     }
+
+    fn default_accent_presets_data() -> AppAccentPresetData {
+        AppAccentPresetData {
+            accent_chains: (vec![
+                AccentChain {
+                    name: "4/4".to_owned(),
+                    accents: vec![AccentData {
+                        beats: vec![
+                            BeatData {
+                                state: BeatState::Downbeat,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
+                                state: BeatState::Strong,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                        ],
+                        subdivision: 2,
+                    }],
+                },
+                AccentChain {
+                    name: "3/4".to_owned(),
+                    accents: vec![AccentData {
+                        beats: vec![
+                            BeatData {
+                                state: BeatState::Downbeat,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                        ],
+                        subdivision: 2,
+                    }],
+                },
+                AccentChain {
+                    name: "6/8".to_owned(),
+                    accents: vec![AccentData {
+                        beats: vec![
+                            BeatData {
+                                state: BeatState::Downbeat,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                        ],
+                        subdivision: 3,
+                    }],
+                },
+                AccentChain {
+                    name: "5/4".to_owned(),
+                    accents: vec![AccentData {
+                        beats: vec![
+                            BeatData {
+                                state: BeatState::Downbeat,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                            BeatData {
+                                state: BeatState::Weak,
+                            },
+                        ],
+                        subdivision: 1,
+                    }],
+                },
+            ]),
+        }
+    }
 }
 
 impl Drop for AppData {
@@ -204,6 +300,12 @@ impl Drop for AppData {
 
         if let Ok(json) = serde_json::to_string_pretty(&self.settings) {
             if let Ok(mut file) = fs::File::create("settings.json") {
+                let _ = file.write_all(json.as_bytes());
+            }
+        }
+
+        if let Ok(json) = serde_json::to_string_pretty(&self.accent_presets) {
+            if let Ok(mut file) = fs::File::create("accent_presets.json") {
                 let _ = file.write_all(json.as_bytes());
             }
         }
