@@ -4,7 +4,7 @@ use crate::app::ui::logs::{logs_center_layout, logs_panel_layout};
 use crate::app::ui::parameters::parameters_layout;
 use crate::app::ui::settings::{settings_center_layout, settings_panel_layout};
 use crate::app::ui::tabs::tabs_layout;
-use crate::app::{AppData, Menus};
+use crate::app::{AppData, Menus, logic};
 use eframe::egui::{self, Context, Ui};
 
 pub fn layout(app: &mut AppData, ctx: &Context) {
@@ -33,6 +33,8 @@ fn left_panel_ui(app: &mut AppData, ctx: &Context) {
 }
 
 fn main_panel_ui(app: &mut AppData, ui: &mut Ui) {
+    logic::tempo::calculate_tempo(app);
+
     if app.runtime.menu == Menus::Metronome {
         graph_layout(app, ui);
     } else if app.runtime.menu == Menus::Accents {

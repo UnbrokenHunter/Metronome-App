@@ -13,12 +13,5 @@ pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
             logs::try_add_log(app);
             app.reset_metronome();
         }
-        if ui
-            .add_sized(size, egui::Button::new("Revert Defaults"))
-            .clicked()
-        {
-            logs::try_add_log(app);
-            app.reset_all_parameters();
-        }
     });
 }

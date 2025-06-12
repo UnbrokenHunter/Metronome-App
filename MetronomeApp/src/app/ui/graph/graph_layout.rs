@@ -1,5 +1,6 @@
+use crate::app::AppData;
+use crate::app::logic::logs;
 use crate::app::ui::{general, graph, parameters};
-use crate::app::{AppData, logic};
 use eframe::egui::{self, Ui};
 
 pub fn graph_layout(app: &mut AppData, ui: &mut Ui) {
@@ -8,8 +9,6 @@ pub fn graph_layout(app: &mut AppData, ui: &mut Ui) {
     let label_width = total_width - plot_width;
 
     ui.vertical_centered(|ui| {
-        logic::tempo::calculate_tempo(app);
-
         parameters::parameters_ui(app, ui);
         graph::plot_ui(app, ui);
         ui.horizontal(|ui: &mut Ui| {
@@ -18,6 +17,15 @@ pub fn graph_layout(app: &mut AppData, ui: &mut Ui) {
                 egui::Layout::top_down(egui::Align::Min),
                 |ui| {
                     general::play_ui(app, ui);
+                    let size = [ui.available_width(), 30.0];
+
+                    if ui
+                        .add_sized(size, egui::Button::new("Revert Defaults"))
+                        .clicked()
+                    {
+                        logs::try_add_log(app);
+                        app.reset_all_parameters();
+                    }
                 },
             );
             general::info_ui(app, ui);
