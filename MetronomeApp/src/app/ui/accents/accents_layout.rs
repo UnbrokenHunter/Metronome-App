@@ -31,7 +31,7 @@ pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
             // Begin a horizontal layout that fills the remaining space
             ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
                 // Header - take up all remaining space except for the dropdown (e.g., 150px)
-                let dropdown_width = 120.0;
+                let dropdown_width = 180.0;
                 let header_width = available_width - dropdown_width;
 
                 ui.add_sized(
@@ -43,7 +43,7 @@ pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
 
                 // Presets Dropdown
                 ComboBox::from_label("")
-                    .selected_text(&app.parameters.accents.name)
+                    .selected_text(truncate(&app.parameters.accents.name, 22))
                     .height(300.0)
                     .show_ui(ui, |ui| {
                         for preset in &app.accent_presets.accent_chains {
@@ -58,6 +58,18 @@ pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
                             }
                         }
                     });
+
+                fn truncate(s: &str, max_chars: usize) -> String {
+                    let mut result = String::new();
+                    for (i, c) in s.chars().enumerate() {
+                        if i >= max_chars {
+                            result.push('…');
+                            break;
+                        }
+                        result.push(c);
+                    }
+                    result
+                }
             });
         });
         ui.separator();
