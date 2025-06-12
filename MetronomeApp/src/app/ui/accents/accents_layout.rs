@@ -3,25 +3,62 @@ use crate::app::{
     logic::accents::get_accent_and_beat_index,
     types::{AccentData, BeatData, BeatState},
 };
-use eframe::egui::{self, Color32, ImageButton, Margin, ScrollArea, TextEdit, TextStyle, Ui};
+use eframe::egui::{
+    self, Align, Color32, ComboBox, ImageButton, Layout, Margin, ScrollArea, TextEdit, TextStyle,
+    Ui,
+};
 
 pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
         ui.horizontal(|ui| {
+            // Save Button
             if ui
                 .add_sized(
                     [25.0, 25.0],
-                    ImageButton::new(egui::include_image!("../../../../assets/images/more.png"))
+                    ImageButton::new(egui::include_image!("../../../../assets/images/save.png"))
                         .frame(false),
                 )
                 .clicked()
-            {}
-            ui.add_sized(
-                [ui.available_width(), 27.0],
-                TextEdit::singleline(&mut app.parameters.accents.name)
-                    .font(TextStyle::Heading)
-                    .hint_text("Title..."),
-            );
+            {
+                app.accent_presets
+                    .accent_chains
+                    .push(app.parameters.accents.clone());
+            }
+
+            // Allocate space for middle and right
+            let available_width = ui.available_width();
+
+            // Begin a horizontal layout that fills the remaining space
+            ui.with_layout(Layout::left_to_right(Align::Center), |ui| {
+                // Header - take up all remaining space except for the dropdown (e.g., 150px)
+                let dropdown_width = 120.0;
+                let header_width = available_width - dropdown_width;
+
+                ui.add_sized(
+                    [header_width.max(0.0), 27.0],
+                    TextEdit::singleline(&mut app.parameters.accents.name)
+                        .font(TextStyle::Heading)
+                        .hint_text("Title..."),
+                );
+
+                // Presets Dropdown
+                ComboBox::from_label("")
+                    .selected_text(&app.parameters.accents.name)
+                    .height(300.0)
+                    .show_ui(ui, |ui| {
+                        for preset in &app.accent_presets.accent_chains {
+                            if ui
+                                .selectable_label(
+                                    app.parameters.accents.name == preset.name,
+                                    &preset.name,
+                                )
+                                .clicked()
+                            {
+                                app.parameters.accents = preset.clone();
+                            }
+                        }
+                    });
+            });
         });
         ui.separator();
 
