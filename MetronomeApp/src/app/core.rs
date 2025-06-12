@@ -149,6 +149,7 @@ impl AppData {
                             },
                         ],
                         subdivision: 2,
+                        name: "".to_owned(),
                     },
                     AccentData {
                         beats: vec![
@@ -166,6 +167,7 @@ impl AppData {
                             },
                         ],
                         subdivision: 2,
+                        name: "".to_owned(),
                     },
                 ],
             },
@@ -225,6 +227,7 @@ impl AppData {
                             },
                         ],
                         subdivision: 2,
+                        name: "".to_owned(),
                     }],
                 },
                 AccentChain {
@@ -242,6 +245,7 @@ impl AppData {
                             },
                         ],
                         subdivision: 2,
+                        name: "".to_owned(),
                     }],
                 },
                 AccentChain {
@@ -256,6 +260,7 @@ impl AppData {
                             },
                         ],
                         subdivision: 3,
+                        name: "".to_owned(),
                     }],
                 },
                 AccentChain {
@@ -279,6 +284,7 @@ impl AppData {
                             },
                         ],
                         subdivision: 1,
+                        name: "".to_owned(),
                     }],
                 },
             ]),

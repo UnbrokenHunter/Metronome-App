@@ -74,6 +74,7 @@ pub struct AccentChain {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AccentData {
     pub beats: Vec<BeatData>,
+    pub name: String,
     pub subdivision: u32,
 }
 

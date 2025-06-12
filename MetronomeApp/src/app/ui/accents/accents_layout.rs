@@ -107,6 +107,7 @@ fn insert_accent_button(app: &mut AppData, ui: &mut Ui, i: usize) {
                     AccentData {
                         beats: vec![],
                         subdivision: 2,
+                        name: "".to_owned(),
                     },
                 );
             }
@@ -129,7 +130,12 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
         ui.horizontal(|ui| {
             // === Left-aligned: Beat count ===
             ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui| {
-                ui.heading(format!("{} Beats", accent.beats.len()));
+                ui.add_sized(
+                    [ui.available_width() / 2.0, 27.0],
+                    TextEdit::singleline(&mut accent.name)
+                        .font(TextStyle::Heading)
+                        .hint_text(format!("{} Beats", accent.beats.len())),
+                );
             });
 
             // === Spacer: push subdivision to ~60% across
