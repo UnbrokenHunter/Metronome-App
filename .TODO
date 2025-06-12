@@ -18,9 +18,6 @@
   - refactor types and core to move things out of it
 
 - v2
-  - Add Presets (Especially with rudiments)
-  - Make the side panel be condensed version that has a play button, tempo adjustment, and a tempo display
-  - fix play buttons on side panel without breaking them on the main panel
   - Make Accents Panel more space effecient
   - Add Moev up and down buttons to accents
   - add duplicate button to accents
