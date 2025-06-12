@@ -137,13 +137,27 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
         .unwrap();
 
     let mut to_delete: Option<usize> = None;
+    let mut to_move_up: Option<usize> = None;
+    let mut to_move_down: Option<usize> = None;
 
     egui::Frame::group(ui.style()).show(ui, |ui| {
         ui.horizontal(|ui| {
+            if ui
+                .add_sized(
+                    [20.0, 20.0],
+                    ImageButton::new(egui::include_image!("../../../../assets/images/up.png"))
+                        .frame(false),
+                )
+                .clicked()
+            {
+                println!("Move Accent Up Clicked!");
+                to_move_up = Some(accent_index);
+            }
+
             // === Left-aligned: Beat count ===
             ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui| {
                 ui.add_sized(
-                    [ui.available_width() / 2.0, 27.0],
+                    [ui.available_width() / 2.0, 20.0],
                     TextEdit::singleline(&mut accent.name)
                         .font(TextStyle::Heading)
                         .hint_text(format!("{} Beats", accent.beats.len())),
@@ -169,7 +183,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
                 if ui
                     .add_sized(
-                        [18.0, 18.0],
+                        [20.0, 20.0],
                         ImageButton::new(egui::include_image!(
                             "../../../../assets/images/trash.png"
                         ))
@@ -185,6 +199,20 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
         ui.separator();
         ui.horizontal(|ui: &mut Ui| {
             ui.horizontal(|ui: &mut Ui| {
+                if ui
+                    .add_sized(
+                        [20.0, 20.0],
+                        ImageButton::new(egui::include_image!(
+                            "../../../../assets/images/down.png"
+                        ))
+                        .frame(false),
+                    )
+                    .clicked()
+                {
+                    println!("Move Accent Down Clicked!");
+                    to_move_down = Some(accent_index);
+                }
+
                 for (i, beat) in accent.beats.iter_mut().enumerate() {
                     let custom_color =
                         if current_click == Some((accent_index, i)) && app.runtime.playing {
@@ -269,6 +297,17 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize) {
             });
         });
     });
+    if let Some(index) = to_move_up {
+        if index > 0 && index < app.parameters.accents.accents.len() {
+            app.parameters.accents.accents.swap(index, index - 1);
+        }
+    }
+    if let Some(index) = to_move_down {
+        if index + 1 < app.parameters.accents.accents.len() {
+            app.parameters.accents.accents.swap(index, index + 1);
+        }
+    }
+
     if let Some(index) = to_delete {
         if index < app.parameters.accents.accents.len() {
             app.parameters.accents.accents.remove(index);
