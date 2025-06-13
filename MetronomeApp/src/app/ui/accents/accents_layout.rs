@@ -8,7 +8,8 @@ use crate::app::{
     types::{AccentData, BeatData, BeatState},
 };
 use eframe::egui::{
-    self, Align, Color32, ComboBox, ImageButton, Layout, ScrollArea, TextEdit, TextStyle, Ui,
+    self, Align, Color32, ComboBox, CornerRadius, ImageButton, Layout, Rect, ScrollArea, Sense,
+    Stroke, TextEdit, TextStyle, Ui, Vec2,
 };
 
 pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
@@ -234,49 +235,98 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                             to_move_down = Some(accent_index);
                         }
 
+                        let old_spacing = ui.spacing().item_spacing;
+                        ui.spacing_mut().item_spacing.y = 0.0;
+
                         // This is where the selectoin of beat type is
                         for (i, beat) in accent.beats.iter_mut().enumerate() {
-                            let custom_color = if current_click == Some((accent_index, i))
-                                && app.runtime.playing
-                            {
-                                Color32::from_rgb(60, 70, 100)
-                            } else {
-                                match beat.state {
-                                    BeatState::Downbeat => Color32::from_rgb(80, 80, 120), // Desaturated indigo
-                                    BeatState::Strong => Color32::from_rgb(130, 130, 130), // Light gray
-                                    BeatState::Weak => Color32::from_rgb(80, 80, 80), // Mid gray
-                                    BeatState::Off => Color32::from_rgb(40, 40, 40),  // Dark gray
-                                }
+                            let button_size: Vec2 = Vec2::new(20.0, 8.0);
+                            let start_pos = ui.cursor().min;
+
+                            let mut cursor = start_pos;
+
+                            let radius: u8 = 2;
+
+                            let rounding_top = CornerRadius {
+                                nw: radius,
+                                ne: radius,
+                                sw: 0,
+                                se: 0,
+                            };
+                            let rounding_mid = CornerRadius::ZERO;
+                            let rounding_bot = CornerRadius {
+                                nw: 0,
+                                ne: 0,
+                                sw: radius,
+                                se: radius,
                             };
 
-                            let response = ui.add(
-                                egui::Button::new(format!("{}", i + 1))
-                                    .fill(custom_color)
-                                    .min_size(egui::vec2(20.0, 20.0)),
+                            let override_color = Color32::from_rgb(60, 70, 100);
+                            let accent_color = Color32::from_rgb(160, 112, 80);
+                            let downbeat_color = Color32::from_rgb(80, 80, 120);
+                            let strong_color = Color32::from_rgb(130, 130, 130);
+                            let weak_color = Color32::from_rgb(80, 80, 80);
+                            let off_color = Color32::from_rgb(40, 40, 40);
+
+                            let states = [
+                                (BeatState::Downbeat, downbeat_color, rounding_top),
+                                (BeatState::Strong, strong_color, rounding_mid),
+                                (BeatState::Weak, weak_color, rounding_mid),
+                                (BeatState::Off, off_color, rounding_bot),
+                            ];
+
+                            for (_j, (state, color, rounding)) in states.iter().enumerate() {
+                                let rect = Rect::from_min_size(cursor, button_size);
+                                let is_selected = beat.state == *state;
+
+                                let response = ui.allocate_rect(rect, Sense::click());
+                                let fill = if current_click == Some((accent_index, i))
+                                    && app.runtime.playing
+                                {
+                                    override_color
+                                } else if is_selected {
+                                    accent_color
+                                } else {
+                                    *color
+                                };
+
+                                ui.painter().rect(
+                                    rect,
+                                    *rounding,
+                                    fill,
+                                    Stroke::NONE,
+                                    egui::StrokeKind::Middle,
+                                );
+
+                                if response.clicked() {
+                                    beat.state = *state;
+                                }
+
+                                cursor.y += button_size.y;
+                            }
+
+                            let painter = ui.painter();
+
+                            // Full bounding rect of the 4 stacked buttons
+                            let total_height = button_size.y * states.len() as f32;
+                            let full_rect = Rect::from_min_size(
+                                start_pos,
+                                Vec2::new(button_size.x, total_height),
                             );
 
-                            if response.clicked() {
-                                // Left click: cycle forward
-                                beat.state = match beat.state {
-                                    BeatState::Off => BeatState::Downbeat,
-                                    BeatState::Downbeat => BeatState::Strong,
-                                    BeatState::Strong => BeatState::Weak,
-                                    BeatState::Weak => BeatState::Off,
-                                };
-                                println!("Left click: Beat {} → {:?}", i, beat.state);
-                            }
+                            // Text to draw
+                            let label = format!("{}", i + 1);
 
-                            if response.secondary_clicked() {
-                                // Right click: cycle backward
-                                beat.state = match beat.state {
-                                    BeatState::Off => BeatState::Weak,
-                                    BeatState::Weak => BeatState::Strong,
-                                    BeatState::Strong => BeatState::Downbeat,
-                                    BeatState::Downbeat => BeatState::Off,
-                                };
-                                println!("Right click: Beat {} → {:?}", i, beat.state);
-                            }
+                            painter.text(
+                                full_rect.center(),                          // position: center of all 4 rects
+                                egui::Align2::CENTER_CENTER,                 // alignment: center
+                                label,                                       // text
+                                egui::TextStyle::Button.resolve(ui.style()), // style
+                                Color32::WHITE,                              // text color
+                            );
                         }
+
+                        ui.spacing_mut().item_spacing = old_spacing;
                     });
 
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
