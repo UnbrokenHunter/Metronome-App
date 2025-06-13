@@ -4,6 +4,7 @@
   - Add uptime to log data
   - add a logs homepage with statistics based on logs
   - Group side panel logs by day in foldout groups
+  - Setting to prevent saving logs shorter than x
 
 - features
 

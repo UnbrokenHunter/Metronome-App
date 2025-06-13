@@ -93,3 +93,8 @@ pub fn weekday_from_unix_ms(unix_ms: u128) -> &'static str {
 
     full_weekday_name(datetime.weekday())
 }
+
+pub fn days_since_epoch(epoch_millis: u128) -> u64 {
+    // Convert milliseconds to seconds, then to days
+    (epoch_millis / 1000 / 60 / 60 / 24) as u64
+}
