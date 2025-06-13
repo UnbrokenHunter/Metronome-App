@@ -175,15 +175,15 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                     // === Left-aligned: Beat count ===
                     ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui| {
                         ui.add_sized(
-                            [total_width / 2.0, 20.0],
+                            [total_width / 2.5, 20.0],
                             TextEdit::singleline(&mut accent.name)
                                 .font(TextStyle::Heading)
                                 .hint_text(format!("{} Beats", accent.beats.len())),
                         );
                     });
 
-                    // === Spacer: push subdivision to ~60% across
-                    let target_offset = total_width * 0.60;
+                    // === Spacer: push subdivision to ~40% across
+                    let target_offset = total_width * 0.40;
                     let used_width = ui.min_size().x;
                     let spacer_width = (target_offset - used_width).max(0.0);
                     ui.add_space(spacer_width);
