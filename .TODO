@@ -3,6 +3,7 @@
   - rethink log format (log each program close, add sublogs for each reset practice)
   - Add uptime to log data
   - add a logs homepage with statistics based on logs
+  - Group side panel logs by day in foldout groups
 
 - features
 
@@ -17,6 +18,3 @@
   - refactor types and core to move things out of it
 
 - v2
-  - Time signitures with accents on downbeat
-  - Beat subdivision
-  - Input patterns into a sudo-drum machine to click out different stickings for rudiments etc

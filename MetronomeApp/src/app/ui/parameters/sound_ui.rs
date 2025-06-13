@@ -21,7 +21,7 @@ pub fn sound_ui(app: &mut AppData, ui: &mut Ui) {
                                 Sounds::Tone,
                                 Sounds::Clave,
                                 Sounds::Cowbell,
-                                Sounds::Click,
+                                Sounds::Drums,
                             ]
                             .iter()
                             {
@@ -33,7 +33,14 @@ pub fn sound_ui(app: &mut AppData, ui: &mut Ui) {
                                     )
                                     .clicked()
                                 {
-                                    play_metronome(app, sound);
+                                    play_metronome(
+                                        app,
+                                        format!(
+                                            "{}/{}",
+                                            sound.to_string().to_lowercase(),
+                                            sound.to_string().to_lowercase()
+                                        ),
+                                    );
                                 }
 
                                 // Move to next row every 3 buttons

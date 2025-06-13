@@ -52,7 +52,9 @@ pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
                         }
 
                         // Row 3: Delta
-                        let f = |x: f64| calculate(app.parameters.growth_type, x, app.parameters.tempo_params);
+                        let f = |x: f64| {
+                            calculate(app.parameters.growth_type, x, app.parameters.tempo_params)
+                        };
 
                         ui.label(RichText::new("ΔBPM:").size(28.0));
                         ui.label(

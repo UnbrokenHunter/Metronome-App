@@ -1,3 +1,4 @@
+pub mod accents;
 pub mod general;
 pub mod graph;
 pub mod layout;

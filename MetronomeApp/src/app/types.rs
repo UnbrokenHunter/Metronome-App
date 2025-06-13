@@ -8,6 +8,7 @@ pub struct AppData {
     pub runtime: AppRunningData,
     pub settings: AppSettingsData,
     pub practice: AppPracticeData,
+    pub accent_presets: AppAccentPresetData,
 }
 
 pub struct AppRunningData {
@@ -15,6 +16,8 @@ pub struct AppRunningData {
     pub audio: Option<(OutputStream, Sink)>,
     pub points: Vec<[f64; 2]>,
     pub last_click_time: u128,
+    pub last_subdivision_time: u128,
+    pub last_click_accent: u32,
     pub tempo: f64,
     pub last_tap_tempo_click: u128,
     pub time_data: TimeData,
@@ -29,6 +32,7 @@ pub struct AppSaveData {
     pub sound: Sounds,
     pub growth_type: GrowthType,
     pub infinte: bool,
+    pub accents: AccentChain,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
@@ -43,6 +47,11 @@ pub struct AppPracticeData {
     pub logs: Vec<PracticeLog>,
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct AppAccentPresetData {
+    pub accent_chains: Vec<AccentChain>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PracticeLog {
     pub time_started: u128, // milliseconds since UNIX_EPOCH
@@ -54,6 +63,32 @@ pub struct PracticeLog {
     pub points: Vec<[f64; 2]>,
     pub title: String,
     pub notes: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AccentChain {
+    pub accents: Vec<AccentData>,
+    pub name: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AccentData {
+    pub beats: Vec<BeatData>,
+    pub name: String,
+    pub subdivision: u32,
+}
+
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+pub struct BeatData {
+    pub state: BeatState,
+}
+
+#[derive(PartialEq, Debug, Copy, Clone, Serialize, Deserialize)]
+pub enum BeatState {
+    Downbeat,
+    Strong,
+    Weak,
+    Off,
 }
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
@@ -79,6 +114,7 @@ pub struct TempoParams {
 #[derive(PartialEq, Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Menus {
     Metronome,
+    Accents,
     Logs,
     Settings,
 }
@@ -97,7 +133,7 @@ pub enum GrowthType {
 pub enum Sounds {
     Beep,
     Clave,
-    Click,
+    Drums,
     Cowbell,
     Thump,
     Tone,
@@ -108,7 +144,7 @@ impl fmt::Display for Sounds {
         let name = match self {
             Sounds::Beep => "Beep",
             Sounds::Clave => "Clave",
-            Sounds::Click => "Click",
+            Sounds::Drums => "Drums",
             Sounds::Cowbell => "Cowbell",
             Sounds::Thump => "Thump",
             Sounds::Tone => "Tone",
