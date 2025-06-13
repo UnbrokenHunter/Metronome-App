@@ -8,8 +8,8 @@ use crate::app::{
     types::{AccentData, BeatData, BeatState},
 };
 use eframe::egui::{
-    self, Align, Color32, ComboBox, CornerRadius, ImageButton, Layout, Rect, ScrollArea, Sense,
-    Stroke, TextEdit, TextStyle, Ui, Vec2,
+    self, Align, Color32, ComboBox, CornerRadius, Frame, ImageButton, Layout, Rect, ScrollArea,
+    Sense, Stroke, TextEdit, TextStyle, Ui, Vec2,
 };
 
 pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
@@ -242,6 +242,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                         for (i, beat) in accent.beats.iter_mut().enumerate() {
                             let button_size: Vec2 = Vec2::new(20.0, 8.0);
                             let start_pos = ui.cursor().min;
+                            let menu_state = ((accent_index * 10_000) + i + 1) as u32; // ID Unique to this beat of this accent, can be used to identify it. 10,000 is just a big number to differentiate accent index from i
 
                             let mut cursor = start_pos;
 
@@ -275,55 +276,85 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                                 (BeatState::Off, off_color, rounding_bot),
                             ];
 
-                            for (_j, (state, color, rounding)) in states.iter().enumerate() {
-                                let rect = Rect::from_min_size(cursor, button_size);
-                                let is_selected = beat.state == *state;
+                            let invisible_frame = Frame {
+                                // TODO FIX ONLY SOME COLORS BEING SHOWN IF HOVER ON THE EDGE
+                                fill: Color32::TRANSPARENT, // no background
+                                stroke: egui::Stroke::NONE, // no border
+                                corner_radius: CornerRadius::ZERO, // no rounding
+                                outer_margin: egui::Margin::default(),
+                                inner_margin: egui::Margin::default(),
+                                ..Default::default()
+                            };
 
-                                let response = ui.allocate_rect(rect, Sense::click());
-                                let fill = if current_click == Some((accent_index, i))
-                                    && app.runtime.playing
-                                {
-                                    override_color
-                                } else if is_selected {
-                                    accent_color
-                                } else {
-                                    *color
-                                };
+                            let response = invisible_frame.show(ui, |ui| {
+                                for (_j, (state, color, rounding)) in states.iter().enumerate() {
+                                    let rect = Rect::from_min_size(cursor, button_size);
+                                    let is_selected = beat.state == *state;
+                                    let selected_color = match beat.state {
+                                        BeatState::Downbeat => downbeat_color,
+                                        BeatState::Strong => strong_color,
+                                        BeatState::Weak => weak_color,
+                                        BeatState::Off => off_color,
+                                    };
 
-                                ui.painter().rect(
-                                    rect,
-                                    *rounding,
-                                    fill,
-                                    Stroke::NONE,
-                                    egui::StrokeKind::Middle,
-                                );
+                                    let response = ui.allocate_rect(rect, Sense::click());
+                                    if response.hovered() {
+                                        app.runtime.menu_state = menu_state;
+                                    }
 
-                                if response.clicked() {
-                                    beat.state = *state;
+                                    let fill = if current_click == Some((accent_index, i))
+                                        && app.runtime.playing
+                                    {
+                                        override_color
+                                    } else if !(app.runtime.menu_state == menu_state) {
+                                        selected_color
+                                    } else if is_selected {
+                                        accent_color
+                                    } else {
+                                        *color
+                                    };
+
+                                    ui.painter().rect(
+                                        rect,
+                                        *rounding,
+                                        fill,
+                                        Stroke::NONE,
+                                        egui::StrokeKind::Middle,
+                                    );
+
+                                    if response.clicked() {
+                                        beat.state = *state;
+                                    }
+
+                                    cursor.y += button_size.y;
                                 }
 
-                                cursor.y += button_size.y;
+                                let painter = ui.painter();
+
+                                // Full bounding rect of the 4 stacked buttons
+                                let total_height = button_size.y * states.len() as f32;
+                                let full_rect = Rect::from_min_size(
+                                    start_pos,
+                                    Vec2::new(button_size.x, total_height),
+                                );
+
+                                // Text to draw
+                                let label = format!("{}", i + 1);
+
+                                painter.text(
+                                    full_rect.center(),                          // position: center of all 4 rects
+                                    egui::Align2::CENTER_CENTER, // alignment: center
+                                    label,                       // text
+                                    egui::TextStyle::Button.resolve(ui.style()), // style
+                                    Color32::WHITE,              // text color
+                                );
+                            });
+
+                            if !(response.response.hovered()) // TODO Make the ui not freak out when you click because it looses hovering for a second
+                                && app.runtime.menu_state == menu_state
+                            {
+                                app.runtime.menu_state = 0;
                             }
-
-                            let painter = ui.painter();
-
-                            // Full bounding rect of the 4 stacked buttons
-                            let total_height = button_size.y * states.len() as f32;
-                            let full_rect = Rect::from_min_size(
-                                start_pos,
-                                Vec2::new(button_size.x, total_height),
-                            );
-
-                            // Text to draw
-                            let label = format!("{}", i + 1);
-
-                            painter.text(
-                                full_rect.center(),                          // position: center of all 4 rects
-                                egui::Align2::CENTER_CENTER,                 // alignment: center
-                                label,                                       // text
-                                egui::TextStyle::Button.resolve(ui.style()), // style
-                                Color32::WHITE,                              // text color
-                            );
                         }
 
                         ui.spacing_mut().item_spacing = old_spacing;
