@@ -1,3 +1,7 @@
+/*
+ * To anyone whoo ever has to edit this file im so sorry ;-;
+*/
+
 use crate::app::{
     AppData,
     logic::accents::get_accent_and_beat_index,
@@ -230,6 +234,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                             to_move_down = Some(accent_index);
                         }
 
+                        // This is where the selectoin of beat type is
                         for (i, beat) in accent.beats.iter_mut().enumerate() {
                             let custom_color = if current_click == Some((accent_index, i))
                                 && app.runtime.playing
