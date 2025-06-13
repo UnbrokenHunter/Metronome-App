@@ -1,7 +1,5 @@
 - log changes
 
-  - rethink log format (log each program close, add sublogs for each reset practice)
-  - Add uptime to log data
   - add a logs homepage with statistics based on logs
 
 - features
@@ -10,10 +8,11 @@
   - Make Tap Tempo Average Accross X many taps
   - make inverse sigmoid possible
   - Add Presets/Preset Saving/Creating to parameters
-  - Add Better (Low pitch) Metronome Sounds
 
 - refactor
 
   - refactor types and core to move things out of it
 
-- v2
+- v2.1
+  - Vertical Select of beat type
+  - Add Sticking Sound type with custom beat types (Left, Right, Both, Flam)
