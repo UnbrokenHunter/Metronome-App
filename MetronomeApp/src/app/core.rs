@@ -203,6 +203,7 @@ impl AppData {
             save_logs: (true),
             save_plots: (true),
             plot_granularity: (2),
+            min_practice_length: (5000),
         }
     }
 

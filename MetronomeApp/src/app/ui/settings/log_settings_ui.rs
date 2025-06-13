@@ -27,6 +27,20 @@ pub fn log_settings_ui(app: &mut AppData, ui: &mut Ui) {
         ui.separator();
         ui.add_space(8.0);
 
+        // Minimum Practice Length
+                ui.heading("Minimum Practice Length");
+            ui.add(
+                egui::Slider::new(&mut app.settings.min_practice_length, 0..=6_0000).text("Miliseconds"),
+            );
+        ui.label(
+            egui::RichText::new("How long must a practice be in order to be saved as a log. This is to prevent accidental clicks of of the play button from clogging up the logs data.")
+                .small()
+                .color(egui::Color32::GRAY),
+        );
+        ui.separator();
+        ui.add_space(8.0);
+
+
         // Save Plots
         ui.heading("Save Plots");
         let label = if app.settings.save_plots {

@@ -6,7 +6,7 @@ pub fn try_add_log(app: &mut AppData) {
     let max_tempo = app.parameters.tempo_params.min;
     let datapoints = app.runtime.points.clone();
     let settings = app.settings;
-    if duration_ms > 0 && settings.save_logs {
+    if duration_ms > app.settings.min_practice_length && settings.save_logs {
         let now = clock::current_time();
 
         // Calculate Average Tempo

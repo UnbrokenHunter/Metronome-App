@@ -40,6 +40,7 @@ pub struct AppSettingsData {
     pub save_logs: bool,
     pub save_plots: bool,
     pub plot_granularity: u8, // 0 = Low, 1 = Medium, 2 = High, 3 = Lossless
+    pub min_practice_length: u64,
 }
 
 #[derive(Serialize, Deserialize)]
