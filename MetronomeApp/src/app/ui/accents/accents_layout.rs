@@ -339,11 +339,9 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
     }
 
     if let Some(index) = to_insert {
-        println!("Index: {}", index);
         if index < app.parameters.accents.accents.len() {
             app.parameters.accents.accents.insert(
-                // TODO FIX SECOND INSERT NOT WORKING
-                accent_index,
+                index,
                 AccentData {
                     beats: vec![BeatData {
                         state: BeatState::Downbeat,
