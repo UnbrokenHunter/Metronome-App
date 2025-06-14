@@ -207,7 +207,6 @@ impl AppData {
             color_scheme: ColorScheme {
                 name: "Dark".to_owned(),
                 override_color: "#3C4664".to_owned(), // (60, 70, 100)
-                accent_color: "#A07050".to_owned(),   // (160, 112, 80)
                 downbeat_color: "#505078".to_owned(), // (80, 80, 120)
                 strong_color: "#828282".to_owned(),   // (130, 130, 130)
                 weak_color: "#505050".to_owned(),     // (80, 80, 80)

@@ -265,8 +265,6 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                             let override_color =
                                 Color32::from_hex(&app.settings.color_scheme.override_color)
                                     .unwrap();
-                            let accent_color =
-                                Color32::from_hex(&app.settings.color_scheme.accent_color).unwrap();
                             let downbeat_color =
                                 Color32::from_hex(&app.settings.color_scheme.downbeat_color)
                                     .unwrap();
@@ -297,7 +295,6 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                             let response = invisible_frame.show(ui, |ui| {
                                 for (_j, (state, color, rounding)) in states.iter().enumerate() {
                                     let rect = Rect::from_min_size(cursor, button_size);
-                                    let is_selected = beat.state == *state;
                                     let selected_color = match beat.state {
                                         BeatState::Downbeat => downbeat_color,
                                         BeatState::Strong => strong_color,
@@ -316,8 +313,6 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                                         override_color
                                     } else if !(app.runtime.menu_state == menu_state) {
                                         selected_color
-                                    } else if is_selected {
-                                        accent_color
                                     } else {
                                         *color
                                     };

@@ -6,7 +6,6 @@ impl ColorScheme {
     pub fn light() -> Self {
         Self {
             name: "Light".to_owned(),
-            accent_color: "#D68C60".to_owned(),
             override_color: "#C8D4F0".to_owned(),
             downbeat_color: "#A0A0E0".to_owned(),
             strong_color: "#555555".to_owned(),
@@ -18,7 +17,6 @@ impl ColorScheme {
     pub fn dark() -> Self {
         Self {
             name: "Dark".to_owned(),
-            accent_color: "#A07050".to_owned(),
             override_color: "#3C4664".to_owned(),
             downbeat_color: "#505078".to_owned(),
             strong_color: "#828282".to_owned(),
@@ -30,7 +28,6 @@ impl ColorScheme {
     pub fn pastel() -> Self {
         Self {
             name: "Pastel".to_owned(),
-            accent_color: "#A07050".to_owned(),
             override_color: "#3C4664".to_owned(),
             downbeat_color: "#cce2a6".to_owned(),
             strong_color: "#a3d3e0".to_owned(),
@@ -42,7 +39,6 @@ impl ColorScheme {
     pub fn black() -> Self {
         Self {
             name: "Black".to_owned(),
-            accent_color: "#202020".to_owned(),
             override_color: "#000000".to_owned(),
             downbeat_color: "#404040".to_owned(),
             strong_color: "#606060".to_owned(),

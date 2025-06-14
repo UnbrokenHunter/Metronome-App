@@ -48,7 +48,6 @@ pub struct AppSettingsData {
 pub struct ColorScheme {
     pub name: String, // e.g. "Light", "Dark", "Black"
     pub override_color: String,
-    pub accent_color: String,
     pub downbeat_color: String,
     pub strong_color: String,
     pub weak_color: String,
