@@ -5,7 +5,7 @@ use eframe::egui::Context;
 
 use crate::app::logic::logs;
 use crate::app::types::{
-    AccentChain, AccentData, AppAccentPresetData, AppSettingsData, BeatData, BeatState,
+    AccentChain, AccentData, AppAccentPresetData, AppSettingsData, BeatData, BeatState, ColorScheme,
 };
 
 use super::logic::metronome;
@@ -204,6 +204,15 @@ impl AppData {
             save_plots: (true),
             plot_granularity: (2),
             min_practice_length: (5000),
+            color_scheme: ColorScheme {
+                name: "Dark".to_owned(),
+                override_color: "#3C4664".to_owned(), // (60, 70, 100)
+                accent_color: "#A07050".to_owned(),   // (160, 112, 80)
+                downbeat_color: "#505078".to_owned(), // (80, 80, 120)
+                strong_color: "#828282".to_owned(),   // (130, 130, 130)
+                weak_color: "#505050".to_owned(),     // (80, 80, 80)
+                off_color: "#282828".to_owned(),      // (40, 40, 40)
+            },
         }
     }
 
@@ -327,6 +336,7 @@ impl Drop for AppData {
 
 impl eframe::App for AppData {
     fn update(&mut self, ctx: &Context, _frame: &mut Frame) {
+        self.settings.color_scheme.apply_to_ctx(ctx); // This probably dosnt need to happen evey fram but idk
         layout::layout(self, ctx);
 
         keyboard::check_keyboard(self, ctx.clone());

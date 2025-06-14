@@ -262,12 +262,20 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                                 se: radius,
                             };
 
-                            let override_color = Color32::from_rgb(60, 70, 100);
-                            let accent_color = Color32::from_rgb(160, 112, 80);
-                            let downbeat_color = Color32::from_rgb(80, 80, 120);
-                            let strong_color = Color32::from_rgb(130, 130, 130);
-                            let weak_color = Color32::from_rgb(80, 80, 80);
-                            let off_color = Color32::from_rgb(40, 40, 40);
+                            let override_color =
+                                Color32::from_hex(&app.settings.color_scheme.override_color)
+                                    .unwrap();
+                            let accent_color =
+                                Color32::from_hex(&app.settings.color_scheme.accent_color).unwrap();
+                            let downbeat_color =
+                                Color32::from_hex(&app.settings.color_scheme.downbeat_color)
+                                    .unwrap();
+                            let strong_color =
+                                Color32::from_hex(&app.settings.color_scheme.strong_color).unwrap();
+                            let weak_color =
+                                Color32::from_hex(&app.settings.color_scheme.weak_color).unwrap();
+                            let off_color =
+                                Color32::from_hex(&app.settings.color_scheme.off_color).unwrap();
 
                             let states = [
                                 (BeatState::Downbeat, downbeat_color, rounding_top),
@@ -363,7 +371,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
                         egui::Frame::group(ui.style())
                             .corner_radius(5)
-                            .fill(Color32::from_rgb(40, 40, 40))
+                            .fill(Color32::from_hex(&app.settings.color_scheme.weak_color).unwrap())
                             .show(ui, |ui| {
                                 let size = [10.0, 10.0];
                                 ui.horizontal(|ui: &mut Ui| {

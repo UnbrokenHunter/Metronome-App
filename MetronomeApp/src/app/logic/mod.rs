@@ -1,5 +1,6 @@
 pub mod accents;
 pub mod clock;
+pub mod color_scheme;
 pub mod functions;
 pub mod keyboard;
 pub mod logs;

@@ -5,8 +5,7 @@ pub fn try_add_log(app: &mut AppData) {
     let min_tempo = app.parameters.tempo_params.min;
     let max_tempo = app.parameters.tempo_params.min;
     let datapoints = app.runtime.points.clone();
-    let settings = app.settings;
-    if duration_ms > app.settings.min_practice_length && settings.save_logs {
+    if duration_ms > app.settings.min_practice_length && app.settings.save_logs {
         let now = clock::current_time();
 
         // Calculate Average Tempo
@@ -22,8 +21,8 @@ pub fn try_add_log(app: &mut AppData) {
         }
         let average_delta = (deltas_sum / (app.runtime.points.len() - 1) as f64) as f32;
 
-        let points: Vec<[f64; 2]> = if settings.save_plots {
-            let step = match settings.plot_granularity {
+        let points: Vec<[f64; 2]> = if app.settings.save_plots {
+            let step = match app.settings.plot_granularity {
                 0 => 4,
                 1 => 3,
                 2 => 2,
