@@ -8,6 +8,8 @@ pub fn general_settings_ui(app: &mut AppData, ui: &mut Ui) {
             ui.label(RichText::new("Settings").size(45.0));
             ui.separator();
 
+            // Color Theme
+            ui.heading("Theme");
             let theme_options = ["Light", "Dark", "Pastel", "Nord", "High Contrast"];
             let current_theme = &app.settings.color_scheme.name;
 
@@ -32,7 +34,15 @@ pub fn general_settings_ui(app: &mut AppData, ui: &mut Ui) {
                         }
                     }
                 });
+            ui.label(
+                egui::RichText::new("The color scheme that will be used for the UI.")
+                    .small()
+                    .color(egui::Color32::GRAY),
+            );
+            ui.separator();
+            ui.add_space(8.0);
 
+            // Color Theme
             ui.heading("Reset All Settings");
             if ui
                 .add_sized([ui.available_width(), 30.0], egui::Button::new("Reset"))
@@ -40,6 +50,13 @@ pub fn general_settings_ui(app: &mut AppData, ui: &mut Ui) {
             {
                 app.reset_settings();
             }
+            ui.label(
+                egui::RichText::new("Resets everything to how it's default state.")
+                    .small()
+                    .color(egui::Color32::GRAY),
+            );
+            ui.separator();
+            ui.add_space(8.0);
         });
     });
 }

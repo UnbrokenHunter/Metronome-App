@@ -78,7 +78,7 @@ ui.add_space(8.0);
 
         ui.heading("Delete Logs");
         if ui
-            .add_sized([ui.available_width(), 30.0], egui::Button::new("Trash"))
+            .add_sized([ui.available_width(), 30.0], egui::Button::new("Delete"))
             .clicked()
         {
             app.practice.logs.clear();
