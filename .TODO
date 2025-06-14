@@ -14,5 +14,4 @@
   - refactor types and core to move things out of it
 
 - v2.1
-  - Vertical Select of beat type
   - Add Sticking Sound type with custom beat types (Left, Right, Both, Flam)
