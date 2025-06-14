@@ -42,7 +42,23 @@ pub fn general_settings_ui(app: &mut AppData, ui: &mut Ui) {
             ui.separator();
             ui.add_space(8.0);
 
-            // Color Theme
+            // Delete All Presets
+            ui.heading("Reset All Presets");
+            if ui
+                .add_sized([ui.available_width(), 30.0], egui::Button::new("Reset"))
+                .clicked()
+            {
+                app.reset_accent_presets();
+            }
+            ui.label(
+                egui::RichText::new("Resets all Accent Menu Presets to just the defaults.")
+                    .small()
+                    .color(egui::Color32::GRAY),
+            );
+            ui.separator();
+            ui.add_space(8.0);
+
+            // Reset All Settings
             ui.heading("Reset All Settings");
             if ui
                 .add_sized([ui.available_width(), 30.0], egui::Button::new("Reset"))

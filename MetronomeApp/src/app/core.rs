@@ -116,6 +116,10 @@ impl AppData {
         self.settings = Self::default_settings_data();
     }
 
+    pub fn reset_accent_presets(&mut self) {
+        self.accent_presets = Self::default_accent_presets_data();
+    }
+
     fn default_parameters_data() -> AppSaveData {
         AppSaveData {
             tempo_params: TempoParams {
