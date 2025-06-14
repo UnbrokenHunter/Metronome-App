@@ -451,7 +451,8 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
     }
 
     if let Some(index) = to_delete {
-        if index < app.parameters.accents.accents.len() {
+        if index < app.parameters.accents.accents.len() && app.parameters.accents.accents.len() > 1
+        {
             app.parameters.accents.accents.remove(index);
         }
     }
