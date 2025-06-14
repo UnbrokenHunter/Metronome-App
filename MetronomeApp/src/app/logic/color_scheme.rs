@@ -36,6 +36,17 @@ impl ColorScheme {
         }
     }
 
+    pub fn nord() -> Self {
+        Self {
+            name: "Nord".to_owned(),
+            override_color: "#D8DEE9".to_owned(), // Frost text (light gray-blue)
+            downbeat_color: "#88C0D0".to_owned(), // Frost blue
+            strong_color: "#81A1C1".to_owned(),   // Muted sky blue
+            weak_color: "#5E81AC".to_owned(),     // Desaturated steel blue
+            off_color: "#2E3440".to_owned(),      // Polar night (near black)
+        }
+    }
+
     pub fn high_contrast() -> Self {
         Self {
             name: "High Contrast".to_owned(),
@@ -139,6 +150,73 @@ impl ColorScheme {
 
                 // 🖼 Optional: Use mellow yellow for frame borders or window borders
                 visuals.window_stroke = Stroke::new(1.0, mellow_yellow);
+
+                ctx.set_visuals(visuals);
+            }
+
+            "Nord" => {
+                let mut visuals = egui::Visuals::light();
+
+                // 🧊 Nord base colors
+                let nord0 = Color32::from_rgb(46, 52, 64); // background
+                let nord1 = Color32::from_rgb(59, 66, 82); // panel/window fill
+                let nord2 = Color32::from_rgb(67, 76, 94); // slightly lighter background
+                let nord3 = Color32::from_rgb(76, 86, 106); // faint_bg_color, noninteractive
+
+                let nord4 = Color32::from_rgb(216, 222, 233); // main text
+                let nord5 = Color32::from_rgb(229, 233, 240); // heading
+                let nord6 = Color32::from_rgb(136, 192, 208); // slider/active fill
+                let nord7 = Color32::from_rgb(163, 190, 140); // hover accent
+                let nord8 = Color32::from_rgb(235, 203, 139); // warning highlight
+                let nord9 = Color32::from_rgb(191, 97, 106); // selection/red
+                let nord10 = Color32::from_rgb(180, 142, 173); // purple for open
+
+                // Shadows
+                visuals.popup_shadow = visuals.window_shadow;
+
+                // Base layout
+                visuals.extreme_bg_color = nord0;
+                visuals.panel_fill = nord1;
+                visuals.window_fill = nord2;
+                visuals.faint_bg_color = nord3;
+                visuals.override_text_color = Some(nord4);
+
+                // Widgets
+                for widget in [
+                    &mut visuals.widgets.inactive,
+                    &mut visuals.widgets.hovered,
+                    &mut visuals.widgets.active,
+                    &mut visuals.widgets.open,
+                    &mut visuals.widgets.noninteractive,
+                ] {
+                    widget.bg_fill = nord1;
+                    widget.weak_bg_fill = nord2;
+                    widget.fg_stroke = Stroke::new(1.0, nord4);
+                    widget.bg_stroke = Stroke::new(1.0, nord3);
+                }
+
+                // Tweaks
+                visuals.widgets.hovered.bg_fill = nord7;
+                visuals.widgets.active.bg_fill = nord6;
+                visuals.widgets.open.bg_fill = nord10;
+
+                visuals.widgets.hovered.fg_stroke.color = nord5;
+                visuals.widgets.active.fg_stroke.color = nord0;
+                visuals.widgets.open.fg_stroke.color = nord4;
+
+                visuals.widgets.hovered.bg_stroke = Stroke::new(1.2, nord7);
+                visuals.widgets.active.bg_stroke = Stroke::new(1.2, nord6);
+                visuals.widgets.open.bg_stroke = Stroke::new(1.0, nord10);
+
+                visuals.widgets.noninteractive.bg_fill = nord3;
+                visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0, nord5);
+
+                // Selection, sliders, links
+                visuals.selection.bg_fill = nord9;
+                visuals.selection.stroke = Stroke::new(1.0, nord3);
+                visuals.slider_trailing_fill = true;
+                visuals.hyperlink_color = nord8;
+                visuals.window_stroke = Stroke::new(1.0, nord3);
 
                 ctx.set_visuals(visuals);
             }
