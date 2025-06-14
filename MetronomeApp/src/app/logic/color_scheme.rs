@@ -36,14 +36,14 @@ impl ColorScheme {
         }
     }
 
-    pub fn black() -> Self {
+    pub fn high_contrast() -> Self {
         Self {
-            name: "Black".to_owned(),
-            override_color: "#000000".to_owned(),
-            downbeat_color: "#404040".to_owned(),
-            strong_color: "#606060".to_owned(),
-            weak_color: "#808080".to_owned(),
-            off_color: "#101010".to_owned(),
+            name: "High Contrast".to_owned(),
+            override_color: "#FFFFFF".to_owned(), // text only
+            off_color: "#000000".to_owned(),      // black
+            weak_color: "#1B1F4A".to_owned(),     // very dark navy
+            strong_color: "#3F4A8A".to_owned(),   // medium indigo
+            downbeat_color: "#6677CC".to_owned(), // bright but distinct
         }
     }
 }
@@ -143,12 +143,69 @@ impl ColorScheme {
                 ctx.set_visuals(visuals);
             }
 
-            "Black" => {
+            "High Contrast" => {
                 let mut visuals = egui::Visuals::dark();
-                visuals.extreme_bg_color = egui::Color32::from_rgb(0, 0, 0);
-                visuals.widgets.noninteractive.bg_fill = egui::Color32::from_rgb(10, 10, 10);
-                visuals.window_fill = egui::Color32::from_rgb(5, 5, 5);
-                visuals.override_text_color = Some(egui::Color32::from_gray(200));
+
+                // 🎨 Colors for high-contrast mode
+                let black = Color32::BLACK;
+                let white = Color32::WHITE;
+                let yellow = Color32::from_rgb(255, 255, 0);
+                let cyan = Color32::from_rgb(0, 255, 255);
+                let magenta = Color32::from_rgb(255, 0, 255);
+                let bright_red: Color32 = Color32::from_rgb(255, 80, 80);
+
+                // Backgrounds
+                visuals.extreme_bg_color = black;
+                visuals.panel_fill = black;
+                visuals.window_fill = black;
+                visuals.faint_bg_color = black;
+
+                // Text & hyperlink color
+                visuals.override_text_color = Some(white);
+                visuals.hyperlink_color = cyan;
+
+                // 🔳 Widget base: strong border, flat background
+                for widget in [
+                    &mut visuals.widgets.inactive,
+                    &mut visuals.widgets.hovered,
+                    &mut visuals.widgets.active,
+                    &mut visuals.widgets.open,
+                    &mut visuals.widgets.noninteractive,
+                ] {
+                    widget.bg_fill = black;
+                    widget.weak_bg_fill = black;
+                    widget.fg_stroke = Stroke::new(2.0, white); // Text or icon color
+                    widget.bg_stroke = Stroke::new(2.0, white); // Border
+                    widget.corner_radius = CornerRadius::same(0); // Square corners
+                }
+
+                // 🔁 States: extremely distinct colors
+                visuals.widgets.hovered.bg_fill = black;
+                visuals.widgets.hovered.bg_stroke = Stroke::new(2.0, yellow);
+                visuals.widgets.hovered.fg_stroke = Stroke::new(2.0, yellow);
+
+                visuals.widgets.active.bg_fill = black;
+                visuals.widgets.active.bg_stroke = Stroke::new(2.0, cyan);
+                visuals.widgets.active.fg_stroke = Stroke::new(2.0, cyan);
+
+                visuals.widgets.open.bg_fill = black;
+                visuals.widgets.open.bg_stroke = Stroke::new(2.0, magenta);
+                visuals.widgets.open.fg_stroke = Stroke::new(2.0, magenta);
+
+                visuals.widgets.noninteractive.bg_fill = black;
+                visuals.widgets.noninteractive.fg_stroke = Stroke::new(2.0, white);
+
+                // 📊 Slider/selection
+                visuals.slider_trailing_fill = true;
+                visuals.selection.bg_fill = bright_red;
+                visuals.selection.stroke = Stroke::new(2.0, black);
+
+                // Outlines & window
+                visuals.window_stroke = Stroke::new(2.0, white);
+                visuals.window_shadow = eframe::epaint::Shadow::NONE;
+                visuals.popup_shadow = eframe::epaint::Shadow::NONE;
+                visuals.menu_corner_radius = CornerRadius::same(0);
+
                 ctx.set_visuals(visuals);
             }
             _ => {}

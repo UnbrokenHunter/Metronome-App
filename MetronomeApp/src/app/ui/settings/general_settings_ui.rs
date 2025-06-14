@@ -8,7 +8,7 @@ pub fn general_settings_ui(app: &mut AppData, ui: &mut Ui) {
             ui.label(RichText::new("Settings").size(45.0));
             ui.separator();
 
-            let theme_options = ["Light", "Dark", "Pastel", "Black"];
+            let theme_options = ["Light", "Dark", "Pastel", "High Contrast"];
             let current_theme = &app.settings.color_scheme.name;
 
             egui::ComboBox::from_label("Theme")
@@ -22,7 +22,7 @@ pub fn general_settings_ui(app: &mut AppData, ui: &mut Ui) {
                                 "Light" => ColorScheme::light(),
                                 "Dark" => ColorScheme::dark(),
                                 "Pastel" => ColorScheme::pastel(),
-                                "Black" => ColorScheme::black(),
+                                "High Contrast" => ColorScheme::high_contrast(),
                                 _ => ColorScheme::dark(),
                             };
 
