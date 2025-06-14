@@ -73,17 +73,9 @@ impl ColorScheme {
                 let text_main = Color32::from_rgb(80, 60, 50); // warm brown (not gray or purple)
                 let heading = Color32::from_rgb(60, 40, 30); // dark coffee brown
 
-                // 🎯 Accent & selection
-                let accent = Color32::from_rgb(200, 225, 180); // pastel green-mint
-                let accent_sub = Color32::from_rgb(180, 200, 160); // soft olive
-
-                let selection_fill = Color32::from_rgb(240, 200, 170); // pastel apricot
-                let selection_border = Color32::from_rgb(200, 170, 140); // soft burnt peach
-
                 // 🎛 Button shades (creamier now)
                 let button_idle = Color32::from_rgb(245, 222, 200); // peach cream
                 let button_hover = Color32::from_rgb(240, 210, 180); // sand
-                let button_active = Color32::from_rgb(230, 190, 160); // soft clay
 
                 // 🌸 Additional accent tones (still soft, but distinct)
                 let coral = Color32::from_rgb(255, 180, 170); // soft coral
@@ -108,10 +100,6 @@ impl ColorScheme {
                 visuals.faint_bg_color = background;
                 visuals.override_text_color = Some(text_main);
 
-                // Selection (text, editable fields)
-                visuals.selection.bg_fill = selection_fill;
-                visuals.selection.stroke = Stroke::new(1.0, selection_border);
-
                 // Widgets: soft, rounded, low-contrast
                 for widget in [
                     &mut visuals.widgets.inactive,
@@ -127,19 +115,10 @@ impl ColorScheme {
                 }
 
                 // Optional: tweak individual states for better polish
-                visuals.widgets.hovered.bg_fill = button_hover;
-                visuals.widgets.active.bg_fill = button_active;
                 visuals.widgets.inactive.bg_stroke = Stroke::new(0.0, button_hover);
                 visuals.widgets.noninteractive.bg_fill = panel;
                 visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0, heading);
 
-                // Optional: links, sliders, etc.
-                visuals.hyperlink_color = accent;
-                visuals.slider_trailing_fill = false;
-                // visuals.slider_rail = Stroke::new(1.0, accent_sub);
-                // visuals
-
-                visuals.widgets.inactive.bg_fill = button_idle;
                 visuals.widgets.hovered.bg_fill = coral; // coral for hover
                 visuals.widgets.active.bg_fill = soft_blue; // soft blue for click
                 visuals.widgets.open.bg_fill = dusty_rose; // for dropdowns, collapsibles
