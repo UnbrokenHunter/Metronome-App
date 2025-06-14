@@ -41,17 +41,17 @@ pub fn get_accent_at_beat_index(app: &mut AppData, index: usize) -> Option<&mut 
     None // index out of bounds
 }
 
-pub fn get_index_of_beat(app: &mut AppData, accent_index: usize, beat_index: usize) -> usize {
-    let mut count = 0;
+// pub fn get_index_of_beat(app: &mut AppData, accent_index: usize, beat_index: usize) -> usize {
+//     let mut count = 0;
 
-    let mut i = 0;
-    while i < accent_index && i < app.parameters.accents.accents.len() {
-        count += app.parameters.accents.accents[i].beats.len();
-        i += 1;
-    }
-    count += beat_index;
-    return count;
-}
+//     let mut i = 0;
+//     while i < accent_index && i < app.parameters.accents.accents.len() {
+//         count += app.parameters.accents.accents[i].beats.len();
+//         i += 1;
+//     }
+//     count += beat_index;
+//     return count;
+// }
 
 pub fn get_accent_and_beat_index(app: &AppData, flat_index: usize) -> Option<(usize, usize)> {
     let mut count = 0;
