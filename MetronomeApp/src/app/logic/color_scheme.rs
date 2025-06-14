@@ -71,26 +71,22 @@ impl ColorScheme {
             "Pastel" => {
                 let mut visuals = egui::Visuals::light();
 
-                // 🍦 Base background tones
+                // Base background tones
                 let background = Color32::from_rgb(255, 247, 234); // warm cream
                 let panel = Color32::from_rgb(250, 230, 215); // soft peach-beige
                 let window = Color32::from_rgb(242, 220, 204); // almond-tan
 
-                // ✍️ Text colors
                 let text_main = Color32::from_rgb(80, 60, 50); // warm brown (not gray or purple)
                 let heading = Color32::from_rgb(60, 40, 30); // dark coffee brown
 
-                // 🎛 Button shades (creamier now)
                 let button_idle = Color32::from_rgb(245, 222, 200); // peach cream
                 let button_hover = Color32::from_rgb(240, 210, 180); // sand
 
-                // 🌸 Additional accent tones (still soft, but distinct)
                 let coral = Color32::from_rgb(255, 180, 170); // soft coral
                 let soft_blue = Color32::from_rgb(180, 210, 230); // sky pastel
                 let dusty_rose = Color32::from_rgb(220, 180, 190); // rose blush
                 let mellow_yellow = Color32::from_rgb(255, 240, 180); // buttery highlight
 
-                // ☁️ Soft shadow
                 visuals.window_shadow = eframe::epaint::Shadow {
                     color: Color32::from_rgba_unmultiplied(80, 60, 40, 20),
                     offset: [0, 0],
@@ -100,14 +96,12 @@ impl ColorScheme {
                 visuals.popup_shadow = visuals.window_shadow;
                 visuals.menu_corner_radius = CornerRadius::same(6);
 
-                // Assign base colors
                 visuals.extreme_bg_color = background;
                 visuals.panel_fill = panel;
                 visuals.window_fill = window;
                 visuals.faint_bg_color = background;
                 visuals.override_text_color = Some(text_main);
 
-                // Widgets: soft, rounded, low-contrast
                 for widget in [
                     &mut visuals.widgets.inactive,
                     &mut visuals.widgets.hovered,
@@ -121,7 +115,6 @@ impl ColorScheme {
                     widget.bg_stroke = Stroke::new(1.0, button_hover);
                 }
 
-                // Optional: tweak individual states for better polish
                 visuals.widgets.inactive.bg_stroke = Stroke::new(0.0, button_hover);
                 visuals.widgets.noninteractive.bg_fill = panel;
                 visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0, heading);
@@ -130,7 +123,7 @@ impl ColorScheme {
                 visuals.widgets.active.bg_fill = soft_blue; // soft blue for click
                 visuals.widgets.open.bg_fill = dusty_rose; // for dropdowns, collapsibles
 
-                // ✨ Update strokes and text
+                // Update strokes and text
                 visuals.widgets.hovered.fg_stroke.color = heading;
                 visuals.widgets.active.fg_stroke.color = Color32::BLACK;
                 visuals.widgets.open.fg_stroke.color = heading;
@@ -140,15 +133,13 @@ impl ColorScheme {
                 visuals.widgets.active.bg_stroke = Stroke::new(1.0, soft_blue);
                 visuals.widgets.open.bg_stroke = Stroke::new(1.0, dusty_rose);
 
-                // 🔘 Slider/Progress styling
+                // Slider/Progress styling
                 visuals.slider_trailing_fill = true;
                 visuals.selection.bg_fill = soft_blue;
                 visuals.selection.stroke = Stroke::new(1.0, Color32::from_rgb(120, 160, 200));
 
-                // 🔗 Hyperlinks & interactive extras
+                // Hyperlinks & interactive extras
                 visuals.hyperlink_color = coral;
-
-                // 🖼 Optional: Use mellow yellow for frame borders or window borders
                 visuals.window_stroke = Stroke::new(1.0, mellow_yellow);
 
                 ctx.set_visuals(visuals);
@@ -157,7 +148,7 @@ impl ColorScheme {
             "Nord" => {
                 let mut visuals = egui::Visuals::light();
 
-                // 🧊 Nord base colors
+                // Nord colors
                 let nord0 = Color32::from_rgb(46, 52, 64); // background
                 let nord1 = Color32::from_rgb(59, 66, 82); // panel/window fill
                 let nord2 = Color32::from_rgb(67, 76, 94); // slightly lighter background
@@ -224,7 +215,7 @@ impl ColorScheme {
             "High Contrast" => {
                 let mut visuals = egui::Visuals::dark();
 
-                // 🎨 Colors for high-contrast mode
+                // Colors for high-contrast mode
                 let black = Color32::BLACK;
                 let white = Color32::WHITE;
                 let yellow = Color32::from_rgb(255, 255, 0);
@@ -242,7 +233,6 @@ impl ColorScheme {
                 visuals.override_text_color = Some(white);
                 visuals.hyperlink_color = cyan;
 
-                // 🔳 Widget base: strong border, flat background
                 for widget in [
                     &mut visuals.widgets.inactive,
                     &mut visuals.widgets.hovered,
@@ -257,7 +247,6 @@ impl ColorScheme {
                     widget.corner_radius = CornerRadius::same(0); // Square corners
                 }
 
-                // 🔁 States: extremely distinct colors
                 visuals.widgets.hovered.bg_fill = black;
                 visuals.widgets.hovered.bg_stroke = Stroke::new(2.0, yellow);
                 visuals.widgets.hovered.fg_stroke = Stroke::new(2.0, yellow);
@@ -273,7 +262,7 @@ impl ColorScheme {
                 visuals.widgets.noninteractive.bg_fill = black;
                 visuals.widgets.noninteractive.fg_stroke = Stroke::new(2.0, white);
 
-                // 📊 Slider/selection
+                // Slider/selection
                 visuals.slider_trailing_fill = true;
                 visuals.selection.bg_fill = bright_red;
                 visuals.selection.stroke = Stroke::new(2.0, black);
