@@ -61,8 +61,8 @@ pub fn log_settings_ui(app: &mut AppData, ui: &mut Ui) {
         // Plot Granulatrity
         // Only Show Plot Granularity if they are being saved in the first place
         if app.settings.save_plots {
-                    ui.heading("Plot Granularity");
-ui.radio_value(&mut app.settings.plot_granularity, 0, "Low");
+            ui.heading("Plot Granularity");
+            ui.radio_value(&mut app.settings.plot_granularity, 0, "Low");
             ui.radio_value(&mut app.settings.plot_granularity, 1, "Medium");
             ui.radio_value(&mut app.settings.plot_granularity, 2, "High");
             ui.radio_value(&mut app.settings.plot_granularity, 3, "Lossless");

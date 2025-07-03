@@ -23,9 +23,9 @@ pub fn try_add_log(app: &mut AppData) {
 
         let points: Vec<[f64; 2]> = if app.settings.save_plots {
             let step = match app.settings.plot_granularity {
-                0 => 4,
-                1 => 3,
-                2 => 2,
+                0 => 100,
+                1 => 50,
+                2 => 10,
                 3 => 1,
                 _ => 1,
             };
