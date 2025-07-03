@@ -4,6 +4,7 @@
 
 - features
 
+
   - Enable auto delete more than past x many sessions
   - Make Tap Tempo Average Accross X many taps
   - make inverse sigmoid possible
@@ -15,4 +16,9 @@
   - refactor types and core to move things out of it
 
 - v2.1
+
   - Add Sticking Sound type with custom beat types (Left, Right, Both, Flam)
+
+- Remove Poping from thump sounds
+- Prevent keybind presses when in logs menu
+-
