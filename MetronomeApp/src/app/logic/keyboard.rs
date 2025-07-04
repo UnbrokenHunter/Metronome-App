@@ -36,6 +36,14 @@ pub fn check_keyboard(app: &mut AppData, ctx: Context) {
             }
         }
 
+        if i.key_pressed(Key::E) {
+            app.parameters.volume = f32::clamp(app.parameters.volume + 0.10, 0.0, 1.0)
+        }
+
+        if i.key_pressed(Key::Q) {
+            app.parameters.volume = f32::clamp(app.parameters.volume - 0.10, 0.0, 1.0)
+        }
+
         // Reset
         if i.key_pressed(Key::R) {
             app.reset_metronome();
