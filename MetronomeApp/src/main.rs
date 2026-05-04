@@ -9,7 +9,7 @@ use crate::app::types::AppData;
 fn main() -> eframe::Result<()> {
     env_logger::init();
 
-    let icon_bytes = fs::read("assets/images/icon.png").expect("Failed to read icon");
+    let icon_bytes = fs::read("assets/icons/icon.png").expect("Failed to read icon");
     let icon = from_png_bytes(&icon_bytes).expect("Invalid PNG data");
 
     let options = eframe::NativeOptions {

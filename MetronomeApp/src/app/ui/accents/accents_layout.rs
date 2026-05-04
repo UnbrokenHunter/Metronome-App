@@ -19,7 +19,7 @@ pub fn accents_layout(app: &mut AppData, ui: &mut Ui) {
             if ui
                 .add_sized(
                     [25.0, 25.0],
-                    ImageButton::new(egui::include_image!("../../../../assets/images/save.png"))
+                    ImageButton::new(egui::include_image!("../../../../assets/icons/save.png"))
                         .frame(false),
                 )
                 .clicked()
@@ -120,7 +120,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                     .add_sized(
                         [20.0, 20.0],
                         ImageButton::new(egui::include_image!(
-                            "../../../../assets/images/down_arrow.png"
+                            "../../../../assets/icons/down_arrow.png"
                         ))
                         .frame(false),
                     )
@@ -134,7 +134,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                     .add_sized(
                         [20.0, 20.0],
                         ImageButton::new(egui::include_image!(
-                            "../../../../assets/images/duplicate.png"
+                            "../../../../assets/icons/duplicate.png"
                         ))
                         .frame(false),
                     )
@@ -148,7 +148,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                     .add_sized(
                         [20.0, 20.0],
                         ImageButton::new(egui::include_image!(
-                            "../../../../assets/images/down_arrow.png"
+                            "../../../../assets/icons/down_arrow.png"
                         ))
                         .frame(false),
                     )
@@ -167,7 +167,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                         .add_sized(
                             [20.0, 20.0],
                             ImageButton::new(egui::include_image!(
-                                "../../../../assets/images/up.png"
+                                "../../../../assets/icons/up.png"
                             ))
                             .frame(false),
                         )
@@ -207,7 +207,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                             .add_sized(
                                 [20.0, 20.0],
                                 ImageButton::new(egui::include_image!(
-                                    "../../../../assets/images/trash.png"
+                                    "../../../../assets/icons/trash.png"
                                 ))
                                 .frame(false),
                             )
@@ -225,7 +225,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                             .add_sized(
                                 [20.0, 20.0],
                                 ImageButton::new(egui::include_image!(
-                                    "../../../../assets/images/down.png"
+                                    "../../../../assets/icons/down.png"
                                 ))
                                 .frame(false),
                             )
@@ -374,7 +374,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                                         .add_sized(
                                             size,
                                             ImageButton::new(egui::include_image!(
-                                                "../../../../assets/images/minus.png"
+                                                "../../../../assets/icons/minus.png"
                                             ))
                                             .frame(false),
                                         )
@@ -389,7 +389,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                                         .add_sized(
                                             size,
                                             ImageButton::new(egui::include_image!(
-                                                "../../../../assets/images/plus.png"
+                                                "../../../../assets/icons/plus.png"
                                             ))
                                             .frame(false),
                                         )
