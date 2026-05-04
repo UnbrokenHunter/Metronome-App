@@ -3,7 +3,7 @@ use eframe::egui::{self, Ui};
 
 pub fn practice_ui(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
-        ui.label("Excercise Length:");
+        ui.label("Exercise Length:");
         ui.separator();
         ui.horizontal(|ui| {
             ui.add(
