@@ -7,83 +7,61 @@ pub fn growth_ui(app: &mut AppData, ui: &mut Ui) {
         ui.label("Growth Behavior:");
         ui.separator();
 
-        ui.horizontal(|ui: &mut Ui| {
+        ui.horizontal(|ui| {
             ui.vertical(|ui| {
-                ui.selectable_value(&mut app.parameters.growth_type, GrowthType::Linear, "Linear");
-                if ui
-                    .selectable_value(
-                        &mut app.parameters.growth_type,
-                        GrowthType::Exponential,
-                        "Exponential",
-                    )
-                    .clicked()
-                {
-                    app.parameters.tempo_params.scaler = 3.0;
-                }
-                if ui
-                    .selectable_value(
-                        &mut app.parameters.growth_type,
-                        GrowthType::Sigmoidal,
-                        "Sigmoidal",
-                    )
-                    .clicked()
-                {
-                    app.parameters.tempo_params.scaler = 6.0;
-                }
-                if ui
-                    .selectable_value(
-                        &mut app.parameters.growth_type,
-                        GrowthType::Logarithmic,
-                        "Logarithmic",
-                    )
-                    .clicked()
-                {
-                    app.parameters.tempo_params.scaler = 0.5;
-                }
-                if ui
-                    .selectable_value(&mut app.parameters.growth_type, GrowthType::Sine, "Sine")
-                    .clicked()
-                {
-                    app.parameters.tempo_params.scaler = 3.0;
-                }
-
-                ui.selectable_value(&mut app.parameters.growth_type, GrowthType::Constant, "Constant");
+                growth_type_buttons(app, ui);
             });
 
             ui.vertical(|ui| {
                 egui::Frame::group(ui.style()).show(ui, |ui| {
-                    draw_demo_plot(ui, app.parameters.growth_type, app.parameters.tempo_params);
+                    draw_demo_plot(
+                        ui,
+                        app.parameters.growth_type,
+                        app.parameters.tempo_params,
+                    );
 
-                    match app.parameters.growth_type {
-                        GrowthType::Exponential => {
-                            ui.add(
-                                egui::Slider::new(&mut app.parameters.tempo_params.scaler, 1.0..=10.0)
-                                    .text("Scaler"),
-                            );
-                        }
-                        GrowthType::Logarithmic => {
-                            ui.add(
-                                egui::Slider::new(&mut app.parameters.tempo_params.scaler, 0.01..=1.0)
-                                    .text("Scaler"),
-                            );
-                        }
-                        GrowthType::Sigmoidal => {
-                            ui.add(
-                                egui::Slider::new(&mut app.parameters.tempo_params.scaler, 1.0..=10.0)
-                                    .text("Scaler"),
-                            );
-                        }
-                        GrowthType::Sine => {
-                            ui.add(
-                                egui::Slider::new(&mut app.parameters.tempo_params.scaler, 1.00..=50.0)
-                                    .text("Scaler"),
-                            );
-                        }
-
-                        _ => {}
-                    }
+                    scaler_slider(app, ui);
                 });
             });
         });
     });
+}
+
+fn growth_type_buttons(app: &mut AppData, ui: &mut Ui) {
+    let options = [
+        (GrowthType::Linear, "Linear", None),
+        (GrowthType::Exponential, "Exponential", Some(3.0)),
+        (GrowthType::Sigmoidal, "Sigmoidal", Some(6.0)),
+        (GrowthType::Logarithmic, "Logarithmic", Some(0.5)),
+        (GrowthType::Sine, "Sine", Some(3.0)),
+        (GrowthType::Constant, "Constant", None),
+    ];
+
+    for (growth_type, label, default_scaler) in options {
+        if ui
+            .selectable_value(&mut app.parameters.growth_type, growth_type, label)
+            .clicked()
+        {
+            if let Some(default_scaler) = default_scaler {
+                app.parameters.tempo_params.scaler = default_scaler;
+            }
+        }
+    }
+}
+
+fn scaler_slider(app: &mut AppData, ui: &mut Ui) {
+    let scaler_range = match app.parameters.growth_type {
+        GrowthType::Exponential => Some(1.0..=10.0),
+        GrowthType::Logarithmic => Some(0.01..=1.0),
+        GrowthType::Sigmoidal => Some(1.0..=10.0),
+        GrowthType::Sine => Some(1.0..=50.0),
+        _ => None,
+    };
+
+    if let Some(range) = scaler_range {
+        ui.add(
+            egui::Slider::new(&mut app.parameters.tempo_params.scaler, range)
+                .text("Scaler"),
+        );
+    }
 }
