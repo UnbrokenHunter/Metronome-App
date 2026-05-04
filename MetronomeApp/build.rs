@@ -15,9 +15,9 @@ fn main() {
         .unwrap()
         .join("assets");
 
-    // Remove old assets if any, then copy fresh
     let _ = fs::remove_dir_all(&target_dir);
     fs::create_dir_all(&target_dir).unwrap();
+
     copy_dir(&asset_dir, &target_dir);
 }
 
