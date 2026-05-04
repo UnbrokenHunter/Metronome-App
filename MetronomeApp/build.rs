@@ -1,6 +1,6 @@
 use std::env;
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn main() {
     let out_dir = env::var("OUT_DIR").unwrap();
@@ -21,7 +21,7 @@ fn main() {
     copy_dir(&asset_dir, &target_dir);
 }
 
-fn copy_dir(from: &PathBuf, to: &PathBuf) {
+fn copy_dir(from: &Path, to: &Path) {
     for entry in fs::read_dir(from).unwrap() {
         let entry = entry.unwrap();
         let path = entry.path();
