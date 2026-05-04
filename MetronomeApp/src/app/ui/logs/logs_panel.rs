@@ -46,6 +46,7 @@ pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
 }
 
 fn log_header(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
+    let color = ui.visuals().override_text_color.unwrap_or(ui.visuals().text_color());
     ui.label(
         RichText::new(format!(
             "{}, {}",
@@ -53,6 +54,7 @@ fn log_header(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
             format_date(log.time_started, None)
         ))
         .size(28.0)
+        .color(color)
         .strong(),
     );
 }
