@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use crate::app::{logic, types::PracticeLog, AppData};
+use crate::app::{AppData, logic, types::PracticeLog};
 use eframe::egui::{self, Context, ScrollArea, Ui};
 
 pub fn logs_side(app: &mut AppData, ctx: &Context) {
@@ -82,7 +82,7 @@ fn log_card(ui: &mut Ui, index: usize, log: &PracticeLog) -> bool {
         egui::Id::new(("log_card", index)),
         egui::Sense::click(),
     )
-        .clicked()
+    .clicked()
 }
 
 fn log_card_title(log: &PracticeLog) -> String {

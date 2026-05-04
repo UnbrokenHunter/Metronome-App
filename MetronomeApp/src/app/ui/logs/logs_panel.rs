@@ -52,8 +52,8 @@ fn log_header(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
             weekday_from_unix_ms(log.time_started),
             format_date(log.time_started, None)
         ))
-            .size(28.0)
-            .strong(),
+        .size(28.0)
+        .strong(),
     );
 }
 
@@ -139,10 +139,7 @@ fn log_notes_editor(ui: &mut Ui, log: &mut crate::app::types::PracticeLog) {
 }
 
 fn full_width_button(ui: &mut Ui, text: &str) -> bool {
-    ui.add_sized(
-        [ui.available_width(), 30.0],
-        egui::Button::new(text),
-    )
+    ui.add_sized([ui.available_width(), 30.0], egui::Button::new(text))
         .clicked()
 }
 
@@ -150,10 +147,7 @@ fn delete_log(app: &mut AppData, index: usize) {
     if index < app.practice.logs.len() {
         app.practice.logs.remove(index);
 
-        app.runtime.menu_state = app
-            .runtime
-            .menu_state
-            .saturating_sub(1);
+        app.runtime.menu_state = app.runtime.menu_state.saturating_sub(1);
     }
 }
 

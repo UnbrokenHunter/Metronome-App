@@ -14,11 +14,7 @@ pub fn growth_ui(app: &mut AppData, ui: &mut Ui) {
 
             ui.vertical(|ui| {
                 egui::Frame::group(ui.style()).show(ui, |ui| {
-                    draw_demo_plot(
-                        ui,
-                        app.parameters.growth_type,
-                        app.parameters.tempo_params,
-                    );
+                    draw_demo_plot(ui, app.parameters.growth_type, app.parameters.tempo_params);
 
                     scaler_slider(app, ui);
                 });
@@ -74,9 +70,6 @@ fn scaler_slider(app: &mut AppData, ui: &mut Ui) {
     };
 
     if let Some(range) = scaler_range {
-        ui.add(
-            egui::Slider::new(&mut app.parameters.tempo_params.scaler, range)
-                .text("Scaler"),
-        );
+        ui.add(egui::Slider::new(&mut app.parameters.tempo_params.scaler, range).text("Scaler"));
     }
 }
