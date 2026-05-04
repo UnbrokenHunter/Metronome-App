@@ -51,7 +51,7 @@ pub fn logs_center_layout(app: &mut AppData, ui: &mut Ui) {
                                 egui::Frame::group(ui.style()).show(ui, |ui| {
                                     ui.set_min_width(ui.available_width()); // 🔑 Same here
                                     ui.label(
-                                        RichText::new("Info:").color(Color32::GRAY).size(20.0),
+                                        RichText::new("Info:").size(20.0),
                                     );
                                     ui.separator();
 
