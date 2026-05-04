@@ -133,7 +133,7 @@ impl AppData {
             sound: Sounds::Beep,
             volume: 0.7,
             growth_type: GrowthType::Linear,
-            infinte: false,
+            infinite: false,
             accents: AccentChain {
                 name: "Untitled Accent Chain".to_owned(),
                 accents: vec![

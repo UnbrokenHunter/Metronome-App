@@ -31,7 +31,7 @@ pub struct AppSaveData {
     pub volume: f32,
     pub sound: Sounds,
     pub growth_type: GrowthType,
-    pub infinte: bool,
+    pub infinite: bool,
     pub accents: AccentChain,
 }
 

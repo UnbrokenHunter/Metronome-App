@@ -8,7 +8,7 @@ pub fn calculate_tempo(app: &mut AppData) {
         app.runtime.tempo = calculate(app.parameters.growth_type, x, app.parameters.tempo_params);
 
         // Clamp Values
-        if !app.parameters.infinte {
+        if !app.parameters.infinite {
             if app.runtime.tempo > app.parameters.tempo_params.max as f64 {
                 app.runtime.tempo = app.parameters.tempo_params.max as f64;
             }

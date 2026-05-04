@@ -31,14 +31,14 @@ pub fn growth_ui(app: &mut AppData, ui: &mut Ui) {
 fn growth_type_buttons(app: &mut AppData, ui: &mut Ui) {
     // If infinite mode is on, Sigmoidal is not allowed.
     // So if it was selected, switch away from it.
-    if app.parameters.infinte && app.parameters.growth_type == GrowthType::Sigmoidal {
+    if app.parameters.infinite && app.parameters.growth_type == GrowthType::Sigmoidal {
         app.parameters.growth_type = GrowthType::Linear;
     }
 
     growth_type_button(app, ui, GrowthType::Linear, "Linear", None);
     growth_type_button(app, ui, GrowthType::Exponential, "Exponential", Some(3.0));
 
-    if !app.parameters.infinte {
+    if !app.parameters.infinite {
         growth_type_button(app, ui, GrowthType::Sigmoidal, "Sigmoidal", Some(6.0));
     }
 
