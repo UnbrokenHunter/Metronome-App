@@ -20,14 +20,17 @@ jobs:
           - os: windows-latest
             artifact_name: metronome-windows
             binary_name: MetronomeApp.exe
+            archive_name: MetronomeApp-windows.zip
 
           - os: macos-latest
             artifact_name: metronome-macos
             binary_name: MetronomeApp
+            archive_name: MetronomeApp-macos.zip
 
           - os: ubuntu-latest
             artifact_name: metronome-linux
             binary_name: MetronomeApp
+            archive_name: MetronomeApp-linux.tar.gz
 
     runs-on: ${{ matrix.os }}
 
