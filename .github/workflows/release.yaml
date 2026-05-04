@@ -14,16 +14,16 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: metronome-ninja-windows
-            binary_name: metronome-ninja.exe
+            artifact_name: metronome-windows
+            binary_name: MetronomeApp.exe
 
           - os: macos-latest
-            artifact_name: metronome-ninja-macos
-            binary_name: metronome-ninja
+            artifact_name: metronome-macos
+            binary_name: MetronomeApp
 
           - os: ubuntu-latest
-            artifact_name: metronome-ninja-linux
-            binary_name: metronome-ninja
+            artifact_name: metronome-linux
+            binary_name: MetronomeApp
 
     runs-on: ${{ matrix.os }}
 
