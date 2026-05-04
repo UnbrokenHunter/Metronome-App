@@ -6,143 +6,167 @@ use crate::app::{
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 
 pub fn logs_center_layout(app: &mut AppData, ui: &mut Ui) {
-    let mut to_delete: Option<usize> = None;
+    let mut to_delete = None;
+    let selected_index = app.runtime.menu_state as usize;
+
     egui::Frame::group(ui.style()).show(ui, |ui| {
         ScrollArea::vertical().show(ui, |ui| {
-            if let Some(log) = app.practice.logs.get_mut(app.runtime.menu_state as usize) {
-                egui::Frame::group(ui.style()).show(ui, |ui| {
-                    ui.horizontal(|ui| {
-                        ui.label(
-                            egui::RichText::new(format!(
-                                "{}, {}",
-                                weekday_from_unix_ms(log.time_started),
-                                format_date(log.time_started, None)
-                            ))
-                            .size(28.0)
-                            .strong(),
-                        );
-                    });
-                    ui.separator();
-                    ui.add_sized(
-                        [ui.available_width(), 27.0],
-                        TextEdit::singleline(&mut log.title)
-                            .font(TextStyle::Heading)
-                            .hint_text("Title..."),
-                    );
-                    ui.horizontal(|ui| {
-                        let total_width = ui.available_width();
-                        let plot_width = total_width * 2.0 / 3.0;
-                        let label_width = total_width - plot_width;
+            let Some(log) = app.practice.logs.get_mut(selected_index) else {
+                ui.label("No log selected.");
+                return;
+            };
 
-                        // Plot area: 2/3 width
-                        ui.allocate_ui_with_layout(
-                            egui::vec2(plot_width, ui.available_height()),
-                            egui::Layout::top_down(egui::Align::Min),
-                            |ui| {
-                                draw_plot(ui, &log.points);
-                            },
-                        );
+            egui::Frame::group(ui.style()).show(ui, |ui| {
+                log_header(ui, log);
+                ui.separator();
 
-                        // Label area: 1/3 width
-                        ui.allocate_ui_with_layout(
-                            egui::vec2(label_width, ui.available_height()),
-                            egui::Layout::top_down(egui::Align::Min),
-                            |ui| {
-                                egui::Frame::group(ui.style()).show(ui, |ui| {
-                                    ui.set_min_width(ui.available_width()); // 🔑 Same here
-                                    ui.label(
-                                        RichText::new("Info:").size(20.0),
-                                    );
-                                    ui.separator();
+                log_title_editor(ui, log);
+                ui.separator();
 
-                                    egui::Frame::group(ui.style()).show(ui, |ui| {
-                                        ui.set_min_width(ui.available_width()); // 🔑 Force full-width inside the frame
-                                        ui.heading("General");
-                                        ui.separator();
-                                        ui.label(format!(
-                                            "Duration:  {}",
-                                            format_time(log.duration_ms as u128)
-                                        ));
-                                    });
+                log_main_content(ui, log);
+                ui.separator();
 
-                                    ui.separator();
+                log_notes_editor(ui, log);
+                ui.separator();
 
-                                    egui::Frame::group(ui.style()).show(ui, |ui| {
-                                        ui.set_min_width(ui.available_width()); // 🔑 Force full-width inside the frame
-                                        ui.heading("Tempo");
-                                        ui.separator();
-                                        ui.label(format!("Starting Tempo:   {}", log.min_tempo));
-                                        ui.label(format!("Ending Tempo:     {}", log.max_tempo));
-                                    });
+                if full_width_button(ui, "Copy To Clipboard") {
+                    ui.ctx().copy_text(log_text_info(log));
+                }
 
-                                    ui.separator();
-
-                                    egui::Frame::group(ui.style()).show(ui, |ui| {
-                                        ui.set_min_width(ui.available_width()); // 🔑 Same here
-                                        ui.heading("Statistics");
-                                        ui.separator();
-                                        ui.label(format!("Average Tempo:  {}", log.average_tempo));
-                                        ui.label(format!(
-                                            "Average Delta:     {}",
-                                            log.average_delta
-                                        ));
-                                    });
-                                });
-                            },
-                        );
-                    });
-                    ui.separator();
-
-                    ui.add_sized(
-                        [ui.available_width(), 100.0], // width = fill available; height = 100 px
-                        egui::TextEdit::multiline(&mut log.notes).hint_text("Add Notes..."),
-                    );
-
-                    // Copy Data
-                    if ui
-                        .add_sized(
-                            [ui.available_width(), 30.0],
-                            egui::Button::new("Copy To Clipboard"),
-                        )
-                        .clicked()
-                    {
-                        let clipboard_content = log_text_info(log);
-
-                        ui.ctx().copy_text(clipboard_content);
-                    }
-
-                    // Delete Log Button
-                    if ui
-                        .add_sized(
-                            [ui.available_width(), 30.0],
-                            egui::Button::new("Delete Log"),
-                        )
-                        .clicked()
-                    {
-                        to_delete = Some(app.runtime.menu_state as usize);
-                    }
-                });
-            }
+                if full_width_button(ui, "Delete Log") {
+                    to_delete = Some(selected_index);
+                }
+            });
         });
     });
+
     if let Some(index) = to_delete {
-        if index < app.practice.logs.len() {
-            app.practice.logs.remove(index);
-            // Optional: reset menu state to prevent out-of-bounds
-            app.runtime.menu_state = app.runtime.menu_state.saturating_sub(1);
-        }
+        delete_log(app, index);
     }
 }
 
-fn log_text_info(log: &mut crate::app::types::PracticeLog) -> String {
+fn log_header(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
+    ui.label(
+        RichText::new(format!(
+            "{}, {}",
+            weekday_from_unix_ms(log.time_started),
+            format_date(log.time_started, None)
+        ))
+            .size(28.0)
+            .strong(),
+    );
+}
+
+fn log_title_editor(ui: &mut Ui, log: &mut crate::app::types::PracticeLog) {
+    ui.add_sized(
+        [ui.available_width(), 27.0],
+        TextEdit::singleline(&mut log.title)
+            .font(TextStyle::Heading)
+            .hint_text("Title..."),
+    );
+}
+
+fn log_main_content(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
+    ui.horizontal(|ui| {
+        let total_width = ui.available_width();
+        let plot_width = total_width * 2.0 / 3.0;
+        let info_width = total_width - plot_width;
+
+        ui.allocate_ui_with_layout(
+            egui::vec2(plot_width, ui.available_height()),
+            egui::Layout::top_down(egui::Align::Min),
+            |ui| {
+                draw_plot(ui, &log.points);
+            },
+        );
+
+        ui.allocate_ui_with_layout(
+            egui::vec2(info_width, ui.available_height()),
+            egui::Layout::top_down(egui::Align::Min),
+            |ui| {
+                log_info_panel(ui, log);
+            },
+        );
+    });
+}
+
+fn log_info_panel(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.set_min_width(ui.available_width());
+
+        ui.label(RichText::new("Info:").size(20.0).strong());
+        ui.separator();
+
+        info_section(ui, "General", |ui| {
+            ui.label(format!(
+                "Duration: {}",
+                format_time(log.duration_ms as u128)
+            ));
+        });
+
+        ui.separator();
+
+        info_section(ui, "Tempo", |ui| {
+            ui.label(format!("Starting Tempo: {}", log.min_tempo));
+            ui.label(format!("Ending Tempo: {}", log.max_tempo));
+        });
+
+        ui.separator();
+
+        info_section(ui, "Statistics", |ui| {
+            ui.label(format!("Average Tempo: {}", log.average_tempo));
+            ui.label(format!("Average Delta: {}", log.average_delta));
+        });
+    });
+}
+
+fn info_section(ui: &mut Ui, title: &str, contents: impl FnOnce(&mut Ui)) {
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+        ui.set_min_width(ui.available_width());
+
+        ui.heading(title);
+        ui.separator();
+
+        contents(ui);
+    });
+}
+
+fn log_notes_editor(ui: &mut Ui, log: &mut crate::app::types::PracticeLog) {
+    ui.add_sized(
+        [ui.available_width(), 100.0],
+        TextEdit::multiline(&mut log.notes).hint_text("Add Notes..."),
+    );
+}
+
+fn full_width_button(ui: &mut Ui, text: &str) -> bool {
+    ui.add_sized(
+        [ui.available_width(), 30.0],
+        egui::Button::new(text),
+    )
+        .clicked()
+}
+
+fn delete_log(app: &mut AppData, index: usize) {
+    if index < app.practice.logs.len() {
+        app.practice.logs.remove(index);
+
+        app.runtime.menu_state = app
+            .runtime
+            .menu_state
+            .saturating_sub(1);
+    }
+}
+
+fn log_text_info(log: &crate::app::types::PracticeLog) -> String {
     let date = format_date(log.time_started, None);
+
     let title_line = if log.title.is_empty() {
-        format!("{date}")
+        date
     } else {
         format!("{}, {date}", log.title)
     };
 
-    let clipboard_content = format!(
+    format!(
         "\
 {title_line}
 ------------------------------------
@@ -161,6 +185,5 @@ Notes:
         log.min_tempo,
         log.max_tempo,
         log.notes.trim()
-    );
-    clipboard_content
+    )
 }
