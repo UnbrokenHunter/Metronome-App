@@ -9,10 +9,8 @@ pub fn check_keyboard(app: &mut AppData, ctx: Context) {
         if i.key_pressed(Key::ArrowUp) {
             app.parameters.tempo_params.manual_offset += manual_increment;
         }
-        if i.key_pressed(Key::ArrowDown) {
-            if app.runtime.tempo - manual_increment >= 0.0 {
-                app.parameters.tempo_params.manual_offset -= manual_increment;
-            }
+        if i.key_pressed(Key::ArrowDown) && app.runtime.tempo - manual_increment >= 0.0 {
+            app.parameters.tempo_params.manual_offset -= manual_increment;
         }
 
         // Manual Time Adjustment

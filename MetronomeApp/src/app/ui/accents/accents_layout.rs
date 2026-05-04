@@ -293,7 +293,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                             };
 
                             let response = invisible_frame.show(ui, |ui| {
-                                for (_j, (state, color, rounding)) in states.iter().enumerate() {
+                                for (state, color, rounding) in states.iter() {
                                     let rect = Rect::from_min_size(cursor, button_size);
                                     let selected_color = match beat.state {
                                         BeatState::Downbeat => downbeat_color,
@@ -311,7 +311,7 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
                                         && app.runtime.playing
                                     {
                                         override_color
-                                    } else if !(app.runtime.menu_state == menu_state) {
+                                    } else if app.runtime.menu_state != menu_state {
                                         selected_color
                                     } else {
                                         *color
@@ -407,24 +407,25 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
             });
         });
     });
-    if let Some(index) = to_move_up {
-        if index > 0 && index < app.parameters.accents.accents.len() {
-            app.parameters.accents.accents.swap(index, index - 1);
-        }
+    if let Some(index) = to_move_up
+        && index > 0
+        && index < app.parameters.accents.accents.len()
+    {
+        app.parameters.accents.accents.swap(index, index - 1);
     }
-    if let Some(index) = to_move_down {
-        if index + 1 < app.parameters.accents.accents.len() {
-            app.parameters.accents.accents.swap(index, index + 1);
-        }
+    if let Some(index) = to_move_down
+        && index + 1 < app.parameters.accents.accents.len()
+    {
+        app.parameters.accents.accents.swap(index, index + 1);
     }
 
-    if let Some(index) = to_duplicate {
-        if index < app.parameters.accents.accents.len() {
-            app.parameters
-                .accents
-                .accents
-                .insert(index, app.parameters.accents.accents[index].clone());
-        }
+    if let Some(index) = to_duplicate
+        && index < app.parameters.accents.accents.len()
+    {
+        app.parameters
+            .accents
+            .accents
+            .insert(index, app.parameters.accents.accents[index].clone());
     }
 
     if let Some(index) = to_insert {
@@ -450,10 +451,10 @@ fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width:
         }
     }
 
-    if let Some(index) = to_delete {
-        if index < app.parameters.accents.accents.len() && app.parameters.accents.accents.len() > 1
-        {
-            app.parameters.accents.accents.remove(index);
-        }
+    if let Some(index) = to_delete
+        && index < app.parameters.accents.accents.len()
+        && app.parameters.accents.accents.len() > 1
+    {
+        app.parameters.accents.accents.remove(index);
     }
 }

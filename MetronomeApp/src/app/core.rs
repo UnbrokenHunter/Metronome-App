@@ -314,28 +314,28 @@ impl Drop for AppData {
         let _ = fs::create_dir_all("config");
 
         // Serialize only the `save` part
-        if let Ok(json) = serde_json::to_string_pretty(&self.parameters) {
-            if let Ok(mut file) = fs::File::create("config/mn_parameters.json") {
-                let _ = file.write_all(json.as_bytes());
-            }
+        if let Ok(json) = serde_json::to_string_pretty(&self.parameters)
+            && let Ok(mut file) = fs::File::create("config/mn_parameters.json")
+        {
+            let _ = file.write_all(json.as_bytes());
         }
 
-        if let Ok(json) = serde_json::to_string_pretty(&self.settings) {
-            if let Ok(mut file) = fs::File::create("config/mn_settings.json") {
-                let _ = file.write_all(json.as_bytes());
-            }
+        if let Ok(json) = serde_json::to_string_pretty(&self.settings)
+            && let Ok(mut file) = fs::File::create("config/mn_settings.json")
+        {
+            let _ = file.write_all(json.as_bytes());
         }
 
-        if let Ok(json) = serde_json::to_string_pretty(&self.accent_presets) {
-            if let Ok(mut file) = fs::File::create("config/mn_accent_presets.json") {
-                let _ = file.write_all(json.as_bytes());
-            }
+        if let Ok(json) = serde_json::to_string_pretty(&self.accent_presets)
+            && let Ok(mut file) = fs::File::create("config/mn_accent_presets.json")
+        {
+            let _ = file.write_all(json.as_bytes());
         }
 
-        if let Ok(json) = serde_json::to_string_pretty(&self.practice) {
-            if let Ok(mut file) = fs::File::create("config/mn_practice.json") {
-                let _ = file.write_all(json.as_bytes());
-            }
+        if let Ok(json) = serde_json::to_string_pretty(&self.practice)
+            && let Ok(mut file) = fs::File::create("config/mn_practice.json")
+        {
+            let _ = file.write_all(json.as_bytes());
         }
     }
 }

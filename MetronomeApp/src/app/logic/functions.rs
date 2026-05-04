@@ -15,7 +15,7 @@ pub fn calculate(growth_type: GrowthType, time: f64, params: TempoParams) -> f64
 
 fn linear(x: f64, p: TempoParams) -> f64 {
     let normalized = x / p.length / 60.0;
-    return (1.0 - normalized) * p.min as f64 + normalized * p.max as f64;
+    (1.0 - normalized) * p.min as f64 + normalized * p.max as f64
 }
 
 fn sigmoidal(x: f64, p: TempoParams) -> f64 {
@@ -43,7 +43,7 @@ fn sine(x: f64, p: TempoParams) -> f64 {
 }
 
 fn constant(p: TempoParams) -> f64 {
-    return p.min as f64;
+    p.min as f64
 }
 
 fn interpolate(start: u32, end: u32, t: f64) -> f64 {

@@ -53,10 +53,9 @@ fn growth_type_button(
     if ui
         .selectable_value(&mut app.parameters.growth_type, growth_type, label)
         .clicked()
+        && let Some(default_scaler) = default_scaler
     {
-        if let Some(default_scaler) = default_scaler {
-            app.parameters.tempo_params.scaler = default_scaler;
-        }
+        app.parameters.tempo_params.scaler = default_scaler;
     }
 }
 

@@ -52,7 +52,7 @@ pub fn format_date(date: u128, format: Option<&str>) -> String {
     // Default format: "June 10th, 2025"
     let day = datetime.day();
     let suffix = match day {
-        11 | 12 | 13 => "th", // special case
+        11..=13 => "th", // special case
         _ => match day % 10 {
             1 => "st",
             2 => "nd",

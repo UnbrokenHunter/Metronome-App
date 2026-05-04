@@ -17,7 +17,7 @@ fn play_sound(path: &str, volume: f32) -> (OutputStream, Sink) {
 
     sink.set_volume(volume); // Should be between 0 and 1
 
-    let file = File::open(&path).unwrap();
+    let file = File::open(path).unwrap();
     let source = Decoder::new(BufReader::new(file)).unwrap();
 
     sink.append(source);

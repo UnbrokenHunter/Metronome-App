@@ -4,13 +4,12 @@ use crate::app::{
 };
 
 pub fn calculate_number_of_beats(app: &mut AppData) -> usize {
-    return app
-        .parameters
+    app.parameters
         .accents
         .accents
         .iter()
         .map(|accent_data| accent_data.beats.len())
-        .sum();
+        .sum()
 }
 
 pub fn get_beat_at_index(app: &mut AppData, index: usize) -> Option<&mut BeatData> {

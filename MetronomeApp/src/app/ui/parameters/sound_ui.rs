@@ -44,7 +44,7 @@ pub fn sound_ui(app: &mut AppData, ui: &mut Ui) {
                                 }
 
                                 // Move to next row every 3 buttons
-                                if (sound as usize + 1) % 3 == 0 {
+                                if (sound as usize + 1).is_multiple_of(3) {
                                     ui.end_row();
                                 }
                             }
