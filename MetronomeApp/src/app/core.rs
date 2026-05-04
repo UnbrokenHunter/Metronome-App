@@ -21,10 +21,10 @@ use std::path::Path;
 
 impl Default for AppData {
     fn default() -> Self {
-        let parameters_path: &'static str = "mn_parameters.json";
-        let settings_path: &'static str = "mn_settings.json";
-        let practice_path: &'static str = "mn_practice.json";
-        let accent_presets_path: &'static str = "mn_accent_presets.json";
+        let parameters_path: &'static str = "config/mn_parameters.json";
+        let settings_path: &'static str = "config/mn_settings.json";
+        let practice_path: &'static str = "config/mn_practice.json";
+        let accent_presets_path: &'static str = "config/mn_accent_presets.json";
 
         let save: AppSaveData = if Path::new(parameters_path).exists() {
             if let Ok(contents) = fs::read_to_string(parameters_path) {
@@ -307,30 +307,33 @@ impl AppData {
 
 impl Drop for AppData {
     fn drop(&mut self) {
-        // Save the log if app is closed without reseting
+        // Save the log if app is closed without resetting
         logs::try_add_log(self);
+
+        // Create config folder if it doesn't exist
+        let _ = fs::create_dir_all("config");
 
         // Serialize only the `save` part
         if let Ok(json) = serde_json::to_string_pretty(&self.parameters) {
-            if let Ok(mut file) = fs::File::create("mn_parameters.json") {
+            if let Ok(mut file) = fs::File::create("config/mn_parameters.json") {
                 let _ = file.write_all(json.as_bytes());
             }
         }
 
         if let Ok(json) = serde_json::to_string_pretty(&self.settings) {
-            if let Ok(mut file) = fs::File::create("mn_settings.json") {
+            if let Ok(mut file) = fs::File::create("config/mn_settings.json") {
                 let _ = file.write_all(json.as_bytes());
             }
         }
 
         if let Ok(json) = serde_json::to_string_pretty(&self.accent_presets) {
-            if let Ok(mut file) = fs::File::create("mn_accent_presets.json") {
+            if let Ok(mut file) = fs::File::create("config/mn_accent_presets.json") {
                 let _ = file.write_all(json.as_bytes());
             }
         }
 
         if let Ok(json) = serde_json::to_string_pretty(&self.practice) {
-            if let Ok(mut file) = fs::File::create("mn_practice.json") {
+            if let Ok(mut file) = fs::File::create("config/mn_practice.json") {
                 let _ = file.write_all(json.as_bytes());
             }
         }
