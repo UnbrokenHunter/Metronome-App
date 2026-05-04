@@ -50,11 +50,36 @@ jobs:
         working-directory: MetronomeApp
         run: cargo build --release
 
-      - name: Upload build artifact
+      - name: Create package directory
+        shell: bash
+        run: |
+          mkdir package
+          cp "MetronomeApp/target/release/${{ matrix.binary_name }}" package/
+
+          if [ -d "MetronomeApp/target/release/assets" ]; then
+            cp -r MetronomeApp/target/release/assets package/assets
+          fi
+
+      - name: Create Windows/macOS package
+        if: runner.os != 'Linux'
+        shell: bash
+        run: |
+          cd package
+          7z a "../${{ matrix.archive_name }}" *
+
+      - name: Create Linux package
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          cd package
+          chmod +x "${{ matrix.binary_name }}"
+          tar -czf "../${{ matrix.archive_name }}" *
+
+      - name: Upload packaged app
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
-          path: MetronomeApp/target/release/${{ matrix.binary_name }}
+          path: ${{ matrix.archive_name }}
 
   github-release:
     needs: build
