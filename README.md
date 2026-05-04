@@ -2,7 +2,7 @@
 
 **Metronome!** is a highly customizable metronome app built with flexibility in mind. It supports tempo changes over time, customizable accent patterns with evolving time signatures, and automatic logging of your practice sessions.
 
-![Metronome Screenshot](assets/screenshot.png)
+![Metronome Screenshot](img/screenshot.png)
 
 ---
 
@@ -26,7 +26,7 @@ Under the **Sounds** panel, you can choose from 6 sound options: _Beep_, _Thump_
 
 Access the **Accents** tab from the top-left of the app. This is where you can build and customize rhythmic patterns to practice with.
 
-![Accents Menu Screenshot](assets/accentsmenu.png)
+![Accents Menu Screenshot](img/accentsmenu.png)
 
 By default, a chain titled "Untitled Accent Chain" with two bars is created. You can:
 
@@ -62,7 +62,7 @@ The **Subdivision** setting determines how many evenly spaced beats are inserted
 
 Metronome! automatically logs your practice sessions and stores them locally in a `.json` file—no internet connection, telemetry, or data harvesting.
 
-![Logs Menu Screenshot](assets/logsmenu.png)
+![Logs Menu Screenshot](img/logsmenu.png)
 
 In the **Logs** menu, you can:
 
