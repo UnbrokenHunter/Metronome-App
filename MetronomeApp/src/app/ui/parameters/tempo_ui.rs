@@ -40,10 +40,10 @@ pub fn tempo_ui(app: &mut AppData, ui: &mut Ui) {
 fn tap_tempo(app: &mut AppData) -> u32 {
     let last = app.runtime.last_tap_tempo_click;
     app.runtime.last_tap_tempo_click = app.runtime.time_data.time_since_start;
-    if last != 0 {
-        return (1.0 / ((app.runtime.last_tap_tempo_click - last) as f64 / 1000.0) as f64 * 60.0)
-            as u32;
+    return if last != 0 {
+        (1.0 / ((app.runtime.last_tap_tempo_click - last) as f64 / 1000.0) as f64 * 60.0)
+            as u32
     } else {
-        return app.runtime.tempo as u32;
+        app.runtime.tempo as u32
     }
 }
