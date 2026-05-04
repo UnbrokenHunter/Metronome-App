@@ -8,9 +8,13 @@ on:
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: windows-latest
@@ -34,13 +38,14 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build release binary
+        working-directory: MetronomeApp
         run: cargo build --release
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
-          path: target/release/${{ matrix.binary_name }}
+          path: MetronomeApp/target/release/${{ matrix.binary_name }}
 
   github-release:
     needs: build
