@@ -3,7 +3,7 @@ use std::collections::BTreeMap;
 use crate::app::{logic, types::PracticeLog, AppData};
 use eframe::egui::{self, Context, ScrollArea, Ui};
 
-pub fn logs_panel_layout(app: &mut AppData, ctx: &Context) {
+pub fn logs_side(app: &mut AppData, ctx: &Context) {
     egui::SidePanel::left("logs_panel")
         .resizable(false)
         .show(ctx, |ui| {
@@ -13,7 +13,7 @@ pub fn logs_panel_layout(app: &mut AppData, ctx: &Context) {
                     egui::Layout::top_down(egui::Align::Min),
                     |ui| {
                         ScrollArea::vertical().show(ui, |ui| {
-                            logs_panel_contents(app, ui);
+                            logs_side_contents(app, ui);
                         });
                     },
                 );
@@ -21,7 +21,7 @@ pub fn logs_panel_layout(app: &mut AppData, ctx: &Context) {
         });
 }
 
-fn logs_panel_contents(app: &mut AppData, ui: &mut Ui) {
+fn logs_side_contents(app: &mut AppData, ui: &mut Ui) {
     let grouped = grouped_logs(&app.practice.logs);
 
     for (day, logs) in grouped {

@@ -5,7 +5,7 @@ use crate::app::{
 };
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 
-pub fn logs_center_layout(app: &mut AppData, ui: &mut Ui) {
+pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
     let mut to_delete = None;
     let selected_index = app.runtime.menu_state as usize;
 

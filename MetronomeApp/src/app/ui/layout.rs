@@ -1,6 +1,6 @@
 use crate::app::ui::accents::{accents_layout, accents_panel_layout};
 use crate::app::ui::graph::graph_layout;
-use crate::app::ui::logs::{logs_center_layout, logs_panel_layout};
+use crate::app::ui::logs::{logs_panel, logs_side};
 use crate::app::ui::parameters::parameters_layout;
 use crate::app::ui::settings::{settings_center_layout, settings_panel_layout};
 use crate::app::ui::tabs::tabs_layout;
@@ -26,7 +26,7 @@ fn left_panel_ui(app: &mut AppData, ctx: &Context) {
     } else if app.runtime.menu == Menus::Accents {
         accents_panel_layout(app, ctx);
     } else if app.runtime.menu == Menus::Logs {
-        logs_panel_layout(app, ctx);
+        logs_side(app, ctx);
     } else if app.runtime.menu == Menus::Settings {
         settings_panel_layout(app, ctx);
     }
@@ -40,7 +40,7 @@ fn main_panel_ui(app: &mut AppData, ui: &mut Ui) {
     } else if app.runtime.menu == Menus::Accents {
         accents_layout(app, ui);
     } else if app.runtime.menu == Menus::Logs {
-        logs_center_layout(app, ui);
+        logs_panel(app, ui);
     } else if app.runtime.menu == Menus::Settings {
         settings_center_layout(app, ui)
     }

@@ -1,5 +1,5 @@
-pub mod logs_center_layout;
-pub mod logs_panel_layout;
+pub mod logs_panel;
+pub mod logs_side;
 
-pub use logs_center_layout::logs_center_layout;
-pub use logs_panel_layout::logs_panel_layout;
+pub use logs_panel::logs_panel;
+pub use logs_side::logs_side;
