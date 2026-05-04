@@ -310,32 +310,19 @@ impl Drop for AppData {
         // Save the log if app is closed without resetting
         logs::try_add_log(self);
 
-        // Create config folder if it doesn't exist
         let _ = fs::create_dir_all("config");
 
-        // Serialize only the `save` part
-        if let Ok(json) = serde_json::to_string_pretty(&self.parameters)
-            && let Ok(mut file) = fs::File::create("config/mn_parameters.json")
-        {
-            let _ = file.write_all(json.as_bytes());
-        }
+        save_json(&self.parameters, "config/mn_parameters.json");
+        save_json(&self.settings, "config/mn_settings.json");
+        save_json(&self.accent_presets, "config/mn_accent_presets.json");
+        save_json(&self.practice, "config/mn_practice.json");
 
-        if let Ok(json) = serde_json::to_string_pretty(&self.settings)
-            && let Ok(mut file) = fs::File::create("config/mn_settings.json")
-        {
-            let _ = file.write_all(json.as_bytes());
-        }
-
-        if let Ok(json) = serde_json::to_string_pretty(&self.accent_presets)
-            && let Ok(mut file) = fs::File::create("config/mn_accent_presets.json")
-        {
-            let _ = file.write_all(json.as_bytes());
-        }
-
-        if let Ok(json) = serde_json::to_string_pretty(&self.practice)
-            && let Ok(mut file) = fs::File::create("config/mn_practice.json")
-        {
-            let _ = file.write_all(json.as_bytes());
+        fn save_json<T: serde::Serialize>(value: &T, path: &str) {
+            if let Ok(json) = serde_json::to_string_pretty(value)
+                && let Ok(mut file) = fs::File::create(path)
+            {
+                let _ = file.write_all(json.as_bytes());
+            }
         }
     }
 }
