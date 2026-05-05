@@ -1,7 +1,6 @@
 use eframe::egui::Context;
 use eframe::Frame;
 
-use crate::app::logic::logs;
 use crate::app::types::AppData;
 
 use super::features::{shell, Menu, Registry};
@@ -58,5 +57,4 @@ impl eframe::App for Window {
 
         ctx.request_repaint();
     }
-
 }
