@@ -1,6 +1,6 @@
 use crate::app::{
-    AppData,
     types::{AccentData, BeatData, BeatState},
+    AppData,
 };
 
 pub(super) enum AccentAction {

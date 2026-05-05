@@ -1,15 +1,15 @@
 use crate::app::{
-    AppData,
     logic::accents::get_accent_and_beat_index,
     types::{AccentData, BeatData, BeatState},
+    AppData,
 };
 use eframe::egui::{self, Align, Frame, Layout, TextEdit, TextStyle, Ui};
 
 use super::{
-    actions::{AccentAction, apply_accent_action},
+    actions::{apply_accent_action, AccentAction},
     beat_column::draw_beat_column,
-    colors::{BeatColors, beat_colors},
-    utils::{SMALL_ICON_SIZE, TINY_ICON_SIZE, icon_button},
+    colors::{beat_colors, BeatColors},
+    utils::{icon_button, SMALL_ICON_SIZE, TINY_ICON_SIZE},
 };
 
 pub fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width: f32) {

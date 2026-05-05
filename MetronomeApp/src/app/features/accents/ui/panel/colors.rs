@@ -1,4 +1,4 @@
-use crate::app::{AppData, types::BeatState};
+use crate::app::{types::BeatState, AppData};
 use eframe::egui::{Color32, CornerRadius};
 
 #[derive(Clone, Copy)]

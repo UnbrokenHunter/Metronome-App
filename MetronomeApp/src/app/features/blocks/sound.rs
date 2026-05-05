@@ -1,4 +1,4 @@
-use crate::app::{AppData, Sounds, logic::sound::play_metronome};
+use crate::app::{logic::sound::play_metronome, AppData, Sounds};
 use eframe::egui::{self, Grid, Ui};
 
 use super::section::section;

@@ -1,6 +1,6 @@
 use eframe::egui::{self, Ui};
 
-use crate::app::{AppData, logic::logs};
+use crate::app::{logic::logs, AppData};
 
 pub fn play(app: &mut AppData, ui: &mut Ui) {
     let size = [ui.available_width(), 30.0];
