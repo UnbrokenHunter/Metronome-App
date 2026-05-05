@@ -1,6 +1,4 @@
-mod accents_panel;
-mod accents_side;
-mod panel;
+mod state;
+mod ui;
 
-pub use accents_panel::accents_panel;
-pub use accents_side::accents_side;
+pub use state::Accents;

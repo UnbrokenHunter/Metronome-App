@@ -2,7 +2,7 @@ use crate::app::{types::BeatState, AppData};
 use eframe::egui::{Color32, CornerRadius};
 
 #[derive(Clone, Copy)]
-pub struct BeatColors {
+pub(super) struct BeatColors {
     pub override_color: Color32,
     pub downbeat: Color32,
     pub strong: Color32,
@@ -10,7 +10,7 @@ pub struct BeatColors {
     pub off: Color32,
 }
 
-pub fn beat_colors(app: &AppData) -> BeatColors {
+pub(super) fn beat_colors(app: &AppData) -> BeatColors {
     let scheme = &app.settings.color_scheme;
 
     BeatColors {
@@ -22,7 +22,7 @@ pub fn beat_colors(app: &AppData) -> BeatColors {
     }
 }
 
-pub fn beat_state_rows(colors: BeatColors) -> [(BeatState, Color32, CornerRadius); 4] {
+pub(super) fn beat_state_rows(colors: BeatColors) -> [(BeatState, Color32, CornerRadius); 4] {
     let radius = 2;
 
     let rounding_top = CornerRadius {
@@ -49,7 +49,7 @@ pub fn beat_state_rows(colors: BeatColors) -> [(BeatState, Color32, CornerRadius
     ]
 }
 
-pub fn selected_beat_color(state: BeatState, colors: BeatColors) -> Color32 {
+pub(super) fn selected_beat_color(state: BeatState, colors: BeatColors) -> Color32 {
     match state {
         BeatState::Downbeat => colors.downbeat,
         BeatState::Strong => colors.strong,

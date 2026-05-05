@@ -62,7 +62,7 @@ fn draw_accent_side_buttons(ui: &mut Ui, accent_index: usize, action: &mut Optio
         .show(ui, |ui| {
             if icon_button(
                 ui,
-                egui::include_image!("../../../../../assets/icons/down_arrow.png"),
+                egui::include_image!("../../../../../../assets/icons/down_arrow.png"),
                 SMALL_ICON_SIZE,
             ) {
                 *action = Some(AccentAction::Insert(accent_index));
@@ -72,7 +72,7 @@ fn draw_accent_side_buttons(ui: &mut Ui, accent_index: usize, action: &mut Optio
 
             if icon_button(
                 ui,
-                egui::include_image!("../../../../../assets/icons/duplicate.png"),
+                egui::include_image!("../../../../../../assets/icons/duplicate.png"),
                 SMALL_ICON_SIZE,
             ) {
                 *action = Some(AccentAction::Duplicate(accent_index));
@@ -82,7 +82,7 @@ fn draw_accent_side_buttons(ui: &mut Ui, accent_index: usize, action: &mut Optio
 
             if icon_button(
                 ui,
-                egui::include_image!("../../../../../assets/icons/down_arrow.png"),
+                egui::include_image!("../../../../../../assets/icons/down_arrow.png"),
                 SMALL_ICON_SIZE,
             ) {
                 *action = Some(AccentAction::Insert(accent_index + 1));
@@ -102,7 +102,7 @@ fn draw_accent_header(
     ui.horizontal(|ui| {
         if icon_button(
             ui,
-            egui::include_image!("../../../../../assets/icons/up.png"),
+            egui::include_image!("../../../../../../assets/icons/up.png"),
             SMALL_ICON_SIZE,
         ) {
             *action = Some(AccentAction::MoveUp(accent_index));
@@ -133,7 +133,7 @@ fn draw_accent_header(
         ui.with_layout(Layout::right_to_left(Align::Min), |ui| {
             if icon_button(
                 ui,
-                egui::include_image!("../../../../../assets/icons/trash.png"),
+                egui::include_image!("../../../../../../assets/icons/trash.png"),
                 SMALL_ICON_SIZE,
             ) {
                 *action = Some(AccentAction::Delete(accent_index));
@@ -157,7 +157,7 @@ fn draw_accent_beats(
         ui.horizontal(|ui| {
             if icon_button(
                 ui,
-                egui::include_image!("../../../../../assets/icons/down.png"),
+                egui::include_image!("../../../../../../assets/icons/down.png"),
                 SMALL_ICON_SIZE,
             ) {
                 *action = Some(AccentAction::MoveDown(accent_index));
@@ -200,7 +200,7 @@ fn draw_beat_count_controls(ui: &mut Ui, accent: &mut AccentData, colors: BeatCo
                     .add_sized(
                         size,
                         egui::ImageButton::new(egui::include_image!(
-                            "../../../../../assets/icons/minus.png"
+                            "../../../../../../assets/icons/minus.png"
                         ))
                         .frame(false),
                     )
@@ -214,7 +214,7 @@ fn draw_beat_count_controls(ui: &mut Ui, accent: &mut AccentData, colors: BeatCo
                     .add_sized(
                         size,
                         egui::ImageButton::new(egui::include_image!(
-                            "../../../../../assets/icons/plus.png"
+                            "../../../../../../assets/icons/plus.png"
                         ))
                         .frame(false),
                     )

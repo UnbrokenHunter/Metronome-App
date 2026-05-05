@@ -3,7 +3,7 @@ use crate::app::{
     AppData,
 };
 
-pub enum AccentAction {
+pub(super) enum AccentAction {
     MoveUp(usize),
     MoveDown(usize),
     Duplicate(usize),
@@ -11,7 +11,7 @@ pub enum AccentAction {
     Delete(usize),
 }
 
-pub fn apply_accent_action(app: &mut AppData, action: AccentAction) {
+pub(super) fn apply_accent_action(app: &mut AppData, action: AccentAction) {
     let accents = &mut app.parameters.accents.accents;
 
     match action {

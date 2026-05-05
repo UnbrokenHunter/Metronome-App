@@ -7,7 +7,7 @@ pub fn draw_accent_top_bar(app: &mut AppData, ui: &mut Ui) {
     ui.horizontal(|ui| {
         if icon_button(
             ui,
-            egui::include_image!("../../../../../assets/icons/save.png"),
+            egui::include_image!("../../../../../../assets/icons/save.png"),
             SAVE_ICON_SIZE,
         ) {
             app.accent_presets
