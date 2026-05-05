@@ -1,11 +1,7 @@
 use std::collections::BTreeMap;
 
 use crate::app::features::{
-    accents::Accents,
-    logs::Logs,
-    metronome::Home,
-    settings::Settings,
-    shell::Menu,
+    accents::Accents, logs::Logs, metronome::Home, settings::Settings, shell::Menu,
     traits::Drawable,
 };
 
