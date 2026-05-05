@@ -2,11 +2,10 @@ use crate::app::ui::graph::plot::draw_demo_plot;
 use crate::app::{AppData, GrowthType};
 use eframe::egui::{self, Ui};
 
-pub fn growth_ui(app: &mut AppData, ui: &mut Ui) {
-    egui::Frame::group(ui.style()).show(ui, |ui| {
-        ui.label("Growth Behavior:");
-        ui.separator();
+use super::section::section;
 
+pub fn growth(app: &mut AppData, ui: &mut Ui) {
+    section(ui, "Growth Behavior:", |ui| {
         ui.horizontal(|ui| {
             ui.vertical(|ui| {
                 growth_type_buttons(app, ui);
@@ -15,7 +14,6 @@ pub fn growth_ui(app: &mut AppData, ui: &mut Ui) {
             ui.vertical(|ui| {
                 egui::Frame::group(ui.style()).show(ui, |ui| {
                     draw_demo_plot(ui, app.parameters.growth_type, app.parameters.tempo_params);
-
                     scaler_slider(app, ui);
                 });
             });
@@ -23,10 +21,7 @@ pub fn growth_ui(app: &mut AppData, ui: &mut Ui) {
     });
 }
 
-// Build list in order, while not adding sigmoid if there is no end.
 fn growth_type_buttons(app: &mut AppData, ui: &mut Ui) {
-    // If infinite mode is on, Sigmoidal is not allowed.
-    // So if it was selected, switch away from it.
     if app.parameters.infinite && app.parameters.growth_type == GrowthType::Sigmoidal {
         app.parameters.growth_type = GrowthType::Linear;
     }
@@ -60,15 +55,20 @@ fn growth_type_button(
 }
 
 fn scaler_slider(app: &mut AppData, ui: &mut Ui) {
-    let scaler_range = match app.parameters.growth_type {
+    if let Some(range) = scaler_range(app.parameters.growth_type) {
+        ui.add(
+            egui::Slider::new(&mut app.parameters.tempo_params.scaler, range)
+                .text("Scaler"),
+        );
+    }
+}
+
+fn scaler_range(growth_type: GrowthType) -> Option<std::ops::RangeInclusive<f64>> {
+    match growth_type {
         GrowthType::Exponential => Some(1.0..=10.0),
         GrowthType::Logarithmic => Some(0.01..=1.0),
         GrowthType::Sigmoidal => Some(1.0..=10.0),
         GrowthType::Sine => Some(1.0..=50.0),
         _ => None,
-    };
-
-    if let Some(range) = scaler_range {
-        ui.add(egui::Slider::new(&mut app.parameters.tempo_params.scaler, range).text("Scaler"));
     }
 }

@@ -1,11 +1,11 @@
 use crate::app::ui::graph::graph_layout;
 use crate::app::ui::logs::{logs_panel, logs_side};
-use crate::app::ui::parameters::parameters_layout;
 use crate::app::ui::settings::{settings_center_layout, settings_panel_layout};
 use crate::app::ui::tabs::tabs_layout;
 use crate::app::{AppData, Menus, logic};
 use eframe::egui::{self, Context, Ui};
 use crate::app::ui::accents::{accents_panel, accents_side};
+use crate::app::ui::parameters;
 
 pub fn layout(app: &mut AppData, ctx: &Context) {
     header_panel_ui(app, ctx);
@@ -22,7 +22,7 @@ fn header_panel_ui(app: &mut AppData, ctx: &Context) {
 
 fn left_panel_ui(app: &mut AppData, ctx: &Context) {
     if app.runtime.menu == Menus::Metronome {
-        parameters_layout(app, ctx);
+        parameters::layout(app, ctx);
     } else if app.runtime.menu == Menus::Accents {
         accents_side(app, ctx);
     } else if app.runtime.menu == Menus::Logs {

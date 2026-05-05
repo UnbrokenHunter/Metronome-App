@@ -1,8 +1,7 @@
+use crate::app::{logic, AppData};
 use eframe::egui::{self, Ui};
 
-use crate::app::{AppData, logic};
-
-pub fn parameters_ui(app: &mut AppData, ui: &mut Ui) {
+pub fn status(app: &mut AppData, ui: &mut Ui) {
     ui.horizontal(|ui| {
         ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui| {
             ui.label(format!(

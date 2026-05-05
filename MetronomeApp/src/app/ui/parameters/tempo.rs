@@ -1,38 +1,49 @@
 use crate::app::{AppData, GrowthType};
 use eframe::egui::{self, Ui};
 
-pub fn tempo_ui(app: &mut AppData, ui: &mut Ui) {
-    egui::Frame::group(ui.style()).show(ui, |ui| {
-        ui.label("Tempo:");
-        ui.separator();
+use super::section::section;
+
+pub fn tempo(app: &mut AppData, ui: &mut Ui) {
+    section(ui, "Tempo:", |ui| {
         if app.parameters.growth_type == GrowthType::Constant {
-            ui.horizontal(|ui| {
-                ui.add(
-                    egui::Slider::new(&mut app.parameters.tempo_params.min, 1..=400).text("Tempo"),
-                );
-                if ui.add(egui::Button::new("Tap")).clicked() {
-                    app.parameters.tempo_params.min = tap_tempo(app);
-                }
-            });
+            tempo_row(app, ui, "Tempo", TempoTarget::Min);
         } else {
-            ui.horizontal(|ui| {
+            tempo_row(app, ui, "Starting Tempo  ", TempoTarget::Min);
+            tempo_row(app, ui, "Ending Tempo    ", TempoTarget::Max);
+        }
+    });
+}
+
+#[derive(Clone, Copy)]
+enum TempoTarget {
+    Min,
+    Max,
+}
+
+fn tempo_row(app: &mut AppData, ui: &mut Ui, label: &str, target: TempoTarget) {
+    ui.horizontal(|ui| {
+        match target {
+            TempoTarget::Min => {
                 ui.add(
                     egui::Slider::new(&mut app.parameters.tempo_params.min, 1..=400)
-                        .text("Starting Tempo  "),
+                        .text(label),
                 );
+
                 if ui.add(egui::Button::new("Tap")).clicked() {
                     app.parameters.tempo_params.min = tap_tempo(app);
                 }
-            });
-            ui.horizontal(|ui| {
+            }
+
+            TempoTarget::Max => {
                 ui.add(
                     egui::Slider::new(&mut app.parameters.tempo_params.max, 1..=400)
-                        .text("Ending Tempo    "),
+                        .text(label),
                 );
+
                 if ui.add(egui::Button::new("Tap")).clicked() {
                     app.parameters.tempo_params.max = tap_tempo(app);
                 }
-            });
+            }
         }
     });
 }

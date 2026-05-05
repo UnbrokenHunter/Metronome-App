@@ -1,8 +1,14 @@
+use crate::app::AppData;
 use eframe::egui::{self, Context, RichText, ScrollArea};
 
-use crate::app::{AppData, ui::parameters};
+use super::{
+    growth::growth,
+    practice::practice,
+    sound::sound,
+    tempo::tempo,
+};
 
-pub fn parameters_layout(app: &mut AppData, ctx: &Context) {
+pub fn layout(app: &mut AppData, ctx: &Context) {
     egui::SidePanel::left("parameters")
         .resizable(false)
         .show(ctx, |ui| {
@@ -11,11 +17,10 @@ pub fn parameters_layout(app: &mut AppData, ctx: &Context) {
                 ui.separator();
 
                 ScrollArea::vertical().show(ui, |ui| {
-                    parameters::practice_ui(app, ui);
-                    parameters::tempo_ui(app, ui);
-
-                    parameters::growth_ui(app, ui);
-                    parameters::sound_ui(app, ui);
+                    practice(app, ui);
+                    tempo(app, ui);
+                    growth(app, ui);
+                    sound(app, ui);
                 });
             });
         });

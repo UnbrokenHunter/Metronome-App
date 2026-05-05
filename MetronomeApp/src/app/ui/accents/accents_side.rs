@@ -19,11 +19,11 @@ pub fn accents_side(app: &mut AppData, ctx: &Context) {
                 ui.separator();
 
                 ScrollArea::vertical().show(ui, |ui| {
-                    parameters::practice_ui(app, ui);
-                    parameters::tempo_ui(app, ui);
+                    parameters::practice(app, ui);
+                    parameters::tempo(app, ui);
 
-                    parameters::growth_ui(app, ui);
-                    parameters::sound_ui(app, ui);
+                    parameters::growth(app, ui);
+                    parameters::sound(app, ui);
                 });
             });
         });

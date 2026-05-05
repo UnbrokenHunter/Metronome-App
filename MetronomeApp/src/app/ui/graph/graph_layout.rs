@@ -9,7 +9,7 @@ pub fn graph_layout(app: &mut AppData, ui: &mut Ui) {
     let label_width = total_width - plot_width;
 
     ui.vertical_centered(|ui| {
-        parameters::parameters_ui(app, ui);
+        parameters::status(app, ui);
         graph::plot_ui(app, ui);
         ui.horizontal(|ui: &mut Ui| {
             ui.allocate_ui_with_layout(
