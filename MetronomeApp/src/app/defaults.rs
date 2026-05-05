@@ -1,10 +1,10 @@
 use crate::app::{
-    logic::clock, types::{
+    GrowthType, Menus, Sounds, TempoParams,
+    logic::clock,
+    types::{
         AccentChain, AccentData, AppAccentPresetData, AppData, AppPracticeData, AppRunningData,
         AppSaveData, AppSettingsData, BeatData, BeatState, ColorScheme, TimeData,
-    }, GrowthType, Menus,
-    Sounds,
-    TempoParams,
+    },
 };
 
 impl AppData {

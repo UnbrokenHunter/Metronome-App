@@ -1,7 +1,7 @@
 use crate::app::features::graph::plot::draw_plot;
 use crate::app::{
-    logic::clock::{format_date, format_time, weekday_from_unix_ms},
     AppData,
+    logic::clock::{format_date, format_time, weekday_from_unix_ms},
 };
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 

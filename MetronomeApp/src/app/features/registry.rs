@@ -4,6 +4,7 @@ use crate::app::features::{
     accents::Accents,
     logs::Logs,
     metronome::Home,
+    settings::Settings,
     shell::Menu,
     traits::Drawable,
 };
@@ -19,6 +20,7 @@ impl Registry {
         map.insert(Menu::Home, Box::new(Home) as Box<dyn Drawable>);
         map.insert(Menu::Accents, Box::new(Accents) as Box<dyn Drawable>);
         map.insert(Menu::Logs, Box::new(Logs) as Box<dyn Drawable>);
+        map.insert(Menu::Settings, Box::new(Settings) as Box<dyn Drawable>);
 
         Self { map }
     }

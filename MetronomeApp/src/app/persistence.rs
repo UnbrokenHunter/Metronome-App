@@ -2,7 +2,7 @@ use std::fs;
 use std::io::Write;
 use std::path::Path;
 
-use serde::{de::DeserializeOwned, Serialize};
+use serde::{Serialize, de::DeserializeOwned};
 
 use crate::app::types::{
     AppAccentPresetData, AppData, AppPracticeData, AppSaveData, AppSettingsData,

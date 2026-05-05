@@ -1,9 +1,6 @@
-use crate::app::features::logs::ui::{
-    logs_panel::logs_panel,
-    logs_side::logs_side,
-};
-use crate::app::features::traits::Drawable;
 use crate::app::AppData;
+use crate::app::features::logs::ui::{logs_panel::logs_panel, logs_side::logs_side};
+use crate::app::features::traits::Drawable;
 
 #[derive(Default)]
 pub struct Logs;
