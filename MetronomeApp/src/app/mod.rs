@@ -8,4 +8,4 @@ pub mod features;
 pub mod logic;
 pub mod types;
 
-pub use types::{AppData, GrowthType, Menus, Sounds, TempoParams};
+pub use types::{AppData, GrowthType, Sounds, TempoParams};

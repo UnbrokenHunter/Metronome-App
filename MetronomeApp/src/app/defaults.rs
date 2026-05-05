@@ -1,10 +1,10 @@
 use crate::app::{
-    GrowthType, Menus, Sounds, TempoParams,
-    logic::clock,
-    types::{
+    logic::clock, types::{
         AccentChain, AccentData, AppAccentPresetData, AppData, AppPracticeData, AppRunningData,
         AppSaveData, AppSettingsData, BeatData, BeatState, ColorScheme, TimeData,
-    },
+    }, GrowthType,
+    Sounds,
+    TempoParams,
 };
 
 impl AppData {
@@ -76,7 +76,6 @@ impl AppData {
             last_tap_tempo_click: 0,
             last_subdivision_time: 0,
             last_click_accent: 0,
-            menu: Menus::Metronome,
             time_data: Self::default_time_data(),
             menu_state: 0,
         }

@@ -5,6 +5,6 @@ pub trait Drawable {
     fn draw_sidebar(&mut self, app: &mut AppData, ui: &mut egui::Ui);
 }
 
-pub trait Resettable {
-    fn reset(&mut self);
-}
+// pub trait Resettable {
+//     fn reset(&mut self);
+// }

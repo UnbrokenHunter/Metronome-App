@@ -1,6 +1,6 @@
-use crate::app::AppData;
-use crate::app::features::{blocks, graph};
+use crate::app::features::blocks;
 use crate::app::logic::logs;
+use crate::app::AppData;
 use eframe::egui::{self, Ui};
 
 pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {
@@ -10,7 +10,7 @@ pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {
 
     ui.vertical_centered(|ui| {
         blocks::status(app, ui);
-        graph::plot_ui::plot_ui(app, ui);
+        blocks::plot_ui::plot_ui(app, ui);
         ui.horizontal(|ui: &mut Ui| {
             ui.allocate_ui_with_layout(
                 egui::vec2(label_width, ui.available_height()),

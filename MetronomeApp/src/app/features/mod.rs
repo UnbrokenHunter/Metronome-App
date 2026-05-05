@@ -1,6 +1,5 @@
 mod accents;
 mod blocks;
-mod graph;
 mod logs;
 mod metronome;
 mod settings;

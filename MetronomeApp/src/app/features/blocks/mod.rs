@@ -1,6 +1,8 @@
 mod growth;
 pub mod info;
 pub mod play;
+pub mod plot;
+pub mod plot_ui;
 mod practice;
 mod section;
 mod sound;

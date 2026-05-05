@@ -21,7 +21,6 @@ pub struct AppRunningData {
     pub tempo: f64,
     pub last_tap_tempo_click: u128,
     pub time_data: TimeData,
-    pub menu: Menus,
     pub menu_state: u32,
 }
 
@@ -121,14 +120,6 @@ pub struct TempoParams {
     pub scaler: f64,
     pub manual_offset: f64,
     pub manual_time_offset: f64,
-}
-
-#[derive(PartialEq, Copy, Clone, Debug, Serialize, Deserialize)]
-pub enum Menus {
-    Metronome,
-    Accents,
-    Logs,
-    Settings,
 }
 
 #[derive(PartialEq, Copy, Clone, Debug, Serialize, Deserialize)]
