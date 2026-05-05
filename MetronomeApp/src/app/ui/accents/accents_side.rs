@@ -5,7 +5,7 @@ use crate::app::{
     ui::{general, parameters},
 };
 
-pub fn accents_panel_layout(app: &mut AppData, ctx: &Context) {
+pub fn accents_side(app: &mut AppData, ctx: &Context) {
     egui::SidePanel::left("accents_panel")
         .resizable(false)
         .show(ctx, |ui| {
