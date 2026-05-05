@@ -1,6 +1,8 @@
 use crate::app::{
+    features::settings::{
+        general_settings_ui::general_settings_ui, log_settings_ui::log_settings_ui,
+    },
     AppData,
-    features::settings::{general_settings_ui::general_settings_ui, log_settings_ui::log_settings_ui},
 };
 use eframe::egui::Ui;
 

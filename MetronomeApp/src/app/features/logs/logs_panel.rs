@@ -1,9 +1,9 @@
+use crate::app::features::graph::plot::draw_plot;
 use crate::app::{
     logic::clock::{format_date, format_time, weekday_from_unix_ms},
     AppData,
 };
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
-use crate::app::features::graph::plot::draw_plot;
 
 pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
     let mut to_delete = None;
@@ -46,7 +46,10 @@ pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
 }
 
 fn log_header(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
-    let color = ui.visuals().override_text_color.unwrap_or(ui.visuals().text_color());
+    let color = ui
+        .visuals()
+        .override_text_color
+        .unwrap_or(ui.visuals().text_color());
     ui.label(
         RichText::new(format!(
             "{}, {}",

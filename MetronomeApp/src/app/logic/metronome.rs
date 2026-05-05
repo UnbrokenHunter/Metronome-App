@@ -1,10 +1,10 @@
 use crate::app::{
-    AppData,
     logic::{
         accents::{calculate_number_of_beats, get_accent_at_beat_index, get_beat_at_index},
         sound::play_metronome,
     },
     types::BeatState,
+    AppData,
 };
 
 pub fn update_metronome(app: &mut AppData) {
@@ -25,8 +25,7 @@ pub fn update_metronome(app: &mut AppData) {
 
     let now = app.runtime.time_data.calculated_time_since_start;
 
-    let time_since_last_click =
-        (now - app.runtime.last_click_time) as f64 / 1000.0;
+    let time_since_last_click = (now - app.runtime.last_click_time) as f64 / 1000.0;
 
     let Some(current_accent) =
         get_accent_at_beat_index(app, app.runtime.last_click_accent as usize)
@@ -37,8 +36,7 @@ pub fn update_metronome(app: &mut AppData) {
 
     let subdivision_period = period / current_accent.subdivision as f64;
 
-    let time_since_last_subdivision =
-        (now - app.runtime.last_subdivision_time) as f64 / 1000.0;
+    let time_since_last_subdivision = (now - app.runtime.last_subdivision_time) as f64 / 1000.0;
 
     if time_since_last_click > period {
         app.runtime.last_click_time = now;

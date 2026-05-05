@@ -21,28 +21,20 @@ enum TempoTarget {
 }
 
 fn tempo_row(app: &mut AppData, ui: &mut Ui, label: &str, target: TempoTarget) {
-    ui.horizontal(|ui| {
-        match target {
-            TempoTarget::Min => {
-                ui.add(
-                    egui::Slider::new(&mut app.parameters.tempo_params.min, 1..=400)
-                        .text(label),
-                );
+    ui.horizontal(|ui| match target {
+        TempoTarget::Min => {
+            ui.add(egui::Slider::new(&mut app.parameters.tempo_params.min, 1..=400).text(label));
 
-                if ui.add(egui::Button::new("Tap")).clicked() {
-                    app.parameters.tempo_params.min = tap_tempo(app);
-                }
+            if ui.add(egui::Button::new("Tap")).clicked() {
+                app.parameters.tempo_params.min = tap_tempo(app);
             }
+        }
 
-            TempoTarget::Max => {
-                ui.add(
-                    egui::Slider::new(&mut app.parameters.tempo_params.max, 1..=400)
-                        .text(label),
-                );
+        TempoTarget::Max => {
+            ui.add(egui::Slider::new(&mut app.parameters.tempo_params.max, 1..=400).text(label));
 
-                if ui.add(egui::Button::new("Tap")).clicked() {
-                    app.parameters.tempo_params.max = tap_tempo(app);
-                }
+            if ui.add(egui::Button::new("Tap")).clicked() {
+                app.parameters.tempo_params.max = tap_tempo(app);
             }
         }
     });

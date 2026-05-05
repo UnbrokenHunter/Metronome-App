@@ -202,7 +202,7 @@ fn draw_beat_count_controls(ui: &mut Ui, accent: &mut AccentData, colors: BeatCo
                         egui::ImageButton::new(egui::include_image!(
                             "../../../../../assets/icons/minus.png"
                         ))
-                            .frame(false),
+                        .frame(false),
                     )
                     .clicked()
                     && accent.beats.len() > 1
@@ -216,7 +216,7 @@ fn draw_beat_count_controls(ui: &mut Ui, accent: &mut AccentData, colors: BeatCo
                         egui::ImageButton::new(egui::include_image!(
                             "../../../../../assets/icons/plus.png"
                         ))
-                            .frame(false),
+                        .frame(false),
                     )
                     .clicked()
                 {

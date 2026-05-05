@@ -1,9 +1,6 @@
 use eframe::egui::{RichText, ScrollArea, Ui};
 
-use crate::app::{
-    features::blocks,
-    AppData,
-};
+use crate::app::{features::blocks, AppData};
 
 pub fn accents_side(app: &mut AppData, ui: &mut Ui) {
     ui.label(RichText::new(format!("{:.2} BPM", app.runtime.tempo)).size(45.0));

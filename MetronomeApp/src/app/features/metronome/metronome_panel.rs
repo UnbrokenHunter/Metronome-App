@@ -1,6 +1,6 @@
-use crate::app::AppData;
+use crate::app::features::{blocks, graph};
 use crate::app::logic::logs;
-use crate::app::features::{graph, blocks};
+use crate::app::AppData;
 use eframe::egui::{self, Ui};
 
 pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {

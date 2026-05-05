@@ -6,12 +6,8 @@ use eframe::egui::{self, Frame, Grid, RichText, Ui};
 pub fn info(app: &mut AppData, ui: &mut Ui) {
     ui.vertical(|ui| {
         Frame::group(ui.style())
-            .inner_margin(egui::Margin::same(
-                4,
-            )) // default is often ~6.0
-            .outer_margin(egui::Margin::same(
-                0,
-            ))
+            .inner_margin(egui::Margin::same(4)) // default is often ~6.0
+            .outer_margin(egui::Margin::same(0))
             .show(ui, |ui| {
                 Grid::new("tempo_time_grid")
                     .num_columns(2)

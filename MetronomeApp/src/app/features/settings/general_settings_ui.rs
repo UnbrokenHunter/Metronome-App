@@ -1,6 +1,6 @@
 use eframe::egui::{self, RichText, ScrollArea, Ui};
 
-use crate::app::{AppData, types::ColorScheme};
+use crate::app::{types::ColorScheme, AppData};
 
 pub fn general_settings_ui(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {

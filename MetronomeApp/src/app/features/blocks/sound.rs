@@ -20,10 +20,7 @@ pub fn sound(app: &mut AppData, ui: &mut Ui) {
             });
 
             ui.vertical(|ui| {
-                ui.add(
-                    egui::Slider::new(&mut app.parameters.volume, 0.0..=1.0)
-                        .text("Volume"),
-                );
+                ui.add(egui::Slider::new(&mut app.parameters.volume, 0.0..=1.0).text("Volume"));
             });
         });
     });
@@ -36,11 +33,7 @@ fn sound_grid(app: &mut AppData, ui: &mut Ui) {
         .show(ui, |ui| {
             for (index, sound) in SOUNDS.iter().copied().enumerate() {
                 if ui
-                    .selectable_value(
-                        &mut app.parameters.sound,
-                        sound,
-                        format!("{sound:?}"),
-                    )
+                    .selectable_value(&mut app.parameters.sound, sound, format!("{sound:?}"))
                     .clicked()
                 {
                     preview_sound(app, sound);

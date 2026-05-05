@@ -1,7 +1,5 @@
-use crate::app::types::{BeatData};
-use eframe::egui::{
-    self, Color32, CornerRadius, Frame, Rect, Sense, Stroke, TextStyle, Ui, Vec2,
-};
+use crate::app::types::BeatData;
+use eframe::egui::{self, Color32, CornerRadius, Frame, Rect, Sense, Stroke, TextStyle, Ui, Vec2};
 
 use super::{
     colors::{beat_state_rows, selected_beat_color, BeatColors},

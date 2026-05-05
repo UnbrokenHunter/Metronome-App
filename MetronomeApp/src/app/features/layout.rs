@@ -1,9 +1,9 @@
 use crate::app::features::accents::{accents_panel, accents_side};
 use crate::app::features::logs::{logs_panel, logs_side};
+use crate::app::features::metronome::{metronome_panel, metronome_side};
 use crate::app::features::settings::{settings_center_layout, settings_panel_layout};
 use crate::app::{logic, AppData, Menus};
 use eframe::egui::{self, Context, Ui};
-use crate::app::features::metronome::{metronome_panel, metronome_side};
 
 pub fn layout(app: &mut AppData, ctx: &Context) {
     egui::SidePanel::left("accents_panel")

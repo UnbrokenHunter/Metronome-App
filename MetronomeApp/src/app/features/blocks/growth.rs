@@ -56,10 +56,7 @@ fn growth_type_button(
 
 fn scaler_slider(app: &mut AppData, ui: &mut Ui) {
     if let Some(range) = scaler_range(app.parameters.growth_type) {
-        ui.add(
-            egui::Slider::new(&mut app.parameters.tempo_params.scaler, range)
-                .text("Scaler"),
-        );
+        ui.add(egui::Slider::new(&mut app.parameters.tempo_params.scaler, range).text("Scaler"));
     }
 }
 
