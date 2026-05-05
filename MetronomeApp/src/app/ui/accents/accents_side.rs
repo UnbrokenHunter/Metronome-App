@@ -1,4 +1,4 @@
-use eframe::egui::{Context, RichText, ScrollArea, Ui};
+use eframe::egui::{RichText, ScrollArea, Ui};
 
 use crate::app::{
     ui::{general, parameters},
