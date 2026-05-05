@@ -1,4 +1,4 @@
-use crate::app::{types::ColorScheme, AppData};
+use crate::app::{AppData, types::ColorScheme};
 use eframe::egui::{self, RichText, ScrollArea, Ui};
 
 use super::section::{full_width_button, settings_section};

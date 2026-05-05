@@ -4,8 +4,8 @@ use std::fmt::Display;
 use egui::{Button, Context, ScrollArea, Ui};
 use serde::{Deserialize, Serialize};
 
-use crate::app::features::registry::Registry;
 use crate::app::AppData;
+use crate::app::features::registry::Registry;
 
 pub fn draw_layout(
     app: &mut AppData,

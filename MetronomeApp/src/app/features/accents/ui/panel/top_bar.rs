@@ -1,7 +1,7 @@
 use crate::app::AppData;
 use eframe::egui::{self, Align, ComboBox, Layout, TextEdit, TextStyle, Ui};
 
-use super::utils::{icon_button, truncate, SAVE_ICON_SIZE};
+use super::utils::{SAVE_ICON_SIZE, icon_button, truncate};
 
 pub fn draw_accent_top_bar(app: &mut AppData, ui: &mut Ui) {
     ui.horizontal(|ui| {

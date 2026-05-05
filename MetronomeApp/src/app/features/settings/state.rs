@@ -1,8 +1,8 @@
+use crate::app::AppData;
 use crate::app::features::settings::ui::{
     settings_panel::settings_panel, settings_side::settings_side,
 };
 use crate::app::features::traits::Drawable;
-use crate::app::AppData;
 
 #[derive(Default)]
 pub struct Settings;
