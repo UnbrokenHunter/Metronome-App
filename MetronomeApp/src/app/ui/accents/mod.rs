@@ -1,6 +1,5 @@
-pub mod accents_panel;
-pub mod accents_side;
-
+mod accents_panel;
+mod accents_side;
 mod panel;
 
 pub use accents_panel::accents_panel;
