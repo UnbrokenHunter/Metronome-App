@@ -11,8 +11,8 @@ use crate::app::types::{
 use super::logic::metronome;
 use super::logic::{clock, keyboard};
 use super::types::{AppData, AppPracticeData, AppRunningData, AppSaveData, TimeData};
-use super::ui::layout;
-use super::{GrowthType, Menus, Sounds, TempoParams};
+use super::features::layout;
+use super::{tabs_layout, GrowthType, Menus, Sounds, TempoParams};
 
 use serde_json;
 use std::fs;
@@ -330,6 +330,7 @@ impl Drop for AppData {
 impl eframe::App for AppData {
     fn update(&mut self, ctx: &Context, _frame: &mut Frame) {
         self.settings.color_scheme.apply_to_ctx(ctx); // This probably dosnt need to happen evey fram but idk
+        tabs_layout::tabs_layout(self, ctx);
         layout::layout(self, ctx);
 
         keyboard::check_keyboard(self, ctx.clone());

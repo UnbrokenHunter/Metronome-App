@@ -1,13 +1,17 @@
 use crate::app::logic::clock::format_time;
 use crate::app::logic::functions::calculate;
-use crate::app::{AppData, logic::functions::derivative};
+use crate::app::{logic::functions::derivative, AppData};
 use eframe::egui::{self, Frame, Grid, RichText, Ui};
 
-pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
+pub fn info(app: &mut AppData, ui: &mut Ui) {
     ui.vertical(|ui| {
         Frame::group(ui.style())
-            .inner_margin(crate::app::ui::general::info_ui::egui::Margin::same(4)) // default is often ~6.0
-            .outer_margin(crate::app::ui::general::info_ui::egui::Margin::same(0))
+            .inner_margin(egui::Margin::same(
+                4,
+            )) // default is often ~6.0
+            .outer_margin(egui::Margin::same(
+                0,
+            ))
             .show(ui, |ui| {
                 Grid::new("tempo_time_grid")
                     .num_columns(2)
@@ -15,9 +19,9 @@ pub fn info_ui(app: &mut AppData, ui: &mut Ui) {
                     .striped(true)
                     .show(ui, |ui| {
                         // Row 1: Tempo
-                        // ui.label(RichText::new("BPM:").size(28.0));
-                        // ui.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(23.0));
-                        // ui.end_row();
+                        // features.label(RichText::new("BPM:").size(28.0));
+                        // features.label(RichText::new(format!("{:.2} BPM", app.tempo)).size(23.0));
+                        // features.end_row();
 
                         ui.label(
                             RichText::new(

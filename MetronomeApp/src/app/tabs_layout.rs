@@ -5,7 +5,7 @@ pub fn tabs_layout(app: &mut AppData, ctx: &Context) {
     egui::TopBottomPanel::top("tabs")
         .resizable(false)
         .show(ctx, |ui| {
-            // egui::Frame::group(ui.style()).show(ui, |ui| {
+            // egui::Frame::group(features.style()).show(features, |features| {
             ui.horizontal(|ui: &mut Ui| {
                 let tab_size = [ui.available_width() / 10.0, 25.0];
 

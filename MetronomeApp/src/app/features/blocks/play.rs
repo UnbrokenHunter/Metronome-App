@@ -2,7 +2,7 @@ use eframe::egui::{self, Ui};
 
 use crate::app::{AppData, logic::logs};
 
-pub fn play_ui(app: &mut AppData, ui: &mut Ui) {
+pub fn play(app: &mut AppData, ui: &mut Ui) {
     let size = [ui.available_width(), 30.0];
 
     ui.vertical(|ui| {

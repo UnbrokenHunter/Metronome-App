@@ -1,7 +1,7 @@
 use crate::app::AppData;
 use eframe::egui::{Frame, ScrollArea, Ui};
-use crate::app::ui::accents::panel::draw_accent;
-use crate::app::ui::accents::panel::draw_accent_top_bar;
+use crate::app::features::accents::panel::draw_accent;
+use crate::app::features::accents::panel::draw_accent_top_bar;
 
 pub fn accents_panel(app: &mut AppData, ui: &mut Ui) {
     Frame::group(ui.style()).show(ui, |ui| {

@@ -44,8 +44,8 @@ pub fn get_accent_at_beat_index(app: &mut AppData, index: usize) -> Option<&mut 
 //     let mut count = 0;
 
 //     let mut i = 0;
-//     while i < accent_index && i < app.parameters.accents.accents.len() {
-//         count += app.parameters.accents.accents[i].beats.len();
+//     while i < accent_index && i < app.blocks.accents.accents.len() {
+//         count += app.blocks.accents.accents[i].beats.len();
 //         i += 1;
 //     }
 //     count += beat_index;

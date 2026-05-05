@@ -1,6 +1,6 @@
 use crate::app::AppData;
 use crate::app::logic::logs;
-use crate::app::ui::{general, graph, parameters};
+use crate::app::features::{graph, blocks};
 use eframe::egui::{self, Ui};
 
 pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {
@@ -9,14 +9,14 @@ pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {
     let label_width = total_width - plot_width;
 
     ui.vertical_centered(|ui| {
-        parameters::status(app, ui);
+        blocks::status(app, ui);
         graph::plot_ui::plot_ui(app, ui);
         ui.horizontal(|ui: &mut Ui| {
             ui.allocate_ui_with_layout(
                 egui::vec2(label_width, ui.available_height()),
                 egui::Layout::top_down(egui::Align::Min),
                 |ui| {
-                    general::play_ui(app, ui);
+                    blocks::play(app, ui);
                     let size = [ui.available_width(), 30.0];
 
                     if ui
@@ -28,7 +28,7 @@ pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {
                     }
                 },
             );
-            general::info_ui(app, ui);
+            blocks::info(app, ui);
         });
     });
 }

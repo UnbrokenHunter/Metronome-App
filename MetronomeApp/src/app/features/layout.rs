@@ -1,14 +1,11 @@
-use crate::app::ui::accents::{accents_panel, accents_side};
-use crate::app::ui::logs::{logs_panel, logs_side};
-use crate::app::ui::settings::{settings_center_layout, settings_panel_layout};
-use crate::app::ui::tabs::tabs_layout;
+use crate::app::features::accents::{accents_panel, accents_side};
+use crate::app::features::logs::{logs_panel, logs_side};
+use crate::app::features::settings::{settings_center_layout, settings_panel_layout};
 use crate::app::{logic, AppData, Menus};
 use eframe::egui::{self, Context, Ui};
-use crate::app::ui::metronome::{metronome_panel, metronome_side};
+use crate::app::features::metronome::{metronome_panel, metronome_side};
 
 pub fn layout(app: &mut AppData, ctx: &Context) {
-    header_panel_ui(app, ctx);
-
     egui::SidePanel::left("accents_panel")
         .resizable(false)
         .show(ctx, |ui| {
@@ -20,10 +17,6 @@ pub fn layout(app: &mut AppData, ctx: &Context) {
     egui::CentralPanel::default().show(ctx, |ui| {
         main_panel_ui(app, ui);
     });
-}
-
-fn header_panel_ui(app: &mut AppData, ctx: &Context) {
-    tabs_layout(app, ctx);
 }
 
 fn left_panel_ui(app: &mut AppData, ui: &mut Ui) {
