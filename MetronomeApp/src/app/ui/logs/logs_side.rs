@@ -1,24 +1,18 @@
 use std::collections::BTreeMap;
 
-use crate::app::{AppData, logic, types::PracticeLog};
-use eframe::egui::{self, Context, ScrollArea, Ui};
+use crate::app::{logic, types::PracticeLog, AppData};
+use eframe::egui::{self, ScrollArea, Ui};
 
-pub fn logs_side(app: &mut AppData, ctx: &Context) {
-    egui::SidePanel::left("logs_panel")
-        .resizable(false)
-        .show(ctx, |ui| {
-            egui::Frame::group(ui.style()).show(ui, |ui| {
-                ui.allocate_ui_with_layout(
-                    egui::vec2(200.0, ui.available_height()),
-                    egui::Layout::top_down(egui::Align::Min),
-                    |ui| {
-                        ScrollArea::vertical().show(ui, |ui| {
-                            logs_side_contents(app, ui);
-                        });
-                    },
-                );
+pub fn logs_side(app: &mut AppData, ui: &mut Ui) {
+    ui.allocate_ui_with_layout(
+        egui::vec2(200.0, ui.available_height()),
+        egui::Layout::top_down(egui::Align::Min),
+        |ui| {
+            ScrollArea::vertical().show(ui, |ui| {
+                logs_side_contents(app, ui);
             });
-        });
+        },
+    );
 }
 
 fn logs_side_contents(app: &mut AppData, ui: &mut Ui) {
