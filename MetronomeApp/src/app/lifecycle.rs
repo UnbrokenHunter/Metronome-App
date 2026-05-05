@@ -1,12 +1,5 @@
-use eframe::egui::Context;
-use eframe::Frame;
-
 use crate::app::logic::logs;
 use crate::app::types::AppData;
-
-use super::features::layout;
-use super::logic::{clock, keyboard, metronome};
-use super::tabs_layout;
 
 impl Default for AppData {
     fn default() -> Self {
@@ -54,20 +47,5 @@ impl Drop for AppData {
     fn drop(&mut self) {
         logs::try_add_log(self);
         self.save();
-    }
-}
-
-impl eframe::App for AppData {
-    fn update(&mut self, ctx: &Context, _frame: &mut Frame) {
-        self.settings.color_scheme.apply_to_ctx(ctx);
-
-        tabs_layout::tabs_layout(self, ctx);
-        layout::layout(self, ctx);
-
-        keyboard::check_keyboard(self, ctx.clone());
-        clock::update_time(&mut self.runtime.time_data, self.runtime.playing);
-        metronome::update_metronome(self);
-
-        ctx.request_repaint();
     }
 }

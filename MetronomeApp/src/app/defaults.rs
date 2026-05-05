@@ -8,7 +8,7 @@ use crate::app::{
 };
 
 impl AppData {
-    pub(super) fn default_parameters_data() -> AppSaveData {
+    pub(crate) fn default_parameters_data() -> AppSaveData {
         AppSaveData {
             tempo_params: TempoParams {
                 min: 100,

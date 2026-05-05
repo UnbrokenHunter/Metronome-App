@@ -16,7 +16,7 @@ const PRACTICE_PATH: &str = "config/mn_practice.json";
 const ACCENT_PRESETS_PATH: &str = "config/mn_accent_presets.json";
 
 impl AppData {
-    pub(super) fn load_parameters() -> AppSaveData {
+    pub(crate) fn load_parameters() -> AppSaveData {
         load_json(PARAMETERS_PATH).unwrap_or_else(Self::default_parameters_data)
     }
 
@@ -32,7 +32,7 @@ impl AppData {
         load_json(ACCENT_PRESETS_PATH).unwrap_or_else(Self::default_accent_presets_data)
     }
 
-    pub(super) fn save(&self) {
+    pub(crate) fn save(&self) {
         let _ = fs::create_dir_all(CONFIG_DIR);
 
         save_json(&self.parameters, PARAMETERS_PATH);

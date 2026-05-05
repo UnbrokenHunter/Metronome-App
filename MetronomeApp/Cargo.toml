@@ -18,6 +18,7 @@ env_logger = { version = "0.11.8", default-features = false, features = ["auto-c
 rodio = "0.20.1"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
+egui = "0.31.1"
 
 [build-dependencies]
 embed-resource = "3.0.3"

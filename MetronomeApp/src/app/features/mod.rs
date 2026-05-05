@@ -1,7 +1,14 @@
-pub mod accents;
-pub mod blocks;
-pub mod graph;
-pub mod layout;
-pub mod logs;
+mod accents;
+mod blocks;
+mod graph;
+mod logs;
 mod metronome;
 pub mod settings;
+
+
+pub mod registry;
+pub mod shell;
+mod traits;
+
+pub use registry::Registry;
+pub use shell::Menu;

@@ -2,6 +2,7 @@ use rodio::{OutputStream, Sink};
 use serde::Deserialize;
 use serde::Serialize;
 use std::fmt;
+use crate::app::logic::logs;
 
 pub struct AppData {
     pub parameters: AppSaveData,

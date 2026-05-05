@@ -1,5 +1,4 @@
-pub mod metronome_panel;
-pub mod metronome_side;
+mod state;
+mod ui;
 
-pub use metronome_panel::metronome_panel;
-pub use metronome_side::metronome_side;
+pub use state::Home;

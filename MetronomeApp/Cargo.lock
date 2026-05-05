@@ -8,6 +8,7 @@ version = "0.2.0"
 dependencies = [
  "chrono",
  "eframe",
+ "egui",
  "egui_extras",
  "egui_plot",
  "embed-resource",
