@@ -3,7 +3,7 @@ mod blocks;
 mod graph;
 mod logs;
 mod metronome;
-pub mod settings;
+mod settings;
 
 pub mod registry;
 pub mod shell;

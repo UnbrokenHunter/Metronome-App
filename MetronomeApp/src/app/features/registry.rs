@@ -1,6 +1,12 @@
 use std::collections::BTreeMap;
 
-use crate::app::features::{accents::Accents, metronome::Home, shell::Menu, traits::Drawable};
+use crate::app::features::{
+    accents::Accents,
+    logs::Logs,
+    metronome::Home,
+    shell::Menu,
+    traits::Drawable,
+};
 
 pub struct Registry {
     map: BTreeMap<Menu, Box<dyn Drawable>>,
@@ -12,6 +18,7 @@ impl Registry {
 
         map.insert(Menu::Home, Box::new(Home) as Box<dyn Drawable>);
         map.insert(Menu::Accents, Box::new(Accents) as Box<dyn Drawable>);
+        map.insert(Menu::Logs, Box::new(Logs) as Box<dyn Drawable>);
 
         Self { map }
     }

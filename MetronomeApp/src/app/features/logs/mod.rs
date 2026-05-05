@@ -1,3 +1,4 @@
-pub mod logs_panel;
-pub mod logs_side;
+mod state;
+mod ui;
 
+pub use state::Logs;
