@@ -1,9 +1,9 @@
 use crate::app::{
-    AppData,
     logic::clock::{format_date, format_time, weekday_from_unix_ms},
-    ui::graph::plot::draw_plot,
+    AppData,
 };
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
+use crate::app::ui::graph::plot::draw_plot;
 
 pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
     let mut to_delete = None;
