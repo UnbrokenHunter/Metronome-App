@@ -91,7 +91,6 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install WiX Toolset
-        if: runner.os == 'Windows'
         shell: powershell
         run: |
           choco install wixtoolset -y
@@ -102,7 +101,35 @@ jobs:
 
       - name: Build MSI installer
         working-directory: MetronomeApp
-        run: cargo wix --bin-path "C:\Program Files (x86)\WiX Toolset v3.14\bin" --nocapture
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $WixBin = "C:\Program Files (x86)\WiX Toolset v3.14\bin"
+          $Heat = Join-Path $WixBin "heat.exe"
+
+          Write-Host "Building Rust release..."
+          cargo build --release
+
+          Write-Host "Regenerating wix\assets.wxs..."
+          & $Heat dir "target\release\assets" `
+            -cg AssetsComponents `
+            -dr AssetsFolder `
+            -srd `
+            -sfrag `
+            -ag `
+            -template fragment `
+            -var var.CargoTargetBinDir `
+            -out "wix\assets.wxs"
+
+          Write-Host "Patching generated asset paths..."
+          $assetsWxs = "wix\assets.wxs"
+          $content = Get-Content $assetsWxs -Raw
+          $content = $content.Replace('$(var.CargoTargetBinDir)\', '$(var.CargoTargetBinDir)\assets\')
+          Set-Content $assetsWxs $content -Encoding UTF8
+
+          Write-Host "Building MSI..."
+          cargo wix --bin-path $WixBin --nocapture
 
       - name: Copy MSI installer
         shell: powershell
