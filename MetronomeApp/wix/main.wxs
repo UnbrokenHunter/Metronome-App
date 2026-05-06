@@ -100,148 +100,148 @@
             </Directory>
 
             <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
-                <Directory Id='APPLICATIONFOLDER' Name='MetronomeApp'>
+                <Directory Id='CompanyProgramFilesFolder' Name='Bazooka'>
+                    <Directory Id='APPLICATIONFOLDER' Name='MetronomeApp'>
+                        <Component Id='License' Guid='*'>
+                            <File
+                                Id='LicenseFile'
+                                DiskId='1'
+                                Source='wix\License.rtf'
+                                KeyPath='yes' />
+                        </Component>
 
-                    <Component Id='License' Guid='*'>
-                        <File
-                            Id='LicenseFile'
-                            DiskId='1'
-                            Source='wix\License.rtf'
-                            KeyPath='yes' />
-                    </Component>
+                        <!--
+                            Creates this shortcut beside MetronomeApp.exe:
 
-                    <!--
-                        Creates this shortcut beside MetronomeApp.exe:
+                            C:\Program Files\MetronomeApp\Config.lnk
 
-                        C:\Program Files\MetronomeApp\Config.lnk
+                            It opens:
 
-                        It opens:
-
-                        C:\Users\<User>\AppData\Roaming\Bazooka\MetronomeApp\config
-                    -->
-                    <Component Id='ConfigFolderShortcutComponent' Guid='*'>
-                        <Shortcut
-                            Id='ConfigFolderShortcut'
-                            Name='Config'
-                            Description='Open the MetronomeApp config folder'
-                            Target='[ConfigFolder]'
-                            WorkingDirectory='ConfigFolder' />
-
-                        <RegistryValue
-                            Root='HKLM'
-                            Key='Software\Bazooka\MetronomeApp'
-                            Name='ConfigFolderShortcut'
-                            Type='integer'
-                            Value='1'
-                            KeyPath='yes' />
-                    </Component>
-
-                    <Component Id='binary0' Guid='*'>
-                        <File
-                            Id='exe0'
-                            Name='MetronomeApp.exe'
-                            DiskId='1'
-                            Source='$(var.CargoTargetBinDir)\MetronomeApp.exe'
-                            KeyPath='yes'>
-
+                            C:\Users\<User>\AppData\Roaming\Bazooka\MetronomeApp\config
+                        -->
+                        <Component Id='ConfigFolderShortcutComponent' Guid='*'>
                             <Shortcut
-                                Id='StartMenuShortcut'
-                                Directory='ApplicationProgramsFolder'
-                                Name='MetronomeApp'
-                                Description='Launch MetronomeApp'
-                                WorkingDirectory='APPLICATIONFOLDER'
-                                Advertise='yes' />
+                                Id='ConfigFolderShortcut'
+                                Name='Config'
+                                Description='Open the MetronomeApp config folder'
+                                Target='[ConfigFolder]'
+                                WorkingDirectory='ConfigFolder' />
 
-                            <Shortcut
-                                Id='DesktopShortcut'
-                                Directory='DesktopFolder'
-                                Name='MetronomeApp'
-                                Description='Launch MetronomeApp'
-                                WorkingDirectory='APPLICATIONFOLDER'
-                                Advertise='yes' />
+                            <RegistryValue
+                                Root='HKLM'
+                                Key='Software\Bazooka\MetronomeApp'
+                                Name='ConfigFolderShortcut'
+                                Type='integer'
+                                Value='1'
+                                KeyPath='yes' />
+                        </Component>
 
-                        </File>
-                    </Component>
+                        <Component Id='binary0' Guid='*'>
+                            <File
+                                Id='exe0'
+                                Name='MetronomeApp.exe'
+                                DiskId='1'
+                                Source='$(var.CargoTargetBinDir)\MetronomeApp.exe'
+                                KeyPath='yes'>
 
-                    <Directory Id='AssetsFolder' Name='assets'>
+                                <Shortcut
+                                    Id='StartMenuShortcut'
+                                    Directory='ApplicationProgramsFolder'
+                                    Name='MetronomeApp'
+                                    Description='Launch MetronomeApp'
+                                    WorkingDirectory='APPLICATIONFOLDER'
+                                    Advertise='yes' />
 
-                        <Directory Id='IconsFolder' Name='icons'>
-                            <Component Id='AssetIcons' Guid='D79B3034-9C5B-4E02-9C2A-B19618240C6E'>
-                                <File Id='AssetDownPng' Source='$(var.CargoTargetBinDir)\assets\icons\down.png' KeyPath='yes' />
-                                <File Id='AssetDownArrowPng' Source='$(var.CargoTargetBinDir)\assets\icons\down_arrow.png' />
-                                <File Id='AssetDuplicatePng' Source='$(var.CargoTargetBinDir)\assets\icons\duplicate.png' />
-                                <File Id='AssetIconAseprite' Source='$(var.CargoTargetBinDir)\assets\icons\icon.aseprite' />
-                                <File Id='AssetIconIco' Source='$(var.CargoTargetBinDir)\assets\icons\icon.ico' />
-                                <File Id='AssetIconPng' Source='$(var.CargoTargetBinDir)\assets\icons\icon.png' />
-                                <File Id='AssetIconRc' Source='$(var.CargoTargetBinDir)\assets\icons\icon.rc' />
-                                <File Id='AssetMinusPng' Source='$(var.CargoTargetBinDir)\assets\icons\minus.png' />
-                                <File Id='AssetMorePng' Source='$(var.CargoTargetBinDir)\assets\icons\more.png' />
-                                <File Id='AssetPlusPng' Source='$(var.CargoTargetBinDir)\assets\icons\plus.png' />
-                                <File Id='AssetRightArrowPng' Source='$(var.CargoTargetBinDir)\assets\icons\right_arrow.png' />
-                                <File Id='AssetSavePng' Source='$(var.CargoTargetBinDir)\assets\icons\save.png' />
-                                <File Id='AssetTabAseprite' Source='$(var.CargoTargetBinDir)\assets\icons\tab.aseprite' />
-                                <File Id='AssetTabPng' Source='$(var.CargoTargetBinDir)\assets\icons\tab.png' />
-                                <File Id='AssetTrashPng' Source='$(var.CargoTargetBinDir)\assets\icons\trash.png' />
-                                <File Id='AssetUpPng' Source='$(var.CargoTargetBinDir)\assets\icons\up.png' />
-                            </Component>
-                        </Directory>
+                                <Shortcut
+                                    Id='DesktopShortcut'
+                                    Directory='DesktopFolder'
+                                    Name='MetronomeApp'
+                                    Description='Launch MetronomeApp'
+                                    WorkingDirectory='APPLICATIONFOLDER'
+                                    Advertise='yes' />
 
-                        <Directory Id='SoundsFolder' Name='sounds'>
+                            </File>
+                        </Component>
 
-                            <Directory Id='SoundsBeepFolder' Name='beep'>
-                                <Component Id='AssetSoundsBeep' Guid='93D32471-4345-455C-A3DB-6606463CD6D7'>
-                                    <File Id='AssetBeepWav' Source='$(var.CargoTargetBinDir)\assets\sounds\beep\beep.wav' KeyPath='yes' />
-                                    <File Id='AssetBeepStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\beep\beep_strong.wav' />
-                                    <File Id='AssetBeepSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\beep\beep_subdivision.wav' />
-                                    <File Id='AssetBeepWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\beep\beep_weak.wav' />
+                        <Directory Id='AssetsFolder' Name='assets'>
+
+                            <Directory Id='IconsFolder' Name='icons'>
+                                <Component Id='AssetIcons' Guid='D79B3034-9C5B-4E02-9C2A-B19618240C6E'>
+                                    <File Id='AssetDownPng' Source='$(var.CargoTargetBinDir)\assets\icons\down.png' KeyPath='yes' />
+                                    <File Id='AssetDownArrowPng' Source='$(var.CargoTargetBinDir)\assets\icons\down_arrow.png' />
+                                    <File Id='AssetDuplicatePng' Source='$(var.CargoTargetBinDir)\assets\icons\duplicate.png' />
+                                    <File Id='AssetIconAseprite' Source='$(var.CargoTargetBinDir)\assets\icons\icon.aseprite' />
+                                    <File Id='AssetIconIco' Source='$(var.CargoTargetBinDir)\assets\icons\icon.ico' />
+                                    <File Id='AssetIconPng' Source='$(var.CargoTargetBinDir)\assets\icons\icon.png' />
+                                    <File Id='AssetIconRc' Source='$(var.CargoTargetBinDir)\assets\icons\icon.rc' />
+                                    <File Id='AssetMinusPng' Source='$(var.CargoTargetBinDir)\assets\icons\minus.png' />
+                                    <File Id='AssetMorePng' Source='$(var.CargoTargetBinDir)\assets\icons\more.png' />
+                                    <File Id='AssetPlusPng' Source='$(var.CargoTargetBinDir)\assets\icons\plus.png' />
+                                    <File Id='AssetRightArrowPng' Source='$(var.CargoTargetBinDir)\assets\icons\right_arrow.png' />
+                                    <File Id='AssetSavePng' Source='$(var.CargoTargetBinDir)\assets\icons\save.png' />
+                                    <File Id='AssetTabAseprite' Source='$(var.CargoTargetBinDir)\assets\icons\tab.aseprite' />
+                                    <File Id='AssetTabPng' Source='$(var.CargoTargetBinDir)\assets\icons\tab.png' />
+                                    <File Id='AssetTrashPng' Source='$(var.CargoTargetBinDir)\assets\icons\trash.png' />
+                                    <File Id='AssetUpPng' Source='$(var.CargoTargetBinDir)\assets\icons\up.png' />
                                 </Component>
                             </Directory>
 
-                            <Directory Id='SoundsClaveFolder' Name='clave'>
-                                <Component Id='AssetSoundsClave' Guid='50643C0A-232D-4767-8A1F-D7D25A6B1F11'>
-                                    <File Id='AssetClaveWav' Source='$(var.CargoTargetBinDir)\assets\sounds\clave\clave.wav' KeyPath='yes' />
-                                    <File Id='AssetClaveStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\clave\clave_strong.wav' />
-                                    <File Id='AssetClaveSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\clave\clave_subdivision.wav' />
-                                    <File Id='AssetClaveWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\clave\clave_weak.wav' />
-                                </Component>
-                            </Directory>
+                            <Directory Id='SoundsFolder' Name='sounds'>
 
-                            <Directory Id='SoundsCowbellFolder' Name='cowbell'>
-                                <Component Id='AssetSoundsCowbell' Guid='42E58C49-1AFD-48C4-A34D-F36DCD88C92E'>
-                                    <File Id='AssetCowbellWav' Source='$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell.wav' KeyPath='yes' />
-                                    <File Id='AssetCowbellStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_strong.wav' />
-                                    <File Id='AssetCowbellSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_subdivision.wav' />
-                                    <File Id='AssetCowbellWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_weak.wav' />
-                                </Component>
-                            </Directory>
+                                <Directory Id='SoundsBeepFolder' Name='beep'>
+                                    <Component Id='AssetSoundsBeep' Guid='93D32471-4345-455C-A3DB-6606463CD6D7'>
+                                        <File Id='AssetBeepWav' Source='$(var.CargoTargetBinDir)\assets\sounds\beep\beep.wav' KeyPath='yes' />
+                                        <File Id='AssetBeepStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\beep\beep_strong.wav' />
+                                        <File Id='AssetBeepSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\beep\beep_subdivision.wav' />
+                                        <File Id='AssetBeepWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\beep\beep_weak.wav' />
+                                    </Component>
+                                </Directory>
 
-                            <Directory Id='SoundsDrumsFolder' Name='drums'>
-                                <Component Id='AssetSoundsDrums' Guid='6EB2680E-F77D-4ACB-9517-FBD68A5B9FF5'>
-                                    <File Id='AssetDrumsWav' Source='$(var.CargoTargetBinDir)\assets\sounds\drums\drums.wav' KeyPath='yes' />
-                                    <File Id='AssetDrumsStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\drums\drums_strong.wav' />
-                                    <File Id='AssetDrumsSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\drums\drums_subdivision.wav' />
-                                    <File Id='AssetDrumsWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\drums\drums_weak.wav' />
-                                </Component>
-                            </Directory>
+                                <Directory Id='SoundsClaveFolder' Name='clave'>
+                                    <Component Id='AssetSoundsClave' Guid='50643C0A-232D-4767-8A1F-D7D25A6B1F11'>
+                                        <File Id='AssetClaveWav' Source='$(var.CargoTargetBinDir)\assets\sounds\clave\clave.wav' KeyPath='yes' />
+                                        <File Id='AssetClaveStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\clave\clave_strong.wav' />
+                                        <File Id='AssetClaveSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\clave\clave_subdivision.wav' />
+                                        <File Id='AssetClaveWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\clave\clave_weak.wav' />
+                                    </Component>
+                                </Directory>
 
-                            <Directory Id='SoundsThumpFolder' Name='thump'>
-                                <Component Id='AssetSoundsThump' Guid='F64A60E5-FAF5-44B0-B871-61C66FE43029'>
-                                    <File Id='AssetThumpWav' Source='$(var.CargoTargetBinDir)\assets\sounds\thump\thump.wav' KeyPath='yes' />
-                                    <File Id='AssetThumpStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\thump\thump_strong.wav' />
-                                    <File Id='AssetThumpSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\thump\thump_subdivision.wav' />
-                                    <File Id='AssetThumpWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\thump\thump_weak.wav' />
-                                </Component>
-                            </Directory>
+                                <Directory Id='SoundsCowbellFolder' Name='cowbell'>
+                                    <Component Id='AssetSoundsCowbell' Guid='42E58C49-1AFD-48C4-A34D-F36DCD88C92E'>
+                                        <File Id='AssetCowbellWav' Source='$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell.wav' KeyPath='yes' />
+                                        <File Id='AssetCowbellStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_strong.wav' />
+                                        <File Id='AssetCowbellSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_subdivision.wav' />
+                                        <File Id='AssetCowbellWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_weak.wav' />
+                                    </Component>
+                                </Directory>
 
-                            <Directory Id='SoundsToneFolder' Name='tone'>
-                                <Component Id='AssetSoundsTone' Guid='5E9E265E-99EB-490C-A781-F39E4A0A937D'>
-                                    <File Id='AssetToneWav' Source='$(var.CargoTargetBinDir)\assets\sounds\tone\tone.wav' KeyPath='yes' />
-                                    <File Id='AssetToneStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\tone\tone_strong.wav' />
-                                    <File Id='AssetToneSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\tone\tone_subdivision.wav' />
-                                    <File Id='AssetToneWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\tone\tone_weak.wav' />
-                                </Component>
-                            </Directory>
+                                <Directory Id='SoundsDrumsFolder' Name='drums'>
+                                    <Component Id='AssetSoundsDrums' Guid='6EB2680E-F77D-4ACB-9517-FBD68A5B9FF5'>
+                                        <File Id='AssetDrumsWav' Source='$(var.CargoTargetBinDir)\assets\sounds\drums\drums.wav' KeyPath='yes' />
+                                        <File Id='AssetDrumsStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\drums\drums_strong.wav' />
+                                        <File Id='AssetDrumsSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\drums\drums_subdivision.wav' />
+                                        <File Id='AssetDrumsWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\drums\drums_weak.wav' />
+                                    </Component>
+                                </Directory>
 
+                                <Directory Id='SoundsThumpFolder' Name='thump'>
+                                    <Component Id='AssetSoundsThump' Guid='F64A60E5-FAF5-44B0-B871-61C66FE43029'>
+                                        <File Id='AssetThumpWav' Source='$(var.CargoTargetBinDir)\assets\sounds\thump\thump.wav' KeyPath='yes' />
+                                        <File Id='AssetThumpStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\thump\thump_strong.wav' />
+                                        <File Id='AssetThumpSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\thump\thump_subdivision.wav' />
+                                        <File Id='AssetThumpWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\thump\thump_weak.wav' />
+                                    </Component>
+                                </Directory>
+
+                                <Directory Id='SoundsToneFolder' Name='tone'>
+                                    <Component Id='AssetSoundsTone' Guid='5E9E265E-99EB-490C-A781-F39E4A0A937D'>
+                                        <File Id='AssetToneWav' Source='$(var.CargoTargetBinDir)\assets\sounds\tone\tone.wav' KeyPath='yes' />
+                                        <File Id='AssetToneStrongWav' Source='$(var.CargoTargetBinDir)\assets\sounds\tone\tone_strong.wav' />
+                                        <File Id='AssetToneSubdivisionWav' Source='$(var.CargoTargetBinDir)\assets\sounds\tone\tone_subdivision.wav' />
+                                        <File Id='AssetToneWeakWav' Source='$(var.CargoTargetBinDir)\assets\sounds\tone\tone_weak.wav' />
+                                    </Component>
+                                </Directory>
+                            </Directory>
                         </Directory>
                     </Directory>
                 </Directory>
