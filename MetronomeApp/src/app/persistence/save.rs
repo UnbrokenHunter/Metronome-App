@@ -1,11 +1,12 @@
 use std::fs;
 use std::io::Write;
+use std::path::Path;
 
 use serde::Serialize;
 
 use super::versioned::VersionedConfig;
 
-pub(super) fn save_versioned_json<T>(value: &T, path: &str, version: u32)
+pub(super) fn save_versioned_json<T>(value: &T, path: &Path, version: u32)
 where
     T: Serialize,
 {

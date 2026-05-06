@@ -6,7 +6,7 @@ use serde::de::DeserializeOwned;
 use super::versioned::VersionedConfig;
 
 pub(super) fn load_user_or_default_config<T>(
-    user_path: &str,
+    user_path: &Path,
     default_json: &str,
     current_version: u32,
     migrate: fn(&str, u32) -> Option<T>,
@@ -34,14 +34,14 @@ where
 }
 
 fn load_config_file<T>(
-    path: &str,
+    path: &Path,
     current_version: u32,
     migrate: fn(&str, u32) -> Option<T>,
 ) -> Option<T>
 where
     T: DeserializeOwned,
 {
-    if !Path::new(path).exists() {
+    if !path.exists() {
         return None;
     }
 

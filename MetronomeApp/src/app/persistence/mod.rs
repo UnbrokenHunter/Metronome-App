@@ -2,6 +2,11 @@ mod load;
 mod save;
 mod versioned;
 
+use std::fs;
+use std::path::{Path, PathBuf};
+
+use directories::ProjectDirs;
+
 use crate::app::{
     data::{
         accents, general, practice, settings, AppAccentPresetData, AppPracticeData,
@@ -13,17 +18,17 @@ use crate::app::{
 use load::{load_default_config, load_user_or_default_config};
 use save::save_versioned_json;
 
-const CONFIG_DIR: &str = "config";
+const LOCAL_CONFIG_DIR: &str = "config";
 
-const PARAMETERS_PATH: &str = "config/mn_parameters.json";
-const SETTINGS_PATH: &str = "config/mn_settings.json";
-const PRACTICE_PATH: &str = "config/mn_practice.json";
-const ACCENT_PRESETS_PATH: &str = "config/mn_accent_presets.json";
+const PARAMETERS_FILE: &str = "mn_parameters.json";
+const SETTINGS_FILE: &str = "mn_settings.json";
+const PRACTICE_FILE: &str = "mn_practice.json";
+const ACCENT_PRESETS_FILE: &str = "mn_accent_presets.json";
 
 impl AppData {
     pub(crate) fn load_parameters() -> AppSaveData {
         load_user_or_default_config(
-            PARAMETERS_PATH,
+            &config_file(PARAMETERS_FILE),
             general::DEFAULT_JSON,
             general::VERSION,
             general::migrations::migrate,
@@ -32,7 +37,7 @@ impl AppData {
 
     pub(crate) fn load_settings() -> AppSettingsData {
         load_user_or_default_config(
-            SETTINGS_PATH,
+            &config_file(SETTINGS_FILE),
             settings::DEFAULT_JSON,
             settings::VERSION,
             settings::migrations::migrate,
@@ -41,7 +46,7 @@ impl AppData {
 
     pub(crate) fn load_practice() -> AppPracticeData {
         load_user_or_default_config(
-            PRACTICE_PATH,
+            &config_file(PRACTICE_FILE),
             practice::DEFAULT_JSON,
             practice::VERSION,
             practice::migrations::migrate,
@@ -50,7 +55,7 @@ impl AppData {
 
     pub(crate) fn load_accent_presets() -> AppAccentPresetData {
         load_user_or_default_config(
-            ACCENT_PRESETS_PATH,
+            &config_file(ACCENT_PRESETS_FILE),
             accents::DEFAULT_JSON,
             accents::VERSION,
             accents::migrations::migrate,
@@ -91,11 +96,57 @@ impl AppData {
     }
 
     pub(crate) fn save(&self) {
-        let _ = std::fs::create_dir_all(CONFIG_DIR);
+        if ensure_config_dir().is_none() {
+            eprintln!("Failed to create MetronomeApp config directory.");
+            return;
+        }
 
-        save_versioned_json(&self.parameters, PARAMETERS_PATH, general::VERSION);
-        save_versioned_json(&self.settings, SETTINGS_PATH, settings::VERSION);
-        save_versioned_json(&self.practice, PRACTICE_PATH, practice::VERSION);
-        save_versioned_json(&self.accent_presets, ACCENT_PRESETS_PATH, accents::VERSION);
+        save_versioned_json(
+            &self.parameters,
+            &config_file(PARAMETERS_FILE),
+            general::VERSION,
+        );
+
+        save_versioned_json(
+            &self.settings,
+            &config_file(SETTINGS_FILE),
+            settings::VERSION,
+        );
+
+        save_versioned_json(
+            &self.practice,
+            &config_file(PRACTICE_FILE),
+            practice::VERSION,
+        );
+
+        save_versioned_json(
+            &self.accent_presets,
+            &config_file(ACCENT_PRESETS_FILE),
+            accents::VERSION,
+        );
     }
+}
+
+fn config_dir() -> PathBuf {
+    let local_config = Path::new(LOCAL_CONFIG_DIR);
+
+    if local_config.exists() {
+        return local_config.to_path_buf();
+    }
+
+    ProjectDirs::from("com", "Bazooka", "MetronomeApp")
+        .map(|dirs| dirs.config_dir().to_path_buf())
+        .unwrap_or_else(|| local_config.to_path_buf())
+}
+
+fn ensure_config_dir() -> Option<PathBuf> {
+    let dir = config_dir();
+
+    fs::create_dir_all(&dir).ok()?;
+
+    Some(dir)
+}
+
+fn config_file(file_name: &str) -> PathBuf {
+    config_dir().join(file_name)
 }
