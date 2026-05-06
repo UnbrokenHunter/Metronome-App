@@ -98,8 +98,9 @@
                         <Component Id='License' Guid='*'>
                             <File
                                 Id='LicenseFile'
+                                Name='LICENSE'
                                 DiskId='1'
-                                Source='wix\License.rtf'
+                                Source='$(var.CargoTargetBinDir)\..\..\..\LICENSE'
                                 KeyPath='yes' />
                         </Component>
 
