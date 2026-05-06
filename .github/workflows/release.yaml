@@ -18,9 +18,9 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: metronome-windows
+            artifact_name: metronome-windows-portable
             binary_name: MetronomeApp.exe
-            archive_name: MetronomeApp-windows.zip
+            archive_name: MetronomeApp-windows-portable.zip
 
           - os: macos-latest
             artifact_name: metronome-macos
@@ -60,7 +60,7 @@ jobs:
             cp -r MetronomeApp/target/release/assets package/assets
           fi
 
-      - name: Create Windows/macOS package
+      - name: Create Windows/macOS portable package
         if: runner.os != 'Linux'
         shell: bash
         run: |
@@ -81,8 +81,45 @@ jobs:
           name: ${{ matrix.artifact_name }}
           path: ${{ matrix.archive_name }}
 
+  windows-installer:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install WiX Toolset
+        shell: powershell
+        run: |
+          choco install wixtoolset --version=3.14.1 -y
+
+      - name: Install cargo-wix
+        working-directory: MetronomeApp
+        run: cargo install cargo-wix
+
+      - name: Build MSI installer
+        working-directory: MetronomeApp
+        run: cargo wix --bin-path "C:\Program Files (x86)\WiX Toolset v3.14\bin" --nocapture
+
+      - name: Copy MSI installer
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path installer
+          Copy-Item "MetronomeApp\target\wix\*.msi" "installer\MetronomeApp-windows-installer.msi"
+
+      - name: Upload MSI installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: metronome-windows-installer
+          path: installer/MetronomeApp-windows-installer.msi
+
   github-release:
-    needs: build
+    needs:
+      - build
+      - windows-installer
+
     runs-on: ubuntu-latest
 
     permissions:
