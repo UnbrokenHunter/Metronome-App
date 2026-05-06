@@ -48,20 +48,7 @@
 
         <Directory Id='TARGETDIR' Name='SourceDir'>
 
-            <Directory Id='ProgramMenuFolder'>
-                <Directory Id='ApplicationProgramsFolder' Name='MetronomeApp'>
-                    <Component Id='ApplicationProgramsFolderComponent' Guid='45A39FE3-57D3-4916-B5D9-44D2C3D5F8A2'>
-                        <RemoveFolder Id='RemoveApplicationProgramsFolder' On='uninstall' />
-                        <RegistryValue
-                            Root='HKCU'
-                            Key='Software\Bazooka\MetronomeApp'
-                            Name='installed'
-                            Type='integer'
-                            Value='1'
-                            KeyPath='yes' />
-                    </Component>
-                </Directory>
-            </Directory>
+            <Directory Id='ProgramMenuFolder' />
 
             <Directory Id='DesktopFolder' Name='Desktop' />
 
@@ -181,7 +168,7 @@
 
                                 <Shortcut
                                     Id='StartMenuShortcut'
-                                    Directory='ApplicationProgramsFolder'
+                                    Directory='ProgramMenuFolder'
                                     Name='MetronomeApp'
                                     Description='Launch MetronomeApp'
                                     WorkingDirectory='APPLICATIONFOLDER'
@@ -295,7 +282,6 @@
 
             <ComponentRef Id='License' />
             <ComponentRef Id='binary0' />
-            <ComponentRef Id='ApplicationProgramsFolderComponent' />
 
             <!-- Config folder + shortcut to it -->
             <ComponentRef Id='CreateConfigFolder' />
