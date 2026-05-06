@@ -30,9 +30,18 @@
             InstallScope='perMachine'
             SummaryCodepage='1252' />
 
-        <MajorUpgrade
-            Schedule='afterInstallInitialize'
-            DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.' />
+        <!--
+            Find any existing MetronomeApp install with the same UpgradeCode,
+            regardless of whether it is older, newer, or the same version.
+        -->
+        <Upgrade Id='179445E7-8903-45E5-AA3C-D6F38E714AEE'>
+            <UpgradeVersion
+                Minimum='0.0.0'
+                IncludeMinimum='yes'
+                Maximum='99.0.0'
+                IncludeMaximum='yes'
+                Property='PREVIOUSVERSIONSINSTALLED' />
+        </Upgrade>
 
         <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1' />
         <Property Id='DiskPrompt' Value='MetronomeApp Installation' />
@@ -56,13 +65,6 @@
 
             <Directory Id='DesktopFolder' Name='Desktop' />
 
-            <!--
-                Creates this folder:
-
-                C:\Users\<User>\AppData\Roaming\Bazooka\MetronomeApp\config
-
-                AppDataFolder = C:\Users\<User>\AppData\Roaming
-            -->
             <Directory Id='AppDataFolder'>
                 <Directory Id='CompanyAppDataFolder' Name='Bazooka'>
                     <Directory Id='AppAppDataFolder' Name='MetronomeApp'>
@@ -70,7 +72,11 @@
                             <Component Id='CreateConfigFolder' Guid='*'>
                                 <CreateFolder />
 
-                                <!-- ICE64 fix: tell MSI how to remove user-profile folders on uninstall. -->
+                                <!--
+                                    These satisfy ICE64 and remove EMPTY folders.
+                                    Actual recursive config deletion is handled by
+                                    DeleteConfigFolderOnRealUninstall, but only on real uninstall.
+                                -->
                                 <RemoveFolder
                                     Id='RemoveConfigFolder'
                                     Directory='ConfigFolder'
@@ -110,15 +116,24 @@
                                 KeyPath='yes' />
                         </Component>
 
-                        <!--
-                            Creates this shortcut beside MetronomeApp.exe:
+                        <Component Id='UninstallShortcutComponent' Guid='*'>
+                            <Shortcut
+                                Id='UninstallShortcut'
+                                Name='Uninstall MetronomeApp'
+                                Description='Uninstall MetronomeApp'
+                                Target='[System64Folder]msiexec.exe'
+                                Arguments='/x [ProductCode]'
+                                WorkingDirectory='System64Folder' />
 
-                            C:\Program Files\MetronomeApp\Config.lnk
+                            <RegistryValue
+                                Root='HKLM'
+                                Key='Software\Bazooka\MetronomeApp'
+                                Name='UninstallShortcut'
+                                Type='integer'
+                                Value='1'
+                                KeyPath='yes' />
+                        </Component>
 
-                            It opens:
-
-                            C:\Users\<User>\AppData\Roaming\Bazooka\MetronomeApp\config
-                        -->
                         <Component Id='ConfigFolderShortcutComponent' Guid='*'>
                             <Shortcut
                                 Id='ConfigFolderShortcut'
@@ -131,6 +146,26 @@
                                 Root='HKLM'
                                 Key='Software\Bazooka\MetronomeApp'
                                 Name='ConfigFolderShortcut'
+                                Type='integer'
+                                Value='1'
+                                KeyPath='yes' />
+                        </Component>
+
+                        <Component Id='ApplicationFolderCleanupComponent' Guid='*'>
+                            <RemoveFolder
+                                Id='RemoveApplicationFolder'
+                                Directory='APPLICATIONFOLDER'
+                                On='uninstall' />
+
+                            <RemoveFolder
+                                Id='RemoveCompanyProgramFilesFolder'
+                                Directory='CompanyProgramFilesFolder'
+                                On='uninstall' />
+
+                            <RegistryValue
+                                Root='HKLM'
+                                Key='Software\Bazooka\MetronomeApp'
+                                Name='ApplicationFolderCleanup'
                                 Type='integer'
                                 Value='1'
                                 KeyPath='yes' />
@@ -266,6 +301,10 @@
             <ComponentRef Id='CreateConfigFolder' />
             <ComponentRef Id='ConfigFolderShortcutComponent' />
 
+            <!-- Uninstall shortcut -->
+            <ComponentRef Id='UninstallShortcutComponent' />
+            <ComponentRef Id='ApplicationFolderCleanupComponent' />
+
             <ComponentRef Id='AssetIcons' />
             <ComponentRef Id='AssetSoundsBeep' />
             <ComponentRef Id='AssetSoundsClave' />
@@ -294,6 +333,39 @@
             BinaryKey='WixCA'
             DllEntry='WixShellExec'
             Impersonate='yes' />
+
+        <!--
+            Set the command for WixQuietExec at runtime.
+            This avoids the illegal [AppDataFolder] property reference warning.
+        -->
+        <SetProperty
+            Id='DeleteConfigFolderOnRealUninstall'
+            Value='&quot;[SystemFolder]cmd.exe&quot; /C rmdir /S /Q &quot;[AppDataFolder]Bazooka\MetronomeApp\config&quot;'
+            Before='DeleteConfigFolderOnRealUninstall'
+            Sequence='execute' />
+
+        <CustomAction
+            Id='DeleteConfigFolderOnRealUninstall'
+            BinaryKey='WixCA'
+            DllEntry='WixQuietExec'
+            Execute='deferred'
+            Return='ignore'
+            Impersonate='yes' />
+
+        <InstallExecuteSequence>
+            <!--
+                Remove any installed MetronomeApp with the same UpgradeCode,
+                including older, newer, and same-version installs.
+            -->
+            <RemoveExistingProducts After='InstallValidate' />
+
+            <!-- Delete config only on a real uninstall, never during replacement/upgrade. -->
+            <Custom
+                Action='DeleteConfigFolderOnRealUninstall'
+                Before='RemoveFiles'>
+                REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE
+            </Custom>
+        </InstallExecuteSequence>
 
         <UI>
             <UIRef Id='WixUI_InstallDir' />
