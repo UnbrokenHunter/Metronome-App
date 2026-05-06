@@ -1,11 +1,10 @@
-pub mod program;
-
-mod defaults;
 mod lifecycle;
 mod persistence;
+mod program;
 
-pub mod features;
-pub mod logic;
-pub mod types;
+mod features;
+mod logic;
+mod types;
 
+pub use program::Window;
 pub use types::{AppData, GrowthType, Sounds, TempoParams};

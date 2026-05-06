@@ -4,7 +4,7 @@ use std::fs;
 
 mod app;
 
-use crate::app::program::Window;
+use crate::app::Window;
 
 fn main() -> eframe::Result<()> {
     env_logger::init();
