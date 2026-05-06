@@ -6,7 +6,9 @@
     <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
 <?endif ?>
 
-<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+<Wix
+    xmlns='http://schemas.microsoft.com/wix/2006/wi'
+    xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
 
     <Product
         Id='*'
@@ -210,6 +212,16 @@
 
         <Property Id='ARPHELPLINK' Value='https://github.com/UnbrokenHunter/Metronome-App' />
 
+        <Property Id='WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT' Value='Launch MetronomeApp' />
+
+        <Property Id='WixShellExecTarget' Value='[#exe0]' />
+
+        <CustomAction
+            Id='LaunchApplication'
+            BinaryKey='WixCA'
+            DllEntry='WixShellExec'
+            Impersonate='yes' />
+
         <UI>
             <UIRef Id='WixUI_InstallDir' />
             <Property Id='WIXUI_INSTALLDIR' Value='APPLICATIONFOLDER' />
@@ -217,6 +229,16 @@
             <!-- Skip the license dialog. -->
             <Publish Dialog='WelcomeDlg' Control='Next' Event='NewDialog' Value='InstallDirDlg' Order='99'>1</Publish>
             <Publish Dialog='InstallDirDlg' Control='Back' Event='NewDialog' Value='WelcomeDlg' Order='99'>1</Publish>
+
+            <!-- Launch app from final installer screen if checkbox is checked. -->
+            <Publish
+                Dialog='ExitDialog'
+                Control='Finish'
+                Event='DoAction'
+                Value='LaunchApplication'
+                Order='1'>
+                WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 AND NOT Installed
+            </Publish>
         </UI>
 
         <!-- Optional custom installer banner. BMP should be 493 x 58. -->
