@@ -33,6 +33,7 @@
         <!--
             Find any existing MetronomeApp install with the same UpgradeCode,
             regardless of whether it is older, newer, or the same version.
+            This is causing the ICE61 error, but that is expected because we want to allow for downgrading too
         -->
         <Upgrade Id='179445E7-8903-45E5-AA3C-D6F38E714AEE'>
             <UpgradeVersion
@@ -145,7 +146,7 @@
                                 Directory='ProgramMenuFolder'
                                 Name='MetronomeApp'
                                 Description='Launch MetronomeApp'
-                                Target='[#exe0]'
+                                Target='[APPLICATIONFOLDER]MetronomeApp.exe'
                                 WorkingDirectory='APPLICATIONFOLDER'
                                 Icon='ProductICO.ico'
                                 IconIndex='0' />
@@ -155,7 +156,7 @@
                                 Directory='DesktopFolder'
                                 Name='MetronomeApp'
                                 Description='Launch MetronomeApp'
-                                Target='[#exe0]'
+                                Target='[APPLICATIONFOLDER]MetronomeApp.exe'
                                 WorkingDirectory='APPLICATIONFOLDER'
                                 Icon='ProductICO.ico'
                                 IconIndex='0' />
