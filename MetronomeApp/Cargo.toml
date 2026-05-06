@@ -17,9 +17,12 @@ egui = "0.31.1"
 egui_extras = { version = "0.31.1", features = ["image"] }
 egui_plot = "0.32.1"
 env_logger = { version = "0.11.8", default-features = false, features = ["auto-color", "humantime"] }
+open = "5.3.4"
 rodio = "0.20.1"
+semver = "1.0.28"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
+ureq = { version = "3.3.0", features = ["json"] }
 
 [build-dependencies]
 embed-resource = "3.0.3"

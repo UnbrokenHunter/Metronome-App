@@ -7,3 +7,5 @@ pub mod logs;
 pub mod metronome;
 pub mod sound;
 pub mod tempo;
+
+pub mod updates;
