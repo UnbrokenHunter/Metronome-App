@@ -302,13 +302,10 @@
 
         <SetProperty Id='ARPINSTALLLOCATION' Value='[APPLICATIONFOLDER]' After='CostFinalize' />
 
-        <!-- Optional: Add/Remove Programs icon. Uncomment after confirming wix\Product.ico exists. -->
-        <!--
-        <Icon Id='ProductICO' SourceFile='wix\Product.ico' />
-        <Property Id='ARPPRODUCTICON' Value='ProductICO' />
-        -->
-
         <Property Id='ARPHELPLINK' Value='https://github.com/UnbrokenHunter/Metronome-App' />
+
+        <Icon Id='ProductICO' SourceFile='assets\icons\icon.ico' />
+        <Property Id='ARPPRODUCTICON' Value='ProductICO' />
 
         <Property Id='WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT' Value='Launch MetronomeApp' />
 
@@ -320,10 +317,6 @@
             DllEntry='WixShellExec'
             Impersonate='yes' />
 
-        <!--
-            Set the command for WixQuietExec at runtime.
-            This avoids the illegal [AppDataFolder] property reference warning.
-        -->
         <SetProperty
             Id='DeleteConfigFolderOnRealUninstall'
             Value='&quot;[SystemFolder]cmd.exe&quot; /C rmdir /S /Q &quot;[AppDataFolder]Bazooka\MetronomeApp\config&quot;'
