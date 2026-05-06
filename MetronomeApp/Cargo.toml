@@ -1,6 +1,6 @@
 [package]
 name = "MetronomeApp"
-version = "0.2.1"
+version = "0.2.9"
 authors = ["Hunter <huntersfred@gmail.com>"]
 description = "A customizable tempo metronome with tempo curves and sound options"
 repository = "https://github.com/UnbrokenHunter/Metronome-App"
@@ -11,14 +11,18 @@ rust-version = "1.91.0"
 
 [dependencies]
 chrono = "0.4.41"
+directories = "6.0.0"
 eframe = "0.31.1"
+egui = "0.31.1"
 egui_extras = { version = "0.31.1", features = ["image"] }
 egui_plot = "0.32.1"
 env_logger = { version = "0.11.8", default-features = false, features = ["auto-color", "humantime"] }
+open = "5.3.4"
 rodio = "0.20.1"
+semver = "1.0.28"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
-egui = "0.31.1"
+ureq = { version = "3.3.0", features = ["json"] }
 
 [build-dependencies]
 embed-resource = "3.0.3"

@@ -1,0 +1,55 @@
+{
+  "tempo_params": {
+    "min": 100,
+    "max": 150,
+    "length": 5.0,
+    "scaler": 0.5,
+    "manual_offset": 0.0,
+    "manual_time_offset": 0.0
+  },
+  "volume": 0.7,
+  "sound": "Beep",
+  "growth_type": "Linear",
+  "infinite": false,
+  "accents": {
+    "accents": [
+      {
+        "beats": [
+          {
+            "state": "Downbeat"
+          },
+          {
+            "state": "Weak"
+          },
+          {
+            "state": "Strong"
+          },
+          {
+            "state": "Weak"
+          }
+        ],
+        "name": "",
+        "subdivision": 2
+      },
+      {
+        "beats": [
+          {
+            "state": "Strong"
+          },
+          {
+            "state": "Weak"
+          },
+          {
+            "state": "Strong"
+          },
+          {
+            "state": "Weak"
+          }
+        ],
+        "name": "",
+        "subdivision": 2
+      }
+    ],
+    "name": "Untitled Accent Chain"
+  }
+}

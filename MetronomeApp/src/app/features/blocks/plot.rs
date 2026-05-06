@@ -1,5 +1,5 @@
 use crate::app::logic::functions::calculate;
-use crate::app::types::{GrowthType, TempoParams};
+use crate::app::{GrowthType, TempoParams};
 use eframe::egui::Ui;
 use egui_plot::{Line, Plot, PlotPoints};
 

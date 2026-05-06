@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='windows-1252'?>
+
+<?if $(sys.BUILDARCH) = x64 or $(sys.BUILDARCH) = arm64 ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?else ?>
+    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+<?endif ?>
+
+<Wix
+    xmlns='http://schemas.microsoft.com/wix/2006/wi'
+    xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'>
+
+    <Product
+        Id='*'
+        Name='MetronomeApp'
+        UpgradeCode='179445E7-8903-45E5-AA3C-D6F38E714AEE'
+        Manufacturer='Bazooka'
+        Language='1033'
+        Codepage='1252'
+        Version='$(var.Version)'>
+
+        <Package
+            Id='*'
+            Keywords='Installer'
+            Description='A customizable tempo metronome with tempo curves and sound options'
+            Manufacturer='Bazooka'
+            InstallerVersion='450'
+            Languages='1033'
+            Compressed='yes'
+            InstallScope='perMachine'
+            SummaryCodepage='1252' />
+
+        <!--
+            Find any existing MetronomeApp install with the same UpgradeCode,
+            regardless of whether it is older, newer, or the same version.
+            This causes the ICE61 warning, but that is expected because we want to allow downgrading too.
+        -->
+        <Upgrade Id='179445E7-8903-45E5-AA3C-D6F38E714AEE'>
+            <UpgradeVersion
+                Minimum='0.0.0'
+                IncludeMinimum='yes'
+                Maximum='99.0.0'
+                IncludeMaximum='yes'
+                Property='PREVIOUSVERSIONSINSTALLED' />
+        </Upgrade>
+
+        <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1' />
+        <Property Id='DiskPrompt' Value='MetronomeApp Installation' />
+
+        <Directory Id='TARGETDIR' Name='SourceDir'>
+
+            <Directory Id='ProgramMenuFolder' />
+
+            <Directory Id='DesktopFolder' Name='Desktop' />
+
+            <Directory Id='AppDataFolder'>
+                <Directory Id='CompanyAppDataFolder' Name='Bazooka'>
+                    <Directory Id='AppAppDataFolder' Name='MetronomeApp'>
+                        <Directory Id='ConfigFolder' Name='config'>
+                            <Component Id='CreateConfigFolder' Guid='*'>
+                                <CreateFolder />
+
+                                <!--
+                                    These satisfy ICE64 and remove EMPTY folders.
+                                    Actual recursive config deletion is handled by
+                                    DeleteConfigFolderOnRealUninstall, but only on real uninstall.
+                                -->
+                                <RemoveFolder
+                                    Id='RemoveConfigFolder'
+                                    Directory='ConfigFolder'
+                                    On='uninstall' />
+
+                                <RemoveFolder
+                                    Id='RemoveAppAppDataFolder'
+                                    Directory='AppAppDataFolder'
+                                    On='uninstall' />
+
+                                <RemoveFolder
+                                    Id='RemoveCompanyAppDataFolder'
+                                    Directory='CompanyAppDataFolder'
+                                    On='uninstall' />
+
+                                <RegistryValue
+                                    Root='HKCU'
+                                    Key='Software\Bazooka\MetronomeApp'
+                                    Name='ConfigFolderCreated'
+                                    Type='integer'
+                                    Value='1'
+                                    KeyPath='yes' />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+
+            <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
+                <Directory Id='CompanyProgramFilesFolder' Name='Bazooka'>
+                    <Directory Id='APPLICATIONFOLDER' Name='MetronomeApp'>
+                        <Component Id='License' Guid='*'>
+                            <File
+                                Id='LicenseFile'
+                                Name='LICENSE'
+                                DiskId='1'
+                                Source='$(var.CargoTargetBinDir)\..\..\..\LICENSE'
+                                KeyPath='yes' />
+                        </Component>
+
+                        <Component Id='UninstallShortcutComponent' Guid='*'>
+                            <Shortcut
+                                Id='UninstallShortcut'
+                                Name='Uninstall MetronomeApp'
+                                Description='Uninstall MetronomeApp'
+                                Target='[System64Folder]msiexec.exe'
+                                Arguments='/x [ProductCode]'
+                                WorkingDirectory='System64Folder' />
+
+                            <RegistryValue
+                                Root='HKLM'
+                                Key='Software\Bazooka\MetronomeApp'
+                                Name='UninstallShortcut'
+                                Type='integer'
+                                Value='1'
+                                KeyPath='yes' />
+                        </Component>
+
+                        <Component Id='ConfigFolderShortcutComponent' Guid='*'>
+                            <Shortcut
+                                Id='ConfigFolderShortcut'
+                                Name='Config'
+                                Description='Open the MetronomeApp config folder'
+                                Target='[ConfigFolder]'
+                                WorkingDirectory='ConfigFolder' />
+
+                            <RegistryValue
+                                Root='HKLM'
+                                Key='Software\Bazooka\MetronomeApp'
+                                Name='ConfigFolderShortcut'
+                                Type='integer'
+                                Value='1'
+                                KeyPath='yes' />
+                        </Component>
+
+                        <Component Id='StartMenuShortcutComponent' Guid='*'>
+                            <Shortcut
+                                Id='StartMenuShortcut'
+                                Directory='ProgramMenuFolder'
+                                Name='MetronomeApp'
+                                Description='Launch MetronomeApp'
+                                Target='[APPLICATIONFOLDER]MetronomeApp.exe'
+                                WorkingDirectory='APPLICATIONFOLDER'
+                                Icon='ProductICO.ico'
+                                IconIndex='0' />
+
+                            <RegistryValue
+                                Root='HKCU'
+                                Key='Software\Bazooka\MetronomeApp'
+                                Name='StartMenuShortcut'
+                                Type='integer'
+                                Value='1'
+                                KeyPath='yes' />
+                        </Component>
+
+                        <Component Id='DesktopShortcutComponent' Guid='*'>
+                            <Condition>INSTALLDESKTOPSHORTCUT = 1</Condition>
+
+                            <Shortcut
+                                Id='DesktopShortcut'
+                                Directory='DesktopFolder'
+                                Name='MetronomeApp'
+                                Description='Launch MetronomeApp'
+                                Target='[APPLICATIONFOLDER]MetronomeApp.exe'
+                                WorkingDirectory='APPLICATIONFOLDER'
+                                Icon='ProductICO.ico'
+                                IconIndex='0' />
+
+                            <RegistryValue
+                                Root='HKCU'
+                                Key='Software\Bazooka\MetronomeApp'
+                                Name='DesktopShortcut'
+                                Type='integer'
+                                Value='1'
+                                KeyPath='yes' />
+                        </Component>
+
+                        <Component Id='ApplicationFolderCleanupComponent' Guid='*'>
+                            <RemoveFolder
+                                Id='RemoveApplicationFolder'
+                                Directory='APPLICATIONFOLDER'
+                                On='uninstall' />
+
+                            <RemoveFolder
+                                Id='RemoveCompanyProgramFilesFolder'
+                                Directory='CompanyProgramFilesFolder'
+                                On='uninstall' />
+
+                            <RegistryValue
+                                Root='HKLM'
+                                Key='Software\Bazooka\MetronomeApp'
+                                Name='ApplicationFolderCleanup'
+                                Type='integer'
+                                Value='1'
+                                KeyPath='yes' />
+                        </Component>
+
+                        <Component Id='binary0' Guid='*'>
+                            <File
+                                Id='exe0'
+                                Name='MetronomeApp.exe'
+                                DiskId='1'
+                                Source='$(var.CargoTargetBinDir)\MetronomeApp.exe'
+                                KeyPath='yes' />
+                        </Component>
+
+                        <Directory Id='AssetsFolder' Name='assets' />
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature
+            Id='Binaries'
+            Title='Application'
+            Description='Installs MetronomeApp.'
+            Level='1'
+            ConfigurableDirectory='APPLICATIONFOLDER'
+            AllowAdvertise='no'
+            Display='expand'
+            Absent='disallow'>
+
+            <ComponentRef Id='License' />
+            <ComponentRef Id='binary0' />
+
+            <ComponentRef Id='StartMenuShortcutComponent' />
+            <ComponentRef Id='DesktopShortcutComponent' />
+
+            <!-- Config folder + shortcut to it -->
+            <ComponentRef Id='CreateConfigFolder' />
+            <ComponentRef Id='ConfigFolderShortcutComponent' />
+
+            <!-- Uninstall shortcut -->
+            <ComponentRef Id='UninstallShortcutComponent' />
+            <ComponentRef Id='ApplicationFolderCleanupComponent' />
+
+            <ComponentGroupRef Id='AssetsComponents' />
+       </Feature>
+
+        <SetProperty Id='ARPINSTALLLOCATION' Value='[APPLICATIONFOLDER]' After='CostFinalize' />
+
+        <Property Id='ARPHELPLINK' Value='https://github.com/UnbrokenHunter/Metronome-App' />
+
+        <Icon Id='ProductICO.ico' SourceFile='assets\install\icon.ico' />
+        <Property Id='ARPPRODUCTICON' Value='ProductICO.ico' />
+
+        <Property Id='WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT' Value='Launch MetronomeApp' />
+
+        <Property Id='WixShellExecTarget' Value='[#exe0]' />
+
+        <!-- Default checked. The DesktopShortcutDlg controls whether DesktopShortcutFeature is installed. -->
+        <Property Id='INSTALLDESKTOPSHORTCUT' Value='1' />
+
+        <CustomAction
+            Id='LaunchApplication'
+            BinaryKey='WixCA'
+            DllEntry='WixShellExec'
+            Impersonate='yes' />
+
+        <SetProperty
+            Id='DeleteConfigFolderOnRealUninstall'
+            Value='&quot;[SystemFolder]cmd.exe&quot; /C rmdir /S /Q &quot;[AppDataFolder]Bazooka\MetronomeApp\config&quot;'
+            Before='DeleteConfigFolderOnRealUninstall'
+            Sequence='execute' />
+
+        <CustomAction
+            Id='DeleteConfigFolderOnRealUninstall'
+            BinaryKey='WixCA'
+            DllEntry='WixQuietExec'
+            Execute='deferred'
+            Return='ignore'
+            Impersonate='yes' />
+
+        <InstallExecuteSequence>
+            <!--
+                Remove any installed MetronomeApp with the same UpgradeCode,
+                including older, newer, and same-version installs.
+            -->
+            <RemoveExistingProducts After='InstallValidate' />
+
+            <!-- Delete config only on a real uninstall, never during replacement/upgrade. -->
+            <Custom
+                Action='DeleteConfigFolderOnRealUninstall'
+                Before='RemoveFiles'>
+                REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE
+            </Custom>
+        </InstallExecuteSequence>
+
+        <UI>
+            <Dialog Id='DesktopShortcutDlg' Width='370' Height='270' Title='[ProductName] Setup'>
+                <Control Id='BannerBitmap' Type='Bitmap' X='0' Y='0' Width='370' Height='44' TabSkip='no' Text='WixUI_Bmp_Banner' />
+                <Control Id='Title' Type='Text' X='15' Y='6' Width='200' Height='15' Transparent='yes' NoPrefix='yes' Text='{\WixUI_Font_Title}Installation Options' />
+                <Control Id='Description' Type='Text' X='25' Y='23' Width='280' Height='15' Transparent='yes' NoPrefix='yes' Text='Choose additional installation options.' />
+                <Control Id='BannerLine' Type='Line' X='0' Y='44' Width='370' Height='0' />
+
+                <Control
+                    Id='DesktopShortcutCheckBox'
+                    Type='CheckBox'
+                    X='20'
+                    Y='80'
+                    Width='290'
+                    Height='18'
+                    Property='INSTALLDESKTOPSHORTCUT'
+                    CheckBoxValue='1'
+                    Text='Create a desktop shortcut' />
+
+                <Control Id='BottomLine' Type='Line' X='0' Y='234' Width='370' Height='0' />
+                <Control Id='Back' Type='PushButton' X='180' Y='243' Width='56' Height='17' Text='!(loc.WixUIBack)' />
+                <Control Id='Next' Type='PushButton' X='236' Y='243' Width='56' Height='17' Default='yes' Text='!(loc.WixUINext)' />
+                <Control Id='Cancel' Type='PushButton' X='304' Y='243' Width='56' Height='17' Cancel='yes' Text='!(loc.WixUICancel)'>
+                    <Publish Event='SpawnDialog' Value='CancelDlg'>1</Publish>
+                </Control>
+            </Dialog>
+
+            <Publish Dialog='DesktopShortcutDlg' Control='Back' Event='NewDialog' Value='InstallDirDlg'>1</Publish>
+
+            <Publish
+                Dialog='DesktopShortcutDlg'
+                Control='Next'
+                Event='NewDialog'
+                Value='VerifyReadyDlg'
+                Order='1'>
+                1
+            </Publish>
+
+            <UIRef Id='WixUI_InstallDir' />
+            <Property Id='WIXUI_INSTALLDIR' Value='APPLICATIONFOLDER' />
+
+            <!-- Skip the license dialog. -->
+            <Publish Dialog='WelcomeDlg' Control='Next' Event='NewDialog' Value='InstallDirDlg' Order='99'>1</Publish>
+            <Publish Dialog='InstallDirDlg' Control='Back' Event='NewDialog' Value='WelcomeDlg' Order='99'>1</Publish>
+
+            <!-- Insert desktop shortcut option after the install directory page. -->
+            <Publish Dialog='InstallDirDlg' Control='Next' Event='NewDialog' Value='DesktopShortcutDlg' Order='100'>WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID</Publish>
+
+            <!-- Launch app from final installer screen if checkbox is checked. -->
+            <Publish
+                Dialog='ExitDialog'
+                Control='Finish'
+                Event='DoAction'
+                Value='LaunchApplication'
+                Order='1'>
+                WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 AND NOT Installed
+            </Publish>
+        </UI>
+
+        <!-- Optional custom installer banner. BMP should be 493 x 58. -->
+        <WixVariable Id='WixUIBannerBmp' Value='wix\Banner.bmp' />
+
+        <!-- Optional custom installer dialog image. BMP should be 493 x 312. -->
+        <WixVariable Id='WixUIDialogBmp' Value='wix\Dialog.bmp' />
+
+    </Product>
+
+</Wix>

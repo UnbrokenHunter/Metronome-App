@@ -1,10 +1,9 @@
 use crate::app::{
-    AppData,
+    AppData, BeatState,
     logic::{
         accents::{calculate_number_of_beats, get_accent_at_beat_index, get_beat_at_index},
         sound::play_metronome,
     },
-    types::BeatState,
 };
 
 pub fn update_metronome(app: &mut AppData) {

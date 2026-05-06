@@ -1,7 +1,5 @@
 use crate::app::{
-    AppData,
-    logic::accents::get_accent_and_beat_index,
-    types::{AccentData, BeatData, BeatState},
+    AccentData, AppData, BeatData, BeatState, logic::accents::get_accent_and_beat_index,
 };
 use eframe::egui::{self, Align, Frame, Layout, TextEdit, TextStyle, Ui};
 

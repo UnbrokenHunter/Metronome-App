@@ -1,7 +1,7 @@
 use crate::app::features::blocks::plot::draw_plot;
 use crate::app::{
-    logic::clock::{format_date, format_time, weekday_from_unix_ms},
     AppData,
+    logic::clock::{format_date, format_time, weekday_from_unix_ms},
 };
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 
@@ -45,7 +45,7 @@ pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
     }
 }
 
-fn log_header(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
+fn log_header(ui: &mut Ui, log: &crate::app::PracticeLog) {
     let color = ui
         .visuals()
         .override_text_color
@@ -62,7 +62,7 @@ fn log_header(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
     );
 }
 
-fn log_title_editor(ui: &mut Ui, log: &mut crate::app::types::PracticeLog) {
+fn log_title_editor(ui: &mut Ui, log: &mut crate::app::PracticeLog) {
     ui.add_sized(
         [ui.available_width(), 27.0],
         TextEdit::singleline(&mut log.title)
@@ -71,7 +71,7 @@ fn log_title_editor(ui: &mut Ui, log: &mut crate::app::types::PracticeLog) {
     );
 }
 
-fn log_main_content(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
+fn log_main_content(ui: &mut Ui, log: &crate::app::PracticeLog) {
     ui.horizontal(|ui| {
         let total_width = ui.available_width();
         let plot_width = total_width * 2.0 / 3.0;
@@ -95,7 +95,7 @@ fn log_main_content(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
     });
 }
 
-fn log_info_panel(ui: &mut Ui, log: &crate::app::types::PracticeLog) {
+fn log_info_panel(ui: &mut Ui, log: &crate::app::PracticeLog) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
         ui.set_min_width(ui.available_width());
 
@@ -136,7 +136,7 @@ fn info_section(ui: &mut Ui, title: &str, contents: impl FnOnce(&mut Ui)) {
     });
 }
 
-fn log_notes_editor(ui: &mut Ui, log: &mut crate::app::types::PracticeLog) {
+fn log_notes_editor(ui: &mut Ui, log: &mut crate::app::PracticeLog) {
     ui.add_sized(
         [ui.available_width(), 100.0],
         TextEdit::multiline(&mut log.notes).hint_text("Add Notes..."),
@@ -156,7 +156,7 @@ fn delete_log(app: &mut AppData, index: usize) {
     }
 }
 
-fn log_text_info(log: &crate::app::types::PracticeLog) -> String {
+fn log_text_info(log: &crate::app::PracticeLog) -> String {
     let date = format_date(log.time_started, None);
 
     let title_line = if log.title.is_empty() {

@@ -1,5 +1,8 @@
-use crate::app::logic::logs;
-use crate::app::types::AppData;
+use crate::app::{
+    app_data::AppData,
+    data::runtime::{AppRunningData, TimeData, default_runtime_data, default_time_data},
+    logic::logs,
+};
 
 impl Default for AppData {
     fn default() -> Self {
@@ -27,19 +30,34 @@ impl AppData {
         self.runtime.last_click_time = 0;
         self.runtime.last_subdivision_time = 0;
         self.runtime.last_click_accent = 0;
+        self.runtime.last_tap_tempo_click = 0;
+        self.runtime.menu_state = 0;
     }
 
     pub fn reset_all_parameters(&mut self) {
         self.runtime = Self::default_runtime_data();
-        self.parameters = Self::default_parameters_data();
+        self.parameters = Self::load_default_parameters();
     }
 
     pub fn reset_settings(&mut self) {
-        self.settings = Self::default_settings_data();
+        self.settings = Self::load_default_settings();
     }
 
     pub fn reset_accent_presets(&mut self) {
-        self.accent_presets = Self::default_accent_presets_data();
+        self.accent_presets = Self::load_default_accent_presets();
+    }
+
+    #[allow(dead_code)]
+    pub fn reset_practice_data(&mut self) {
+        self.practice = Self::load_default_practice();
+    }
+
+    pub(crate) fn default_runtime_data() -> AppRunningData {
+        default_runtime_data()
+    }
+
+    pub(crate) fn default_time_data() -> TimeData {
+        default_time_data()
     }
 }
 

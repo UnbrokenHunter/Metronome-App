@@ -1,0 +1,14 @@
+{
+  "save_logs": true,
+  "save_plots": true,
+  "plot_granularity": 2,
+  "min_practice_length": 5000,
+  "color_scheme": {
+    "name": "Dark",
+    "override_color": "#3C4664",
+    "downbeat_color": "#505078",
+    "strong_color": "#828282",
+    "weak_color": "#505050",
+    "off_color": "#282828"
+  }
+}
