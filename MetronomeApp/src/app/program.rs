@@ -1,9 +1,9 @@
-use eframe::Frame;
 use eframe::egui::Context;
+use eframe::Frame;
 
-use crate::app::types::AppData;
+use crate::app::AppData;
 
-use super::features::{Menu, Registry, shell};
+use super::features::{shell, Menu, Registry};
 use super::logic::{clock, keyboard, metronome};
 
 pub struct Window {

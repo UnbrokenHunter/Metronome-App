@@ -1,6 +1,6 @@
 use eframe::egui::{self, Color32, CornerRadius, Stroke};
 
-use crate::app::types::ColorScheme;
+use crate::app::ColorScheme;
 
 impl ColorScheme {
     pub fn light() -> Self {

@@ -1,4 +1,4 @@
-use crate::app::{AppData, logic};
+use crate::app::{logic, AppData};
 use eframe::egui::{self, Ui};
 
 pub fn status(app: &mut AppData, ui: &mut Ui) {

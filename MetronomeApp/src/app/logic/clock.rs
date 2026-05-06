@@ -3,7 +3,7 @@ use chrono::prelude::DateTime;
 use chrono::{Datelike, TimeZone, Utc, Weekday};
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use crate::app::types::TimeData;
+use crate::app::TimeData;
 
 pub fn current_time() -> u128 {
     SystemTime::now()

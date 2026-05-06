@@ -1,6 +1,5 @@
 use crate::app::{
-    AppData,
-    types::{AccentData, BeatData},
+    AppData, {AccentData, BeatData},
 };
 
 pub fn calculate_number_of_beats(app: &mut AppData) -> usize {

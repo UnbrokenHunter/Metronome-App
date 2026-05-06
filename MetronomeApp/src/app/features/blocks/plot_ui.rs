@@ -1,5 +1,5 @@
-use crate::app::AppData;
 use crate::app::features::blocks::plot::draw_plot;
+use crate::app::AppData;
 use eframe::egui::{self, Ui};
 
 pub fn plot_ui(app: &mut AppData, ui: &mut Ui) {

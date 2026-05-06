@@ -1,7 +1,4 @@
-use crate::app::{
-    AppData,
-    types::{AccentData, BeatData, BeatState},
-};
+use crate::app::{AccentData, AppData, BeatData, BeatState};
 
 pub(super) enum AccentAction {
     MoveUp(usize),

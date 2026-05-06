@@ -1,6 +1,6 @@
-use crate::app::AppData;
 use crate::app::features::accents::ui::{accents_panel::accents_panel, accents_side::accents_side};
 use crate::app::features::traits::Drawable;
+use crate::app::AppData;
 
 #[derive(Default)]
 pub struct Accents;
