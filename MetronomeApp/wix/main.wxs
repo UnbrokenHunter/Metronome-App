@@ -14,7 +14,7 @@
         Id='*'
         Name='MetronomeApp'
         UpgradeCode='179445E7-8903-45E5-AA3C-D6F38E714AEE'
-        Manufacturer='Hunter'
+        Manufacturer='Bazooka'
         Language='1033'
         Codepage='1252'
         Version='$(var.Version)'>
@@ -23,7 +23,7 @@
             Id='*'
             Keywords='Installer'
             Description='A customizable tempo metronome with tempo curves and sound options'
-            Manufacturer='Hunter'
+            Manufacturer='Bazooka'
             InstallerVersion='450'
             Languages='1033'
             Compressed='yes'
@@ -39,22 +39,65 @@
 
         <Directory Id='TARGETDIR' Name='SourceDir'>
 
-                <Directory Id='ProgramMenuFolder'>
-                    <Directory Id='ApplicationProgramsFolder' Name='MetronomeApp'>
-                        <Component Id='ApplicationProgramsFolderComponent' Guid='45A39FE3-57D3-4916-B5D9-44D2C3D5F8A2'>
-                            <RemoveFolder Id='RemoveApplicationProgramsFolder' On='uninstall' />
-                            <RegistryValue
-                                Root='HKCU'
-                                Key='Software\Hunter\MetronomeApp'
-                                Name='installed'
-                                Type='integer'
-                                Value='1'
-                                KeyPath='yes' />
-                        </Component>
-                    </Directory>
+            <Directory Id='ProgramMenuFolder'>
+                <Directory Id='ApplicationProgramsFolder' Name='MetronomeApp'>
+                    <Component Id='ApplicationProgramsFolderComponent' Guid='45A39FE3-57D3-4916-B5D9-44D2C3D5F8A2'>
+                        <RemoveFolder Id='RemoveApplicationProgramsFolder' On='uninstall' />
+                        <RegistryValue
+                            Root='HKCU'
+                            Key='Software\Bazooka\MetronomeApp'
+                            Name='installed'
+                            Type='integer'
+                            Value='1'
+                            KeyPath='yes' />
+                    </Component>
                 </Directory>
+            </Directory>
 
             <Directory Id='DesktopFolder' Name='Desktop' />
+
+            <!--
+                Creates this folder:
+
+                C:\Users\<User>\AppData\Roaming\Bazooka\MetronomeApp\config
+
+                AppDataFolder = C:\Users\<User>\AppData\Roaming
+            -->
+            <Directory Id='AppDataFolder'>
+                <Directory Id='CompanyAppDataFolder' Name='Bazooka'>
+                    <Directory Id='AppAppDataFolder' Name='MetronomeApp'>
+                        <Directory Id='ConfigFolder' Name='config'>
+                            <Component Id='CreateConfigFolder' Guid='*'>
+                                <CreateFolder />
+
+                                <!-- ICE64 fix: tell MSI how to remove user-profile folders on uninstall. -->
+                                <RemoveFolder
+                                    Id='RemoveConfigFolder'
+                                    Directory='ConfigFolder'
+                                    On='uninstall' />
+
+                                <RemoveFolder
+                                    Id='RemoveAppAppDataFolder'
+                                    Directory='AppAppDataFolder'
+                                    On='uninstall' />
+
+                                <RemoveFolder
+                                    Id='RemoveCompanyAppDataFolder'
+                                    Directory='CompanyAppDataFolder'
+                                    On='uninstall' />
+
+                                <RegistryValue
+                                    Root='HKCU'
+                                    Key='Software\Bazooka\MetronomeApp'
+                                    Name='ConfigFolderCreated'
+                                    Type='integer'
+                                    Value='1'
+                                    KeyPath='yes' />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
 
             <Directory Id='$(var.PlatformProgramFilesFolder)' Name='PFiles'>
                 <Directory Id='APPLICATIONFOLDER' Name='MetronomeApp'>
@@ -64,6 +107,32 @@
                             Id='LicenseFile'
                             DiskId='1'
                             Source='wix\License.rtf'
+                            KeyPath='yes' />
+                    </Component>
+
+                    <!--
+                        Creates this shortcut beside MetronomeApp.exe:
+
+                        C:\Program Files\MetronomeApp\Config.lnk
+
+                        It opens:
+
+                        C:\Users\<User>\AppData\Roaming\Bazooka\MetronomeApp\config
+                    -->
+                    <Component Id='ConfigFolderShortcutComponent' Guid='*'>
+                        <Shortcut
+                            Id='ConfigFolderShortcut'
+                            Name='Config'
+                            Description='Open the MetronomeApp config folder'
+                            Target='[ConfigFolder]'
+                            WorkingDirectory='ConfigFolder' />
+
+                        <RegistryValue
+                            Root='HKLM'
+                            Key='Software\Bazooka\MetronomeApp'
+                            Name='ConfigFolderShortcut'
+                            Type='integer'
+                            Value='1'
                             KeyPath='yes' />
                     </Component>
 
@@ -189,9 +258,13 @@
             Display='expand'
             Absent='disallow'>
 
-<ComponentRef Id='License' />
-<ComponentRef Id='binary0' />
-<ComponentRef Id='ApplicationProgramsFolderComponent' />
+            <ComponentRef Id='License' />
+            <ComponentRef Id='binary0' />
+            <ComponentRef Id='ApplicationProgramsFolderComponent' />
+
+            <!-- Config folder + shortcut to it -->
+            <ComponentRef Id='CreateConfigFolder' />
+            <ComponentRef Id='ConfigFolderShortcutComponent' />
 
             <ComponentRef Id='AssetIcons' />
             <ComponentRef Id='AssetSoundsBeep' />
