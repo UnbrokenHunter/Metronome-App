@@ -248,7 +248,7 @@
 
         <Property Id='ARPHELPLINK' Value='https://github.com/UnbrokenHunter/Metronome-App' />
 
-        <Icon Id='ProductICO.ico' SourceFile='assets\icons\icon.ico' />
+        <Icon Id='ProductICO.ico' SourceFile='assets\install\icon.ico' />
         <Property Id='ARPPRODUCTICON' Value='ProductICO.ico' />
 
         <Property Id='WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT' Value='Launch MetronomeApp' />

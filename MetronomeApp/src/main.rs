@@ -1,16 +1,17 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 use eframe::icon_data::from_png_bytes;
-use std::fs;
 
 mod app;
 
 use crate::app::Window;
 
+const APP_ICON: &[u8] = include_bytes!("../assets/install/icon.png");
+
 fn main() -> eframe::Result<()> {
     env_logger::init();
 
-    let icon_bytes = fs::read("assets/icons/icon.png").expect("Failed to read icon");
-    let icon = from_png_bytes(&icon_bytes).expect("Invalid PNG data");
+    let icon = from_png_bytes(APP_ICON).expect("Invalid PNG data");
 
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()

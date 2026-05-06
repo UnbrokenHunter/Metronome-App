@@ -6,7 +6,7 @@ fn main() {
     let out_dir = env::var("OUT_DIR").expect("OUT_DIR should be set by Cargo");
 
     #[cfg(target_os = "windows")]
-    let _ = embed_resource::compile("assets/images/icon.rc", embed_resource::NONE);
+    let _ = embed_resource::compile("assets/install/icon.rc", embed_resource::NONE);
 
     let asset_dir = PathBuf::from("assets");
 
