@@ -91,9 +91,10 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install WiX Toolset
+        if: runner.os == 'Windows'
         shell: powershell
         run: |
-          choco install wixtoolset --version=3.14.1 -y
+          choco install wixtoolset -y
 
       - name: Install cargo-wix
         working-directory: MetronomeApp
