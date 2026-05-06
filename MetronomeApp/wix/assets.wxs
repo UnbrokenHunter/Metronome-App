@@ -3,151 +3,153 @@
     <Fragment>
         <DirectoryRef Id="AssetsFolder">
             <Directory Id="dirD61F5AF3CC959B84193F5E2C7F6FF677" Name="defaults">
-                <Component Id="cmp26A374CADBD9D25B1C68A8A666A41386" Guid="{0CC5308E-37A1-4018-8FA3-04327831DEA4}">
+                <Component Id="cmp26A374CADBD9D25B1C68A8A666A41386" Guid="{C1B479E6-DDC5-400E-BE21-8D6AD51ED9B3}">
                     <File Id="filE002E58E6DE39DB2C6ED3EFE14573B61" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\defaults\mn_accent_presets.json" />
                 </Component>
-                <Component Id="cmp22F863268782FE02DA70EB759EFD1E94" Guid="{9510C964-863E-41DD-A76E-BAC80FCB9C2E}">
+                <Component Id="cmp22F863268782FE02DA70EB759EFD1E94" Guid="{33D4E616-17A1-4FAE-B2E0-CEA6454E0078}">
                     <File Id="fil72EB392033F001DE375E55DDBE6A229D" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\defaults\mn_parameters.json" />
                 </Component>
-                <Component Id="cmpAEB8F40A338D629FF753EE077FB8F7E5" Guid="{929320E3-462E-4570-B0ED-98D72F57D150}">
+                <Component Id="cmpAEB8F40A338D629FF753EE077FB8F7E5" Guid="{3AB7CCEC-111B-4D22-9897-402AAA1A6AAD}">
                     <File Id="fil282647F367D25DAD7ECB4DA58FE87AD0" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\defaults\mn_practice.json" />
                 </Component>
-                <Component Id="cmpE2A96FA0FDFA4E5B63ACBF7D54F429A0" Guid="{41B95EEB-04ED-4FE1-A504-9BD87AEDCA2D}">
+                <Component Id="cmpE2A96FA0FDFA4E5B63ACBF7D54F429A0" Guid="{6B0D1571-0DA1-40C8-8EFC-CB75588FE36E}">
                     <File Id="fil89856A44FA5C2C1B0FF05847DE9DA0B9" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\defaults\mn_settings.json" />
                 </Component>
             </Directory>
             <Directory Id="dir9BC37DD9FF378D2DE22C4354BA7A5398" Name="icons">
-                <Component Id="cmpDD9DE6B6E07E6FCAE367FA88E5C79116" Guid="{1477894E-88DA-4AD9-B4ED-0A0A540D8E05}">
+                <Component Id="cmpDD9DE6B6E07E6FCAE367FA88E5C79116" Guid="{317D6FA4-3F72-4B41-BAFA-C82777093EBF}">
                     <File Id="fil93CDE445ED8BBC2C676ECD64493BDCCC" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\down.png" />
                 </Component>
-                <Component Id="cmp3F087762EE64730E034D2A37BC7AD09E" Guid="{CDCC48D8-EA9E-4AD7-8AEB-331A920F4F39}">
+                <Component Id="cmp3F087762EE64730E034D2A37BC7AD09E" Guid="{FE8C9291-BA7B-4D1A-9607-044E85F575B6}">
                     <File Id="fil5B140839479FCD4F7F851A02FFAC0398" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\down_arrow.png" />
                 </Component>
-                <Component Id="cmp9F34C0D9BE71C32094581964EACF99FD" Guid="{A7530DA8-761A-4C6B-8C88-E0E7F11AAE59}">
+                <Component Id="cmp9F34C0D9BE71C32094581964EACF99FD" Guid="{9F6C1B6B-5A15-413C-8CBA-BA6B299B64C2}">
                     <File Id="filD94DFFD0306C80AA034223C0AD76FE0F" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\duplicate.png" />
                 </Component>
-                <Component Id="cmp773D4C7FC1B83526AC5FC73DA89ADA65" Guid="{70F29EBB-97D7-414B-9B13-7342F39ED258}">
-                    <File Id="fil17F426B3631583170BBA8A09CC3C7D02" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\icon.aseprite" />
-                </Component>
-                <Component Id="cmp0DEEB2C5E3E969FE448DFF89832C7AB9" Guid="{BAC23423-B368-4797-8F46-E93BDDFC2620}">
-                    <File Id="fil0FD7574CB5C811E52A6FA4D73A29FA6D" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\icon.ico" />
-                </Component>
-                <Component Id="cmp1BC226765F8E5534F4FCF81277EF7143" Guid="{288D4E1A-ADC4-4DBD-81A6-71704E39D897}">
-                    <File Id="fil2052B8170E83320EC0B94F42A62E9874" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\icon.png" />
-                </Component>
-                <Component Id="cmp8888F2C08BEC646D40315E14D4FA94A3" Guid="{D9D9F677-7E80-4295-97B1-3634F66E93F3}">
-                    <File Id="fil0089E3D2553F7E11E0172B1671BA0A33" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\icon.rc" />
-                </Component>
-                <Component Id="cmp1EBA20F2A897FE0E969ABA9BD2D3A3DC" Guid="{BF95A146-D17C-4EBE-A06A-E95932BEBC3C}">
+                <Component Id="cmp1EBA20F2A897FE0E969ABA9BD2D3A3DC" Guid="{E1FCCB19-A4A4-4BD0-A42A-898022577C22}">
                     <File Id="fil4B8C069D1B118C9A6EEB6EE3B0A7520C" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\minus.png" />
                 </Component>
-                <Component Id="cmp3101410F735E4E794E7FC8397F7825EE" Guid="{BFA344FF-A0C2-4697-A879-2FCD94B1C532}">
+                <Component Id="cmp3101410F735E4E794E7FC8397F7825EE" Guid="{D2AAB3D0-60C5-4B25-8A83-905F6DE6D5E9}">
                     <File Id="filA0784C7A48ED8D7E7B9D0862299DC3D5" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\more.png" />
                 </Component>
-                <Component Id="cmpD91A5A43001873E6362250C87BBAF146" Guid="{A50EEC8B-59E7-4584-8541-51953987EB4E}">
+                <Component Id="cmpD91A5A43001873E6362250C87BBAF146" Guid="{7CB04C42-0188-4594-A6D2-2073367D4567}">
                     <File Id="filA30FBEE60B7084B768CC71DDA270C30D" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\plus.png" />
                 </Component>
-                <Component Id="cmpCF02921B22DAF4B99E338F104B787870" Guid="{0C34BF99-8CAF-4C15-B6EF-7B69A1BDB475}">
+                <Component Id="cmpCF02921B22DAF4B99E338F104B787870" Guid="{1B49E9C9-18E6-4BAB-B097-29638F339E01}">
                     <File Id="fil7C6A64BF0D975C19EAFE2C553335149A" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\right_arrow.png" />
                 </Component>
-                <Component Id="cmpFB359EDF0C75E64BBF98AA42C0F61A8C" Guid="{4310E801-1FD8-4F26-8F1F-808D830C51BF}">
+                <Component Id="cmpFB359EDF0C75E64BBF98AA42C0F61A8C" Guid="{40F4B4F2-19CD-47F2-9F23-26A508F40BF8}">
                     <File Id="fil846E7D3C0A0B2EDE21ED52A6B666C2D1" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\save.png" />
                 </Component>
-                <Component Id="cmpA4A2985F556F171D965B78957367372A" Guid="{2C76B558-0695-4A6D-9257-7E06F12BE697}">
+                <Component Id="cmpA4A2985F556F171D965B78957367372A" Guid="{4D8034F7-067B-4AE0-9473-462CC66B065B}">
                     <File Id="filBB95B6D6869D441E1D856CFD462B9708" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\tab.aseprite" />
                 </Component>
-                <Component Id="cmpE08A92C228E5669215AEA226F15452C8" Guid="{E9F181C4-4E98-4974-B15C-F9AD8F22871E}">
+                <Component Id="cmpE08A92C228E5669215AEA226F15452C8" Guid="{33622111-07D6-46B6-8A84-730216A2DA06}">
                     <File Id="fil4FB7F1F1B59998BDE27C879F0C86A547" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\tab.png" />
                 </Component>
-                <Component Id="cmp77A907AD901AB8C0F02D807A96E897E3" Guid="{B9630829-2199-4417-B9B6-AA50EB98F8E7}">
+                <Component Id="cmp77A907AD901AB8C0F02D807A96E897E3" Guid="{37CF096E-65E3-4168-951E-C0F1285F1096}">
                     <File Id="filD5AE3A1431B647D103A8253365CC27C0" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\trash.png" />
                 </Component>
-                <Component Id="cmp4BF7001C81DEA236A3D229933F2AC9C8" Guid="{2C7F4380-DF46-4895-BFC5-3B2323C56711}">
+                <Component Id="cmp4BF7001C81DEA236A3D229933F2AC9C8" Guid="{A22C3645-E862-49DF-A9B9-C65CB1B417AC}">
                     <File Id="filC935D36C19665239081C484EC58F22A4" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\icons\up.png" />
+                </Component>
+            </Directory>
+            <Directory Id="dir327F5E641B90B217345303C46EC4071B" Name="install">
+                <Component Id="cmpB67F65AA2D23CF15C962893D837CFD20" Guid="{7EF90429-3FD9-4D9E-A697-E3340D500FA3}">
+                    <File Id="fil6F1A36F55C5B698773B3C7D59D74F097" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\install\icon.aseprite" />
+                </Component>
+                <Component Id="cmp0AAF047A34E38708658CF3005CAC5D79" Guid="{C956FD02-677C-48F8-855A-F1CE7B01CD3A}">
+                    <File Id="fil9464F774F8BFD615899EA1174B51958F" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\install\icon.ico" />
+                </Component>
+                <Component Id="cmp800638233675C154E2D528EB7C103D37" Guid="{25E6D353-72B1-4B4C-B4CA-1045D2657C7E}">
+                    <File Id="fil8451296676005EC75E128BE445E355C8" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\install\icon.png" />
+                </Component>
+                <Component Id="cmp137C88D1B6DBAA48078551D920B5E4AC" Guid="{FC6F7829-095E-4D87-B2A1-7899C764A255}">
+                    <File Id="fil38069B844F642779E86F851227D1B876" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\install\icon.rc" />
                 </Component>
             </Directory>
             <Directory Id="dirACE01D0C46C8B7B91FC538960AC583EF" Name="sounds">
                 <Directory Id="dir4009039386C45C2C1FE6B3204AFD987E" Name="beep">
-                    <Component Id="cmpCD5203A9603BC32051ECECA2D8733F30" Guid="{1319789F-65BD-477A-A339-F7781549D314}">
+                    <Component Id="cmpCD5203A9603BC32051ECECA2D8733F30" Guid="{D29C2F1B-A406-44D6-A091-9D50D7369C51}">
                         <File Id="fil5CD6CFB629161C8F77474A58675504CD" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\beep\beep.wav" />
                     </Component>
-                    <Component Id="cmpDCBC7CE1D8E56DF56F1B61C47CE8DD58" Guid="{86C1DA22-B0DA-4A2B-84A8-F9B112A4A9BD}">
+                    <Component Id="cmpDCBC7CE1D8E56DF56F1B61C47CE8DD58" Guid="{C844AF5E-E4C8-40B7-9D98-98724DB8E031}">
                         <File Id="fil2D8D8D2C6AF8E7ABE0E4A323D1BA762D" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\beep\beep_strong.wav" />
                     </Component>
-                    <Component Id="cmp26849B45A965D213ED34B7E86540C444" Guid="{E6EF386A-D25B-4885-BE7D-52E2AA6FFB86}">
+                    <Component Id="cmp26849B45A965D213ED34B7E86540C444" Guid="{7B2EEE80-CB6C-4587-A60B-888ECD3F12F8}">
                         <File Id="fil506508956914C18AB927034D1926991B" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\beep\beep_subdivision.wav" />
                     </Component>
-                    <Component Id="cmpABC29BE11DCDECFB242F54BAAEA1CB28" Guid="{9382D3B8-2B4D-4374-BF05-030FC2E6B3D3}">
+                    <Component Id="cmpABC29BE11DCDECFB242F54BAAEA1CB28" Guid="{5E3D0B3A-EEA4-4C58-822B-7585982B888D}">
                         <File Id="fil665881BFF2DAC367C359BF55CD17E984" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\beep\beep_weak.wav" />
                     </Component>
                 </Directory>
                 <Directory Id="dir4E7961AA47AAD73898A18AF830C09D9B" Name="clave">
-                    <Component Id="cmpABB1ACFA1D9EA612335C52522EEE9A69" Guid="{7763704A-2CFF-499B-A79F-44BAF0432B9D}">
+                    <Component Id="cmpABB1ACFA1D9EA612335C52522EEE9A69" Guid="{A8E4EFDF-8F88-4A9B-95AB-2C22843D6A3A}">
                         <File Id="fil32EEAE6416909423C91DEA429233BA9C" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\clave\clave.wav" />
                     </Component>
-                    <Component Id="cmp4034CDF2C73EA26D6E0BB0F0E6819627" Guid="{DBA72208-3F29-40F6-961F-AA066A0817DF}">
+                    <Component Id="cmp4034CDF2C73EA26D6E0BB0F0E6819627" Guid="{8EE8BA84-A256-4E18-BE15-7E75F86708F9}">
                         <File Id="filF867C751C08FAFC8C4EC3166BB912197" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\clave\clave_strong.wav" />
                     </Component>
-                    <Component Id="cmp7926E8681F392546C003B1CAC9E2DCAF" Guid="{D2C144F2-29C4-4C67-B482-4FE518E19875}">
+                    <Component Id="cmp7926E8681F392546C003B1CAC9E2DCAF" Guid="{E520D2E3-447C-43A1-86F3-3014E6ED5D2D}">
                         <File Id="filD39C5D0DCAAFA74533957F478BF01BEE" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\clave\clave_subdivision.wav" />
                     </Component>
-                    <Component Id="cmpA4FD1E477DA9DC140AF9EE4AF27AF6A6" Guid="{3226E091-663F-48F4-9F40-2992E8CBB988}">
+                    <Component Id="cmpA4FD1E477DA9DC140AF9EE4AF27AF6A6" Guid="{85E3ADB9-ED59-47B2-B0F2-9B46E6940F1E}">
                         <File Id="fil1FD7E4C8C5BE8C31FC66D83DEB48294D" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\clave\clave_weak.wav" />
                     </Component>
                 </Directory>
                 <Directory Id="dirD28E57C331BFED0F59B6C0F6EFC28571" Name="cowbell">
-                    <Component Id="cmpDAD4C24F6F676961244B0E8B6CEB27F4" Guid="{75F6A2DB-B199-4150-A9E5-39BF99F1E26E}">
+                    <Component Id="cmpDAD4C24F6F676961244B0E8B6CEB27F4" Guid="{65E154C4-64E9-48E7-8765-04838248AD8D}">
                         <File Id="fil4BFB42ECF81161548B5393DACD807485" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell.wav" />
                     </Component>
-                    <Component Id="cmpC6388BF38C6D229A8721C5AB89BE47D6" Guid="{3AF90B85-D0E6-4BF0-BF7F-FFBEABF7CF64}">
+                    <Component Id="cmpC6388BF38C6D229A8721C5AB89BE47D6" Guid="{4834BF6F-3F5E-4530-B3FA-4CEC4A75A511}">
                         <File Id="fil6518A83A765C2F4E119F8AE85B954A77" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_strong.wav" />
                     </Component>
-                    <Component Id="cmpD2E520A54170CAB59D608195A16819E9" Guid="{302C8059-64D3-4419-9690-786D5A6F2AC3}">
+                    <Component Id="cmpD2E520A54170CAB59D608195A16819E9" Guid="{E317D02C-7607-4220-9C0D-C09E7C027CF5}">
                         <File Id="fil268A990D596CFF4270B22CBCB92F82BE" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_subdivision.wav" />
                     </Component>
-                    <Component Id="cmpA41330FB6B38C766A824AC212405D828" Guid="{10205216-1AA8-4F8B-9AA3-6E11E0B95C32}">
+                    <Component Id="cmpA41330FB6B38C766A824AC212405D828" Guid="{77688742-F1C0-4DE8-8158-F225EC8627D8}">
                         <File Id="fil46C7AB0BBB2A9DFB1E9583693B20889A" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\cowbell\cowbell_weak.wav" />
                     </Component>
                 </Directory>
                 <Directory Id="dirDFDD284586EF2065782D75D57E2C3A58" Name="drums">
-                    <Component Id="cmp95BE40943F4C247715A1BA95C6C611C7" Guid="{F88B77AE-EB3D-4B16-8A6A-1C42678C5257}">
+                    <Component Id="cmp95BE40943F4C247715A1BA95C6C611C7" Guid="{0520E0FF-2476-48C7-8FF1-5B118DDA82EE}">
                         <File Id="filD55B6C96F431254383558B96227CEBE3" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\drums\drums.wav" />
                     </Component>
-                    <Component Id="cmp23BA092134591BA05D30D01BF72E4C5F" Guid="{F5E8336C-CFBE-486E-AD56-50269F9A8BE5}">
+                    <Component Id="cmp23BA092134591BA05D30D01BF72E4C5F" Guid="{27CA3B0C-D8B3-4683-BBFC-7963140ADEE0}">
                         <File Id="filD4B7DB97FF8FBCF851741B791C5F0EA4" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\drums\drums_strong.wav" />
                     </Component>
-                    <Component Id="cmp8CBE2A3526A4C00478C5D0E02C825FD2" Guid="{9CD75973-A349-4C6C-A71B-141EA736AA3C}">
+                    <Component Id="cmp8CBE2A3526A4C00478C5D0E02C825FD2" Guid="{5DD12EB6-4770-40CE-B772-CC5416475805}">
                         <File Id="filAD42DFA5DB24D1DA32F4D8C52BC7CB6A" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\drums\drums_subdivision.wav" />
                     </Component>
-                    <Component Id="cmpFCD1E11C79E179383D13133A85F15E0D" Guid="{797E1C6D-FE6D-449C-A6B2-3163386B7918}">
+                    <Component Id="cmpFCD1E11C79E179383D13133A85F15E0D" Guid="{9DCB69A7-AF4D-4EB5-B41A-27FE356DE027}">
                         <File Id="fil82969B87F60DF73CEEFE6BCEA3AC902F" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\drums\drums_weak.wav" />
                     </Component>
                 </Directory>
                 <Directory Id="dirDE5DCBACC0E83DA9695C282C54FD72FE" Name="thump">
-                    <Component Id="cmpA52C99FC67CA156E0BA606B4A5FC2692" Guid="{B1B7AE99-3213-4C40-8DE0-BA4771A91923}">
+                    <Component Id="cmpA52C99FC67CA156E0BA606B4A5FC2692" Guid="{1257F978-D33A-4D82-9392-BD0C5A7CD530}">
                         <File Id="fil7A789A06A53003103744C4AC039EFD83" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\thump\thump.wav" />
                     </Component>
-                    <Component Id="cmp9BD11AFC92573D62405327E13B86757D" Guid="{4989E3D0-4CF0-456D-8FEB-7081960741C5}">
+                    <Component Id="cmp9BD11AFC92573D62405327E13B86757D" Guid="{81E7B6AE-705A-4364-BD6E-0405F5AA14A6}">
                         <File Id="filDD5E2D8EDADD79A26A05C24A3F2A351E" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\thump\thump_strong.wav" />
                     </Component>
-                    <Component Id="cmp3B84AB7D03CA5C741D77313B341E58C0" Guid="{37C23A0C-3884-4AD1-8808-3087EB106309}">
+                    <Component Id="cmp3B84AB7D03CA5C741D77313B341E58C0" Guid="{3F71A504-92E6-4464-92AB-A762D48A6485}">
                         <File Id="fil409117580F81858A014D4EFAA1652466" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\thump\thump_subdivision.wav" />
                     </Component>
-                    <Component Id="cmpCA933705DFD381C303D55BB20FD969AB" Guid="{A135EDFD-7ED2-4D0A-8940-39B0396175D2}">
+                    <Component Id="cmpCA933705DFD381C303D55BB20FD969AB" Guid="{F7993D73-BD21-42D2-BA41-258261FFF6FD}">
                         <File Id="fil66C37FF0571A0E0BA23329D55A041ED9" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\thump\thump_weak.wav" />
                     </Component>
                 </Directory>
                 <Directory Id="dir9A72C4213809645BA90ABF730740847B" Name="tone">
-                    <Component Id="cmpFFE1D43D25F1A191D3BFB1F7469407CA" Guid="{2B5544FE-EF2C-4D52-8463-6F9BA35277B9}">
+                    <Component Id="cmpFFE1D43D25F1A191D3BFB1F7469407CA" Guid="{CC273154-E717-4DAD-ACCD-78D279850647}">
                         <File Id="filBD24AC99AB7E79354794C983C2926091" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\tone\tone.wav" />
                     </Component>
-                    <Component Id="cmpE8712D7C25809A18C69D058F254E9849" Guid="{52A1D97C-EC6B-4854-845F-73E23310445A}">
+                    <Component Id="cmpE8712D7C25809A18C69D058F254E9849" Guid="{B4930205-5964-43CB-9D28-AF3C9141D0E4}">
                         <File Id="filF0FB5A0F3994C8213EEEE21237E60F0A" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\tone\tone_strong.wav" />
                     </Component>
-                    <Component Id="cmp2DE76C8785ED4BA890197093C806689A" Guid="{CABB0D52-8A44-45A2-8255-04267FB5DBCA}">
+                    <Component Id="cmp2DE76C8785ED4BA890197093C806689A" Guid="{3A65F483-8CF7-40F1-B34F-6D809865983F}">
                         <File Id="fil929E57DE61E98DDF25F59EFD0C8D15E1" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\tone\tone_subdivision.wav" />
                     </Component>
-                    <Component Id="cmp8F019FE264693AE2F3F63D760F0587F2" Guid="{28851531-B4A8-48CF-A7F2-41AB954B51E1}">
+                    <Component Id="cmp8F019FE264693AE2F3F63D760F0587F2" Guid="{A62BFACF-EA06-4336-B893-E755AC476266}">
                         <File Id="fil2C6DBD8AEA42B4EF87C7C3F72F68DB10" KeyPath="yes" Source="$(var.CargoTargetBinDir)\assets\sounds\tone\tone_weak.wav" />
                     </Component>
                 </Directory>
@@ -163,10 +165,6 @@
             <ComponentRef Id="cmpDD9DE6B6E07E6FCAE367FA88E5C79116" />
             <ComponentRef Id="cmp3F087762EE64730E034D2A37BC7AD09E" />
             <ComponentRef Id="cmp9F34C0D9BE71C32094581964EACF99FD" />
-            <ComponentRef Id="cmp773D4C7FC1B83526AC5FC73DA89ADA65" />
-            <ComponentRef Id="cmp0DEEB2C5E3E969FE448DFF89832C7AB9" />
-            <ComponentRef Id="cmp1BC226765F8E5534F4FCF81277EF7143" />
-            <ComponentRef Id="cmp8888F2C08BEC646D40315E14D4FA94A3" />
             <ComponentRef Id="cmp1EBA20F2A897FE0E969ABA9BD2D3A3DC" />
             <ComponentRef Id="cmp3101410F735E4E794E7FC8397F7825EE" />
             <ComponentRef Id="cmpD91A5A43001873E6362250C87BBAF146" />
@@ -176,6 +174,10 @@
             <ComponentRef Id="cmpE08A92C228E5669215AEA226F15452C8" />
             <ComponentRef Id="cmp77A907AD901AB8C0F02D807A96E897E3" />
             <ComponentRef Id="cmp4BF7001C81DEA236A3D229933F2AC9C8" />
+            <ComponentRef Id="cmpB67F65AA2D23CF15C962893D837CFD20" />
+            <ComponentRef Id="cmp0AAF047A34E38708658CF3005CAC5D79" />
+            <ComponentRef Id="cmp800638233675C154E2D528EB7C103D37" />
+            <ComponentRef Id="cmp137C88D1B6DBAA48078551D920B5E4AC" />
             <ComponentRef Id="cmpCD5203A9603BC32051ECECA2D8733F30" />
             <ComponentRef Id="cmpDCBC7CE1D8E56DF56F1B61C47CE8DD58" />
             <ComponentRef Id="cmp26849B45A965D213ED34B7E86540C444" />

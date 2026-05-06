@@ -352,10 +352,10 @@
         </UI>
 
         <!-- Optional custom installer banner. BMP should be 493 x 58. -->
-        <!-- <WixVariable Id='WixUIBannerBmp' Value='wix\Banner.bmp' /> -->
+        <WixVariable Id='WixUIBannerBmp' Value='wix\Banner.bmp' />
 
         <!-- Optional custom installer dialog image. BMP should be 493 x 312. -->
-        <!-- <WixVariable Id='WixUIDialogBmp' Value='wix\Dialog.bmp' /> -->
+        <WixVariable Id='WixUIDialogBmp' Value='wix\Dialog.bmp' />
 
     </Product>
 
