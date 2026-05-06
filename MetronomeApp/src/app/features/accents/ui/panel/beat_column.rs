@@ -2,8 +2,8 @@ use crate::app::BeatData;
 use eframe::egui::{self, Color32, CornerRadius, Frame, Rect, Sense, Stroke, TextStyle, Ui, Vec2};
 
 use super::{
-    colors::{beat_state_rows, selected_beat_color, BeatColors},
-    utils::{beat_menu_state, BEAT_BUTTON_HEIGHT, BEAT_BUTTON_WIDTH},
+    colors::{BeatColors, beat_state_rows, selected_beat_color},
+    utils::{BEAT_BUTTON_HEIGHT, BEAT_BUTTON_WIDTH, beat_menu_state},
 };
 
 #[allow(clippy::too_many_arguments)]

@@ -8,11 +8,11 @@ use std::path::{Path, PathBuf};
 use directories::ProjectDirs;
 
 use crate::app::{
-    data::{
-        accents, general, practice, settings, AppAccentPresetData, AppPracticeData,
-        AppSaveData, AppSettingsData,
-    },
     AppData,
+    data::{
+        AppAccentPresetData, AppPracticeData, AppSaveData, AppSettingsData, accents, general,
+        practice, settings,
+    },
 };
 
 use load::{load_default_config, load_user_or_default_config};

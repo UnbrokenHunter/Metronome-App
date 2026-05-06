@@ -1,7 +1,7 @@
+use crate::app::AppData;
 use crate::app::features::metronome::ui::metronome_panel::metronome_panel;
 use crate::app::features::metronome::ui::metronome_side::metronome_side;
 use crate::app::features::traits::Drawable;
-use crate::app::AppData;
 
 #[derive(Default)]
 pub struct Home;

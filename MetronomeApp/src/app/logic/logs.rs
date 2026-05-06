@@ -1,4 +1,4 @@
-use crate::app::{logic::clock, AppData, PracticeLog};
+use crate::app::{AppData, PracticeLog, logic::clock};
 
 pub fn try_add_log(app: &mut AppData) {
     let duration_ms = app.runtime.time_data.calculated_time_since_start as u64;

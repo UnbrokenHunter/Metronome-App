@@ -1,6 +1,6 @@
 use crate::app::logic::clock::format_time;
 use crate::app::logic::functions::calculate;
-use crate::app::{logic::functions::derivative, AppData};
+use crate::app::{AppData, logic::functions::derivative};
 use eframe::egui::{self, Frame, Grid, RichText, Ui};
 
 pub fn info(app: &mut AppData, ui: &mut Ui) {
