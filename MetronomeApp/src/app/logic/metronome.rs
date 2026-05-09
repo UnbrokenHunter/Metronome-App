@@ -1,9 +1,7 @@
+use crate::app::systems::audio;
 use crate::app::{
-    AppData, BeatState,
-    logic::{
-        accents::{calculate_number_of_beats, get_accent_at_beat_index, get_beat_at_index},
-        sound::play_metronome,
-    },
+    logic::accents::{calculate_number_of_beats, get_accent_at_beat_index, get_beat_at_index}, AppData,
+    BeatState,
 };
 
 pub fn update_metronome(app: &mut AppData) {
@@ -52,7 +50,7 @@ pub fn update_metronome(app: &mut AppData) {
         app.runtime.last_subdivision_time = now;
 
         let sound = app.parameters.sound.to_string().to_lowercase();
-        play_metronome(app, format!("{sound}/{sound}_subdivision"));
+        audio::play_audio_from_file(&format!("{sound}/{sound}_subdivision"), 1f32);
     }
 }
 
@@ -66,13 +64,13 @@ fn play_current_beat(app: &mut AppData) {
 
     match beat.state {
         BeatState::Downbeat => {
-            play_metronome(app, format!("{sound}/{sound}"));
+            audio::play_audio_from_file(&format!("{sound}/{sound}"), 1f32);
         }
         BeatState::Strong => {
-            play_metronome(app, format!("{sound}/{sound}_strong"));
+            audio::play_audio_from_file(&format!("{sound}/{sound}_strong"), 1f32);
         }
         BeatState::Weak => {
-            play_metronome(app, format!("{sound}/{sound}_weak"));
+            audio::play_audio_from_file(&format!("{sound}/{sound}_weak"), 1f32);
         }
         BeatState::Off => {
             // No sound for off beats.

@@ -4,7 +4,6 @@ pub mod color_scheme;
 pub mod functions;
 pub mod logs;
 pub mod metronome;
-pub mod sound;
 pub mod tempo;
 
 pub mod popup_utils;

@@ -1,7 +1,7 @@
-use crate::app::{AppData, Sounds, logic::sound::play_metronome};
-use eframe::egui::{self, Grid, Ui};
-
 use super::section::section;
+use crate::app::systems::audio;
+use crate::app::{AppData, Sounds};
+use eframe::egui::{self, Grid, Ui};
 
 const SOUNDS: [Sounds; 6] = [
     Sounds::Beep,
@@ -48,6 +48,5 @@ fn sound_grid(app: &mut AppData, ui: &mut Ui) {
 
 fn preview_sound(app: &mut AppData, sound: Sounds) {
     let sound_name = sound.to_string().to_lowercase();
-
-    play_metronome(app, format!("{sound_name}/{sound_name}"));
+    audio::play_audio_from_file(&format!("{sound_name}/{sound_name}"), 1f32);
 }

@@ -3,7 +3,7 @@ use eframe::Frame;
 
 use super::features::{shell, Menu, Registry};
 use super::logic::{clock, metronome, tempo};
-use crate::app::systems::{deployment, peripherals};
+use crate::app::systems::{audio, deployment, peripherals};
 use crate::app::AppData;
 
 pub struct Window {
@@ -28,7 +28,6 @@ impl Default for Window {
 
 impl Window {
     fn startup(&mut self, ctx: &egui::Context) {
-        // Put all your "Start" logic here
         println!("Window has started!");
         // theme(ctx).apply_to_ctx(ctx);
         self.data.settings.color_scheme.apply_to_ctx(ctx);
@@ -46,6 +45,8 @@ impl eframe::App for Window {
         }
 
         deployment::receive_update_messages(&mut self.updates);
+
+        audio::cleanup(); // Get rid of old sounds
 
         peripherals::check_keyboard(&mut self.data);
         clock::update_time(&mut self.data.runtime.time_data, self.data.runtime.playing);
