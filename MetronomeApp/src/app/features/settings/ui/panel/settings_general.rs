@@ -24,7 +24,7 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
                 "Resets all Accent Menu Presets to just the defaults.",
                 |ui| {
                     if full_width_button(ui, "Reset") {
-                        app.reset_accent_presets();
+                        app.accent_presets = AppData::load_default_accent_presets();
                     }
                 },
             );
@@ -35,7 +35,7 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
                 "Resets everything to its default state.",
                 |ui| {
                     if full_width_button(ui, "Reset") {
-                        app.reset_settings();
+                        app.settings = AppData::load_default_settings();
                     }
                 },
             );

@@ -1,18 +1,33 @@
-use crate::app::{
-    app_data::AppData,
-    data::runtime::{default_runtime_data, default_time_data, AppRunningData, TimeData},
-    logic::logs,
+use crate::app::data::runtime::{default_runtime_data, default_time_data};
+use crate::app::data::{
+    AppAccentPresetData, AppPracticeData, AppRunningData, AppSaveData, AppSettingsData,
 };
+use crate::app::logic::logs::try_add_log;
+
+pub struct AppData {
+    pub parameters: AppSaveData,
+    pub runtime: AppRunningData,
+    pub settings: AppSettingsData,
+    pub practice: AppPracticeData,
+    pub accent_presets: AppAccentPresetData,
+}
 
 impl Default for AppData {
     fn default() -> Self {
         Self {
             parameters: Self::load_parameters(),
-            runtime: Self::default_runtime_data(),
+            runtime: default_runtime_data(), // Not saved on self because the others are loaded from disk in `persistence.rs`
             settings: Self::load_settings(),
             practice: Self::load_practice(),
             accent_presets: Self::load_accent_presets(),
         }
+    }
+}
+
+impl Drop for AppData {
+    fn drop(&mut self) {
+        try_add_log(self);
+        self.save();
     }
 }
 
@@ -22,7 +37,7 @@ impl AppData {
         self.runtime.tempo = 100.0;
         self.runtime.points.clear();
 
-        self.runtime.time_data = Self::default_time_data();
+        self.runtime.time_data = default_time_data();
 
         self.parameters.tempo_params.manual_offset = 0.0;
         self.parameters.tempo_params.manual_time_offset = 0.0;
@@ -38,35 +53,7 @@ impl AppData {
     }
 
     pub fn reset_all_parameters(&mut self) {
-        self.runtime = Self::default_runtime_data();
+        self.runtime = default_runtime_data();
         self.parameters = Self::load_default_parameters();
-    }
-
-    pub fn reset_settings(&mut self) {
-        self.settings = Self::load_default_settings();
-    }
-
-    pub fn reset_accent_presets(&mut self) {
-        self.accent_presets = Self::load_default_accent_presets();
-    }
-
-    #[allow(dead_code)]
-    pub fn reset_practice_data(&mut self) {
-        self.practice = Self::load_default_practice();
-    }
-
-    pub(crate) fn default_runtime_data() -> AppRunningData {
-        default_runtime_data()
-    }
-
-    pub(crate) fn default_time_data() -> TimeData {
-        default_time_data()
-    }
-}
-
-impl Drop for AppData {
-    fn drop(&mut self) {
-        logs::try_add_log(self);
-        self.save();
     }
 }
