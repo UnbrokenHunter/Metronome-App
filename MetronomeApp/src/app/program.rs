@@ -2,15 +2,15 @@ use eframe::egui::Context;
 use eframe::Frame;
 
 use super::features::{shell, Menu, Registry};
-use super::logic::{clock, metronome, tempo, updates};
-use crate::app::systems::peripherals;
+use super::logic::{clock, metronome, tempo};
+use crate::app::systems::{deployment, peripherals};
 use crate::app::AppData;
 
 pub struct Window {
     data: AppData,
     registry: Registry,
     selected_menu: Menu,
-    updates: updates::UpdateRuntime,
+    updates: deployment::UpdateRuntime,
     started: bool,
 }
 
@@ -20,7 +20,7 @@ impl Default for Window {
             selected_menu: Menu::Home,
             data: AppData::default(),
             registry: Registry::new(),
-            updates: updates::UpdateRuntime::default(),
+            updates: deployment::UpdateRuntime::default(),
             started: false,
         }
     }
@@ -34,7 +34,7 @@ impl Window {
         self.data.settings.color_scheme.apply_to_ctx(ctx);
         peripherals::init_keyboard_ctx(ctx);
 
-        updates::start_update_check(&mut self.updates);
+        deployment::start_update_check(&mut self.updates);
     }
 }
 
@@ -45,7 +45,7 @@ impl eframe::App for Window {
             self.startup(ctx);
         }
 
-        updates::receive_update_messages(&mut self.updates);
+        deployment::receive_update_messages(&mut self.updates);
 
         peripherals::check_keyboard(&mut self.data);
         clock::update_time(&mut self.data.runtime.time_data, self.data.runtime.playing);
@@ -59,7 +59,7 @@ impl eframe::App for Window {
             ctx,
         );
 
-        updates::draw_update_popup(ctx, &mut self.updates);
+        deployment::draw_update_popup(ctx, &mut self.updates);
 
         ctx.request_repaint();
     }

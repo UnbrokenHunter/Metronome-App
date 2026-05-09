@@ -296,7 +296,7 @@ fn download_installer(update: &UpdateInfo) -> Result<PathBuf, String> {
 fn downloads_dir() -> PathBuf {
     UserDirs::new()
         .and_then(|dirs| dirs.download_dir().map(PathBuf::from))
-        .unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| PathBuf::from(".")))
+        .unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| PathBuf::from("../../../..")))
 }
 
 fn installer_asset_name() -> &'static str {
