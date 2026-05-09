@@ -146,7 +146,7 @@ pub fn confirm_popup_button(
     message: &str,
     confirm_text: &str,
 ) -> bool {
-    let popup_id = Id::new(id);
+    let popup_id = ui.make_persistent_id(id);
     let mut confirmed = false;
 
     let btn = ui.button(button_text);

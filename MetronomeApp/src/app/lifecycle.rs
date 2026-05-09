@@ -1,6 +1,6 @@
 use crate::app::{
     app_data::AppData,
-    data::runtime::{AppRunningData, TimeData, default_runtime_data, default_time_data},
+    data::runtime::{default_runtime_data, default_time_data, AppRunningData, TimeData},
     logic::logs,
 };
 
@@ -31,7 +31,10 @@ impl AppData {
         self.runtime.last_subdivision_time = 0;
         self.runtime.last_click_accent = 0;
         self.runtime.last_tap_tempo_click = 0;
+
         self.runtime.menu_state = 0;
+
+        self.runtime.pending_delete_log = None;
     }
 
     pub fn reset_all_parameters(&mut self) {

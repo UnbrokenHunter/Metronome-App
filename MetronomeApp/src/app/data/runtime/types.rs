@@ -21,4 +21,5 @@ pub struct AppRunningData {
     pub last_tap_tempo_click: u128,
     pub time_data: TimeData,
     pub menu_state: u32,
+    pub pending_delete_log: Option<usize>,
 }

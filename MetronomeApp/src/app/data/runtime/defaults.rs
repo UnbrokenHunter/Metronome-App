@@ -15,6 +15,7 @@ pub fn default_runtime_data() -> AppRunningData {
         last_tap_tempo_click: 0,
         time_data: default_time_data(),
         menu_state: 0,
+        pending_delete_log: None,
     }
 }
 
