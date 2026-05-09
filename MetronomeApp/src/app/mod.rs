@@ -5,6 +5,7 @@ mod persistence;
 
 pub mod features;
 pub mod logic;
+mod systems;
 
 pub use data::app_data::AppData;
 

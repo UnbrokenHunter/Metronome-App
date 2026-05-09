@@ -1,10 +1,10 @@
 use eframe::egui::Context;
 use eframe::Frame;
 
-use crate::app::AppData;
-
 use super::features::{shell, Menu, Registry};
-use super::logic::{clock, keyboard, metronome, tempo, updates};
+use super::logic::{clock, metronome, tempo, updates};
+use crate::app::systems::peripherals;
+use crate::app::AppData;
 
 pub struct Window {
     data: AppData,
@@ -32,7 +32,7 @@ impl Window {
         println!("Window has started!");
         // theme(ctx).apply_to_ctx(ctx);
         self.data.settings.color_scheme.apply_to_ctx(ctx);
-        // keyboard_state::init_keyboard_ctx(ctx);
+        peripherals::init_keyboard_ctx(ctx);
 
         updates::start_update_check(&mut self.updates);
     }
@@ -47,7 +47,7 @@ impl eframe::App for Window {
 
         updates::receive_update_messages(&mut self.updates);
 
-        keyboard::check_keyboard(&mut self.data, ctx.clone());
+        peripherals::check_keyboard(&mut self.data);
         clock::update_time(&mut self.data.runtime.time_data, self.data.runtime.playing);
         metronome::update_metronome(&mut self.data);
         tempo::calculate_tempo(&mut self.data);
