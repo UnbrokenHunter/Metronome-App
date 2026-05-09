@@ -3,16 +3,16 @@ mod save;
 mod versioned;
 
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use directories::ProjectDirs;
 
 use crate::app::{
-    AppData,
     data::{
-        AppAccentPresetData, AppPracticeData, AppSaveData, AppSettingsData, accents, general,
-        practice, settings,
+        accents, general, practice, settings, AppAccentPresetData, AppPracticeData,
+        AppSaveData, AppSettingsData,
     },
+    AppData,
 };
 
 use load::{load_default_config, load_user_or_default_config};
@@ -128,15 +128,13 @@ impl AppData {
 }
 
 fn config_dir() -> PathBuf {
-    let local_config = Path::new(LOCAL_CONFIG_DIR);
-
-    if local_config.exists() {
-        return local_config.to_path_buf();
+    if cfg!(debug_assertions) {
+        return PathBuf::from("config");
     }
 
     ProjectDirs::from("com", "Bazooka", "MetronomeApp")
         .map(|dirs| dirs.config_dir().to_path_buf())
-        .unwrap_or_else(|| local_config.to_path_buf())
+        .unwrap_or_else(|| PathBuf::from("config"))
 }
 
 fn ensure_config_dir() -> Option<PathBuf> {
