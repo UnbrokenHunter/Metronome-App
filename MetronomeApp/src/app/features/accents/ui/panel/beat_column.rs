@@ -1,9 +1,12 @@
 use crate::app::BeatData;
-use eframe::egui::{self, Color32, CornerRadius, Frame, Rect, Sense, Stroke, TextStyle, Ui, Vec2};
+use crate::app::systems::colors::theme_presets::Theme;
+use eframe::egui::{
+    self, Color32, CornerRadius, Frame, Rect, Sense, Stroke, TextStyle, Ui, Vec2,
+};
 
 use super::{
-    colors::{BeatColors, beat_state_rows, selected_beat_color},
-    utils::{BEAT_BUTTON_HEIGHT, BEAT_BUTTON_WIDTH, beat_menu_state},
+    colors::{beat_state_rows, selected_beat_color},
+    utils::{beat_menu_state, BEAT_BUTTON_HEIGHT, BEAT_BUTTON_WIDTH},
 };
 
 #[allow(clippy::too_many_arguments)]
@@ -15,14 +18,16 @@ pub fn draw_beat_column(
     menu_state: &mut u32,
     playing: bool,
     current_click: Option<(usize, usize)>,
-    colors: BeatColors,
+    colors: &Theme,
 ) {
     let button_size = Vec2::new(BEAT_BUTTON_WIDTH, BEAT_BUTTON_HEIGHT);
     let start_pos = ui.cursor().min;
     let menu_state_id = beat_menu_state(accent_index, beat_index);
 
     let mut cursor = start_pos;
+
     let states = beat_state_rows(colors);
+    let state_count = states.len();
 
     let invisible_frame = Frame {
         fill: Color32::TRANSPARENT,
@@ -62,7 +67,7 @@ pub fn draw_beat_column(
             cursor.y += button_size.y;
         }
 
-        draw_beat_number(ui, start_pos, button_size, states.len(), beat_index);
+        draw_beat_number(ui, start_pos, button_size, state_count, beat_index);
     });
 
     if !response.response.hovered() && *menu_state == menu_state_id {

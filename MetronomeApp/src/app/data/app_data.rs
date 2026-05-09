@@ -1,6 +1,7 @@
 use crate::app::data::runtime::{default_runtime_data, default_time_data};
 use crate::app::data::{
     AppAccentPresetData, AppPracticeData, AppRunningData, AppSaveData, AppSettingsData,
+    AppThemeData,
 };
 use crate::app::logic::logs::try_add_log;
 
@@ -10,6 +11,7 @@ pub struct AppData {
     pub settings: AppSettingsData,
     pub practice: AppPracticeData,
     pub accent_presets: AppAccentPresetData,
+    pub themes: AppThemeData,
 }
 
 impl Default for AppData {
@@ -20,6 +22,7 @@ impl Default for AppData {
             settings: Self::load_settings(),
             practice: Self::load_practice(),
             accent_presets: Self::load_accent_presets(),
+            themes: Self::load_themes(),
         }
     }
 }

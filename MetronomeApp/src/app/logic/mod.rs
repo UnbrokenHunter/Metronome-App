@@ -5,6 +5,5 @@ pub mod logs;
 pub mod metronome;
 pub mod tempo;
 
-pub mod load_utils;
 pub mod popup_utils;
 pub mod ui_utils;

@@ -1,3 +1,3 @@
 mod apply_theme;
-mod theme_presets;
 pub mod themes;
+pub(crate) mod theme_presets;

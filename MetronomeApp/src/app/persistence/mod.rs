@@ -9,8 +9,8 @@ use directories::ProjectDirs;
 
 use crate::app::{
     data::{
-        accents, general, practice, settings, AppAccentPresetData, AppPracticeData,
-        AppSaveData, AppSettingsData,
+        AppAccentPresetData, AppPracticeData, AppSaveData, AppSettingsData, AppThemeData,
+        accents, general, practice, settings, themes,
     },
     AppData,
 };
@@ -24,6 +24,7 @@ const PARAMETERS_FILE: &str = "mn_parameters.json";
 const SETTINGS_FILE: &str = "mn_settings.json";
 const PRACTICE_FILE: &str = "mn_practice.json";
 const ACCENT_PRESETS_FILE: &str = "mn_accent_presets.json";
+const THEMES_FILE: &str = "mn_themes.json";
 
 impl AppData {
     pub(crate) fn load_parameters() -> AppSaveData {
@@ -62,6 +63,15 @@ impl AppData {
         )
     }
 
+    pub(crate) fn load_themes() -> AppThemeData {
+        load_user_or_default_config(
+            &config_file(THEMES_FILE),
+            themes::DEFAULT_JSON,
+            themes::VERSION,
+            themes::migrations::migrate,
+        )
+    }
+
     pub(crate) fn load_default_parameters() -> AppSaveData {
         load_default_config(
             general::DEFAULT_JSON,
@@ -95,6 +105,15 @@ impl AppData {
         )
     }
 
+    #[allow(dead_code)]
+    pub(crate) fn load_default_themes() -> AppThemeData {
+        load_default_config(
+            themes::DEFAULT_JSON,
+            themes::VERSION,
+            themes::migrations::migrate,
+        )
+    }
+
     pub(crate) fn save(&self) {
         if ensure_config_dir().is_none() {
             eprintln!("Failed to create MetronomeApp config directory.");
@@ -124,17 +143,23 @@ impl AppData {
             &config_file(ACCENT_PRESETS_FILE),
             accents::VERSION,
         );
+
+        save_versioned_json(
+            &self.themes,
+            &config_file(THEMES_FILE),
+            themes::VERSION,
+        );
     }
 }
 
 fn config_dir() -> PathBuf {
     if cfg!(debug_assertions) {
-        return PathBuf::from("config");
+        return PathBuf::from(LOCAL_CONFIG_DIR);
     }
 
     ProjectDirs::from("com", "Bazooka", "MetronomeApp")
         .map(|dirs| dirs.config_dir().to_path_buf())
-        .unwrap_or_else(|| PathBuf::from("config"))
+        .unwrap_or_else(|| PathBuf::from(LOCAL_CONFIG_DIR))
 }
 
 fn ensure_config_dir() -> Option<PathBuf> {

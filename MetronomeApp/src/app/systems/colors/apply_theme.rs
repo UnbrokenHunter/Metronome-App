@@ -52,7 +52,7 @@ impl Theme {
                     widget.bg_stroke = Stroke::new(1.0, colors.selection_stroke);
                 }
 
-                // Specialized widget states using new colors
+                // Specialized widget states using new themes
                 visuals.widgets.hovered.bg_fill = colors.hovered_bg;
                 visuals.widgets.active.bg_fill = colors.active_bg;
                 visuals.widgets.open.bg_fill = colors.open_bg;

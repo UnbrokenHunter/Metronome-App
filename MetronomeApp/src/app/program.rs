@@ -29,7 +29,11 @@ impl Default for Window {
 impl Window {
     fn startup(&mut self, ctx: &egui::Context) {
         println!("Window has started!");
-        crate::app::systems::colors::themes::theme(ctx).apply_to_ctx(ctx);
+        crate::app::systems::colors::themes::theme(
+            &self.data.themes,
+            self.data.settings.selected_theme_index,
+        )
+            .apply_to_ctx(ctx);
         peripherals::init_keyboard_ctx(ctx);
 
         deployment::start_update_check(&mut self.updates);
