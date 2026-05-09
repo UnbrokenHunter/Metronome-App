@@ -13,4 +13,4 @@ pub use practice::{AppPracticeData, PracticeLog};
 
 pub use runtime::{AppRunningData, TimeData};
 
-pub use settings::{AppSettingsData, ColorScheme};
+pub use settings::AppSettingsData;

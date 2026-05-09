@@ -1,9 +1,7 @@
-use crate::app::{AppData, ColorScheme};
-use eframe::egui::{self, RichText, ScrollArea, Ui};
-
 use super::section::{full_width_button, settings_section};
-
-const THEME_OPTIONS: [&str; 5] = ["Light", "Dark", "Pastel", "Nord", "High Contrast"];
+use crate::app::systems::colors::themes::{all_themes, select_theme, theme};
+use crate::app::AppData;
+use eframe::egui::{self, RichText, ScrollArea, Ui};
 
 pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
@@ -15,7 +13,7 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
                 ui,
                 "Theme",
                 "The color scheme that will be used for the UI.",
-                |ui| theme_selector(app, ui),
+                |ui| theme_selector(ui),
             );
 
             settings_section(
@@ -43,29 +41,26 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
     });
 }
 
-fn theme_selector(app: &mut AppData, ui: &mut Ui) {
-    egui::ComboBox::from_label("Theme")
-        .selected_text(&app.settings.color_scheme.name)
-        .show_ui(ui, |ui| {
-            for option in THEME_OPTIONS {
-                let is_selected = app.settings.color_scheme.name == option;
+fn theme_selector(ui: &mut Ui) {
+    let theme_options = all_themes();
+    let s = theme(ui.ctx());
+    let current_theme = theme_options.iter().enumerate().find(|(_, f)| **f == s);
 
-                if ui.selectable_label(is_selected, option).clicked() {
-                    let new_scheme = color_scheme_from_name(option);
-                    new_scheme.apply_to_ctx(ui.ctx());
-                    app.settings.color_scheme = new_scheme;
+    if let Some((current_index, current_theme)) = current_theme {
+        egui::ComboBox::from_label("Theme")
+            .selected_text(&current_theme.name)
+            .show_ui(ui, |ui| {
+                for (i, option) in theme_options.iter().enumerate() {
+                    let is_selected = current_index == i;
+
+                    if ui
+                        .selectable_label(is_selected, option.name.clone())
+                        .clicked()
+                    {
+                        let _ = select_theme(ui.ctx(), i);
+                        theme(ui.ctx()).apply_to_ctx(ui.ctx());
+                    }
                 }
-            }
-        });
-}
-
-fn color_scheme_from_name(name: &str) -> ColorScheme {
-    match name {
-        "Light" => ColorScheme::light(),
-        "Dark" => ColorScheme::dark(),
-        "Pastel" => ColorScheme::pastel(),
-        "Nord" => ColorScheme::nord(),
-        "High Contrast" => ColorScheme::high_contrast(),
-        _ => ColorScheme::dark(),
+            });
     }
 }

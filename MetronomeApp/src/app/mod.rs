@@ -10,8 +10,7 @@ mod systems;
 pub use data::app_data::AppData;
 
 pub use data::{
-    AccentData, BeatData, BeatState, ColorScheme, GrowthType, PracticeLog, Sounds, TempoParams,
-    TimeData,
+    AccentData, BeatData, BeatState, GrowthType, PracticeLog, Sounds, TempoParams, TimeData,
 };
 
 pub use program::Window;

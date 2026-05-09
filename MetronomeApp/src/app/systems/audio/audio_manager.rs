@@ -1,4 +1,3 @@
-use crate::app::systems::audio::sine_wave::SineWave;
 use once_cell::sync::Lazy;
 use rodio::{Decoder, OutputStream, OutputStreamHandle, Sink, Source};
 use std::{
@@ -10,7 +9,6 @@ use std::{
 };
 
 pub enum Cmd {
-    Sine { freq: f32, dur_ms: u64, amp: f32 },
     File { path: String, volume: f32 },
     Cleanup,
 }
@@ -31,15 +29,6 @@ pub static AUDIO: Lazy<Audio> = Lazy::new(|| {
 
         while let Ok(cmd) = rx.recv() {
             match cmd {
-                Cmd::Sine { freq, dur_ms, amp } => {
-                    let sink = Sink::try_new(&handle).unwrap();
-                    let src = SineWave::new(freq, amp)
-                        .take_duration(Duration::from_millis(dur_ms))
-                        .fade_in(Duration::from_millis(5))
-                        .fade_out(Duration::from_millis(dur_ms.saturating_sub(1)));
-                    sink.append(src);
-                    sinks.push(sink);
-                }
                 Cmd::File { path, volume } => {
                     let sink = Sink::try_new(&handle).unwrap();
                     sink.set_volume(volume);

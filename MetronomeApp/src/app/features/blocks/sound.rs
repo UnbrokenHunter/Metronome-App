@@ -36,7 +36,7 @@ fn sound_grid(app: &mut AppData, ui: &mut Ui) {
                     .selectable_value(&mut app.parameters.sound, sound, format!("{sound:?}"))
                     .clicked()
                 {
-                    preview_sound(app, sound);
+                    preview_sound(sound);
                 }
 
                 if (index + 1).is_multiple_of(3) {
@@ -46,7 +46,7 @@ fn sound_grid(app: &mut AppData, ui: &mut Ui) {
         });
 }
 
-fn preview_sound(app: &mut AppData, sound: Sounds) {
+fn preview_sound(sound: Sounds) {
     let sound_name = sound.to_string().to_lowercase();
     audio::play_audio_from_file(&format!("{sound_name}/{sound_name}"), 1f32);
 }

@@ -6,7 +6,6 @@ use crate::app::{
 pub fn default_runtime_data() -> AppRunningData {
     AppRunningData {
         playing: false,
-        audio: None,
         points: Vec::new(),
         last_click_time: 0,
         last_subdivision_time: 0,
