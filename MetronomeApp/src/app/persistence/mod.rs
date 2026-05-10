@@ -3,16 +3,16 @@ mod save;
 mod versioned;
 
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use directories::ProjectDirs;
 
 use crate::app::{
-    AppData,
     data::{
-        AppAccentPresetData, AppPracticeData, AppSaveData, AppSettingsData, accents, general,
-        practice, settings,
+        accents, general, practice, settings, themes, AppAccentPresetData,
+        AppPracticeData, AppSaveData, AppSettingsData, AppThemeData,
     },
+    AppData,
 };
 
 use load::{load_default_config, load_user_or_default_config};
@@ -24,6 +24,7 @@ const PARAMETERS_FILE: &str = "mn_parameters.json";
 const SETTINGS_FILE: &str = "mn_settings.json";
 const PRACTICE_FILE: &str = "mn_practice.json";
 const ACCENT_PRESETS_FILE: &str = "mn_accent_presets.json";
+const THEMES_FILE: &str = "mn_themes.json";
 
 impl AppData {
     pub(crate) fn load_parameters() -> AppSaveData {
@@ -62,6 +63,15 @@ impl AppData {
         )
     }
 
+    pub(crate) fn load_themes() -> AppThemeData {
+        load_user_or_default_config(
+            &config_file(THEMES_FILE),
+            themes::DEFAULT_JSON,
+            themes::VERSION,
+            themes::migrations::migrate,
+        )
+    }
+
     pub(crate) fn load_default_parameters() -> AppSaveData {
         load_default_config(
             general::DEFAULT_JSON,
@@ -95,48 +105,62 @@ impl AppData {
         )
     }
 
-    pub(crate) fn save(&self) {
-        if ensure_config_dir().is_none() {
-            eprintln!("Failed to create MetronomeApp config directory.");
-            return;
-        }
+    #[allow(dead_code)]
+    pub(crate) fn load_default_themes() -> AppThemeData {
+        load_default_config(
+            themes::DEFAULT_JSON,
+            themes::VERSION,
+            themes::migrations::migrate,
+        )
+    }
+
+    pub(crate) fn save(&self) -> Result<(), String> {
+        ensure_config_dir()
+            .ok_or_else(|| "Failed to create MetronomeApp config directory.".to_string())?;
 
         save_versioned_json(
             &self.parameters,
             &config_file(PARAMETERS_FILE),
             general::VERSION,
-        );
+        )
+        .map_err(|err| format!("Failed to save parameters: {err}"))?;
 
         save_versioned_json(
             &self.settings,
             &config_file(SETTINGS_FILE),
             settings::VERSION,
-        );
+        )
+        .map_err(|err| format!("Failed to save settings: {err}"))?;
 
         save_versioned_json(
             &self.practice,
             &config_file(PRACTICE_FILE),
             practice::VERSION,
-        );
+        )
+        .map_err(|err| format!("Failed to save practice data: {err}"))?;
 
         save_versioned_json(
             &self.accent_presets,
             &config_file(ACCENT_PRESETS_FILE),
             accents::VERSION,
-        );
+        )
+        .map_err(|err| format!("Failed to save accent presets: {err}"))?;
+
+        save_versioned_json(&self.themes, &config_file(THEMES_FILE), themes::VERSION)
+            .map_err(|err| format!("Failed to save themes: {err}"))?;
+
+        Ok(())
     }
 }
 
 fn config_dir() -> PathBuf {
-    let local_config = Path::new(LOCAL_CONFIG_DIR);
-
-    if local_config.exists() {
-        return local_config.to_path_buf();
+    if cfg!(debug_assertions) {
+        return PathBuf::from(LOCAL_CONFIG_DIR);
     }
 
     ProjectDirs::from("com", "Bazooka", "MetronomeApp")
         .map(|dirs| dirs.config_dir().to_path_buf())
-        .unwrap_or_else(|| local_config.to_path_buf())
+        .unwrap_or_else(|| PathBuf::from(LOCAL_CONFIG_DIR))
 }
 
 fn ensure_config_dir() -> Option<PathBuf> {

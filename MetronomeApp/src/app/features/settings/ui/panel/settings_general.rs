@@ -1,9 +1,6 @@
-use crate::app::{AppData, ColorScheme};
-use eframe::egui::{self, RichText, ScrollArea, Ui};
-
 use super::section::{full_width_button, settings_section};
-
-const THEME_OPTIONS: [&str; 5] = ["Light", "Dark", "Pastel", "Nord", "High Contrast"];
+use crate::app::AppData;
+use eframe::egui::{self, RichText, ScrollArea, Ui};
 
 pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
     egui::Frame::group(ui.style()).show(ui, |ui| {
@@ -24,7 +21,7 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
                 "Resets all Accent Menu Presets to just the defaults.",
                 |ui| {
                     if full_width_button(ui, "Reset") {
-                        app.reset_accent_presets();
+                        app.accent_presets = AppData::load_default_accent_presets();
                     }
                 },
             );
@@ -35,7 +32,8 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
                 "Resets everything to its default state.",
                 |ui| {
                     if full_width_button(ui, "Reset") {
-                        app.reset_settings();
+                        app.settings = AppData::load_default_settings();
+                        app.current_theme().apply_to_ctx(ui.ctx()); // reapply the theme
                     }
                 },
             );
@@ -44,28 +42,36 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
 }
 
 fn theme_selector(app: &mut AppData, ui: &mut Ui) {
-    egui::ComboBox::from_label("Theme")
-        .selected_text(&app.settings.color_scheme.name)
-        .show_ui(ui, |ui| {
-            for option in THEME_OPTIONS {
-                let is_selected = app.settings.color_scheme.name == option;
+    let theme_options = app.themes.all();
 
-                if ui.selectable_label(is_selected, option).clicked() {
-                    let new_scheme = color_scheme_from_name(option);
-                    new_scheme.apply_to_ctx(ui.ctx());
-                    app.settings.color_scheme = new_scheme;
+    if theme_options.is_empty() {
+        ui.label("No themes available.");
+        return;
+    }
+
+    let current_index = app
+        .settings
+        .selected_theme_index
+        .min(theme_options.len() - 1);
+
+    let current_theme = &theme_options[current_index];
+
+    let mut selected_index: Option<usize> = None;
+
+    egui::ComboBox::from_label("Theme")
+        .selected_text(&current_theme.name)
+        .show_ui(ui, |ui| {
+            for (i, option) in theme_options.iter().enumerate() {
+                let is_selected = current_index == i;
+
+                if ui.selectable_label(is_selected, &option.name).clicked() {
+                    selected_index = Some(i);
                 }
             }
         });
-}
 
-fn color_scheme_from_name(name: &str) -> ColorScheme {
-    match name {
-        "Light" => ColorScheme::light(),
-        "Dark" => ColorScheme::dark(),
-        "Pastel" => ColorScheme::pastel(),
-        "Nord" => ColorScheme::nord(),
-        "High Contrast" => ColorScheme::high_contrast(),
-        _ => ColorScheme::dark(),
+    if let Some(i) = selected_index {
+        app.settings.selected_theme_index = i;
+        app.current_theme().apply_to_ctx(ui.ctx());
     }
 }

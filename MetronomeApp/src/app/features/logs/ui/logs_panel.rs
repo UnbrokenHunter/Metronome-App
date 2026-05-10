@@ -1,17 +1,14 @@
 use crate::app::features::blocks::plot::draw_plot;
-use crate::app::{
-    AppData,
-    logic::clock::{format_date, format_time, weekday_from_unix_ms},
-};
+use crate::app::systems::time::clock::{format_date, format_time, weekday_from_unix_ms};
+use crate::app::AppData;
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 
 pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
-    let mut to_delete = None;
-    let selected_index = app.runtime.menu_state as usize;
+    let selected_index = app.runtime.selected_log_index;
 
     egui::Frame::group(ui.style()).show(ui, |ui| {
         ScrollArea::vertical().show(ui, |ui| {
-            let Some(log) = app.practice.logs.get_mut(selected_index) else {
+            let Some(log) = app.practice.logs.get_mut(selected_index as usize) else {
                 ui.label("No log selected.");
                 return;
             };
@@ -34,15 +31,51 @@ pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
                 }
 
                 if full_width_button(ui, "Delete Log") {
-                    to_delete = Some(selected_index);
+                    app.runtime.pending_delete_log = Some(selected_index as usize);
                 }
             });
         });
     });
 
-    if let Some(index) = to_delete {
-        delete_log(app, index);
-    }
+    draw_delete_log_confirmation(app, ui.ctx());
+}
+
+fn draw_delete_log_confirmation(app: &mut AppData, ctx: &egui::Context) {
+    let Some(index) = app.runtime.pending_delete_log else {
+        return;
+    };
+
+    egui::Window::new("Delete log?")
+        .collapsible(false)
+        .resizable(false)
+        .anchor(egui::Align2::CENTER_CENTER, egui::Vec2::ZERO)
+        .show(ctx, |ui| {
+            ui.label("Are you sure you want to delete this log?");
+            ui.add_space(8.0);
+
+            ui.horizontal(|ui| {
+                if ui.button("Cancel").clicked() {
+                    app.runtime.pending_delete_log = None;
+                }
+
+                let delete_button =
+                    egui::Button::new(RichText::new("Delete").color(ui.visuals().warn_fg_color));
+
+                if ui.add(delete_button).clicked() {
+                    if index < app.practice.logs.len() {
+                        app.practice.logs.remove(index);
+                        if app.practice.logs.is_empty() {
+                            app.runtime.selected_log_index = 0;
+                        } else {
+                            app.runtime.selected_log_index =
+                                index.min(app.practice.logs.len() - 1) as u32;
+                        }
+                    }
+
+                    app.runtime.pending_delete_log = None;
+                }
+            });
+        });
 }
 
 fn log_header(ui: &mut Ui, log: &crate::app::PracticeLog) {
@@ -50,6 +83,7 @@ fn log_header(ui: &mut Ui, log: &crate::app::PracticeLog) {
         .visuals()
         .override_text_color
         .unwrap_or(ui.visuals().text_color());
+
     ui.label(
         RichText::new(format!(
             "{}, {}",
@@ -146,14 +180,6 @@ fn log_notes_editor(ui: &mut Ui, log: &mut crate::app::PracticeLog) {
 fn full_width_button(ui: &mut Ui, text: &str) -> bool {
     ui.add_sized([ui.available_width(), 30.0], egui::Button::new(text))
         .clicked()
-}
-
-fn delete_log(app: &mut AppData, index: usize) {
-    if index < app.practice.logs.len() {
-        app.practice.logs.remove(index);
-
-        app.runtime.menu_state = app.runtime.menu_state.saturating_sub(1);
-    }
 }
 
 fn log_text_info(log: &crate::app::PracticeLog) -> String {

@@ -1,16 +1,16 @@
-use eframe::Frame;
 use eframe::egui::Context;
+use eframe::Frame;
 
+use super::features::{calculate_tempo, update_metronome, shell, Menu, Registry};
+use crate::app::systems::time::clock;
+use crate::app::systems::{audio, deployment, peripherals};
 use crate::app::AppData;
-
-use super::features::{Menu, Registry, shell};
-use super::logic::{clock, keyboard, metronome, updates};
 
 pub struct Window {
     data: AppData,
     registry: Registry,
     selected_menu: Menu,
-    updates: updates::UpdateRuntime,
+    updates: deployment::UpdateRuntime,
     started: bool,
 }
 
@@ -20,7 +20,7 @@ impl Default for Window {
             selected_menu: Menu::Home,
             data: AppData::default(),
             registry: Registry::new(),
-            updates: updates::UpdateRuntime::default(),
+            updates: deployment::UpdateRuntime::default(),
             started: false,
         }
     }
@@ -28,13 +28,12 @@ impl Default for Window {
 
 impl Window {
     fn startup(&mut self, ctx: &egui::Context) {
-        // Put all your "Start" logic here
         println!("Window has started!");
-        // theme(ctx).apply_to_ctx(ctx);
-        self.data.settings.color_scheme.apply_to_ctx(ctx);
-        // keyboard_state::init_keyboard_ctx(ctx);
 
-        updates::start_update_check(&mut self.updates);
+        self.data.current_theme().apply_to_ctx(ctx);
+        peripherals::init_keyboard_ctx(ctx);
+
+        deployment::start_update_check(&mut self.updates);
     }
 }
 
@@ -45,11 +44,14 @@ impl eframe::App for Window {
             self.startup(ctx);
         }
 
-        updates::receive_update_messages(&mut self.updates);
+        deployment::receive_update_messages(&mut self.updates);
 
-        keyboard::check_keyboard(&mut self.data, ctx.clone());
+        audio::cleanup(); // Get rid of old sounds
+
+        peripherals::check_keyboard(&mut self.data);
         clock::update_time(&mut self.data.runtime.time_data, self.data.runtime.playing);
-        metronome::update_metronome(&mut self.data);
+        update_metronome(&mut self.data);
+        calculate_tempo(&mut self.data);
 
         shell::draw_layout(
             &mut self.data,
@@ -58,7 +60,7 @@ impl eframe::App for Window {
             ctx,
         );
 
-        updates::draw_update_popup(ctx, &mut self.updates);
+        deployment::draw_update_popup(ctx, &mut self.updates);
 
         ctx.request_repaint();
     }

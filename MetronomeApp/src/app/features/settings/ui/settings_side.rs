@@ -7,7 +7,7 @@ pub fn settings_side(app: &mut AppData, ui: &mut Ui) {
 }
 
 fn settings_nav_button(app: &mut AppData, ui: &mut Ui, menu_state: u32, label: &str) {
-    let selected = app.runtime.menu_state == menu_state;
+    let selected = app.runtime.settings_menu_state == menu_state;
 
     if ui
         .add_sized(
@@ -16,6 +16,6 @@ fn settings_nav_button(app: &mut AppData, ui: &mut Ui, menu_state: u32, label: &
         )
         .clicked()
     {
-        app.runtime.menu_state = menu_state;
+        app.runtime.settings_menu_state = menu_state;
     }
 }

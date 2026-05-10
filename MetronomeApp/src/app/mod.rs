@@ -1,18 +1,16 @@
 mod program;
 
-mod app_data;
 pub mod data;
-mod lifecycle;
 mod persistence;
 
 pub mod features;
 pub mod logic;
+mod systems;
 
-pub use app_data::AppData;
+pub use data::app_data::AppData;
 
 pub use data::{
-    AccentData, BeatData, BeatState, ColorScheme, GrowthType, PracticeLog, Sounds, TempoParams,
-    TimeData,
+    AccentData, BeatData, BeatState, GrowthType, PracticeLog, Sounds, TempoParams, TimeData,
 };
 
 pub use program::Window;

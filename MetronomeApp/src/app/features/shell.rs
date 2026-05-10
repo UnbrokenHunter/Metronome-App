@@ -1,11 +1,10 @@
-use std::fmt;
-use std::fmt::Display;
-
-use egui::{Button, Context, ScrollArea, Ui};
+use egui::Context;
 use serde::{Deserialize, Serialize};
+use std::fmt;
 
-use crate::app::AppData;
 use crate::app::features::registry::Registry;
+use crate::app::logic::ui_utils::tabs;
+use crate::app::AppData;
 
 pub fn draw_layout(
     app: &mut AppData,
@@ -47,30 +46,4 @@ impl fmt::Display for Menu {
             Menu::Settings => "Settings",
         })
     }
-}
-
-pub fn tabs<T: Eq + Display + Clone>(ui: &mut Ui, selected: &mut T, tabs: &[T]) -> Option<usize> {
-    let tab_w = (ui.available_width() / 10.0).max(60.0);
-    let tab_h = 25.0;
-    let mut clicked_idx = None;
-
-    ScrollArea::horizontal().show(ui, |ui| {
-        ui.horizontal(|ui| {
-            for (i, tab) in tabs.iter().cloned().enumerate() {
-                let is_selected = *selected == tab;
-                let mut btn = Button::new(format!("{tab}"));
-
-                if is_selected {
-                    btn = btn.fill(ui.visuals().selection.bg_fill);
-                }
-
-                if ui.add_sized([tab_w, tab_h], btn).clicked() {
-                    *selected = tab;
-                    clicked_idx = Some(i);
-                }
-            }
-        });
-    });
-
-    clicked_idx
 }
