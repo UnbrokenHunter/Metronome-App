@@ -16,7 +16,7 @@ pub fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_wi
 
     let mut action = None;
 
-    let menu_state = &mut app.runtime.menu_state;
+    let menu_state = &mut app.runtime.beat_menu_state;
     let accent = app
         .parameters
         .accents

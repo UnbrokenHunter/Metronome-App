@@ -6,11 +6,11 @@ use crate::app::{
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 
 pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
-    let selected_index = app.runtime.menu_state as usize;
+    let selected_index = app.runtime.selected_log_index;
 
     egui::Frame::group(ui.style()).show(ui, |ui| {
         ScrollArea::vertical().show(ui, |ui| {
-            let Some(log) = app.practice.logs.get_mut(selected_index) else {
+            let Some(log) = app.practice.logs.get_mut(selected_index as usize) else {
                 ui.label("No log selected.");
                 return;
             };
@@ -33,7 +33,7 @@ pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
                 }
 
                 if full_width_button(ui, "Delete Log") {
-                    app.runtime.pending_delete_log = Some(selected_index);
+                    app.runtime.pending_delete_log = Some(selected_index as usize);
                 }
             });
         });

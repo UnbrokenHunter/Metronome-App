@@ -31,7 +31,7 @@ fn logs_side_contents(app: &mut AppData, ui: &mut Ui) {
             .show(ui, |ui| {
                 for (index, log) in logs {
                     if log_card(ui, index, log) {
-                        app.runtime.menu_state = index as u32;
+                        app.runtime.selected_log_index = index as u32;
                     }
 
                     ui.add_space(8.0);
