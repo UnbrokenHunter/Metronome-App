@@ -44,10 +44,15 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
 fn theme_selector(app: &mut AppData, ui: &mut Ui) {
     let theme_options = app.themes.all();
 
+    if theme_options.is_empty() {
+        ui.label("No themes available.");
+        return;
+    }
+
     let current_index = app
         .settings
         .selected_theme_index
-        .min(theme_options.len().saturating_sub(1));
+        .min(theme_options.len() - 1);
 
     let current_theme = &theme_options[current_index];
 
