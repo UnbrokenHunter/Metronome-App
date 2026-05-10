@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use crate::app::AppData;
 use eframe::egui::Color32;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -62,10 +61,3 @@ impl AppThemeData {
         }
     }
 }
-
-impl AppData { // I kinda hate this but whatever
-    pub fn current_theme(&self) -> &Theme {
-        self.themes.get(self.settings.selected_theme_index)
-    }
-}
-

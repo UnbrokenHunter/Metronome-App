@@ -1,4 +1,4 @@
-use crate::app::{logic::clock, AppData, PracticeLog};
+use crate::app::{AppData, PracticeLog};
 
 pub fn try_add_log(app: &mut AppData) {
     let duration_ms = app.runtime.time_data.calculated_time_since_start as u64;
@@ -13,7 +13,7 @@ pub fn try_add_log(app: &mut AppData) {
         return;
     }
 
-    let now = clock::current_time();
+    let time_started = app.runtime.time_data.start_time;
 
     let min_tempo = app.parameters.tempo_params.min;
     let max_tempo = app.parameters.tempo_params.max;
@@ -66,7 +66,7 @@ pub fn try_add_log(app: &mut AppData) {
     };
 
     app.practice.logs.push(PracticeLog {
-        time_started: now,
+        time_started,
         duration_ms,
         min_tempo,
         max_tempo,

@@ -33,6 +33,7 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
                 |ui| {
                     if full_width_button(ui, "Reset") {
                         app.settings = AppData::load_default_settings();
+                        app.current_theme().apply_to_ctx(ui.ctx()); // reapply the theme
                     }
                 },
             );
@@ -41,7 +42,7 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
 }
 
 fn theme_selector(app: &mut AppData, ui: &mut Ui) {
-    let theme_options = &app.themes.all();
+    let theme_options = app.themes.all();
 
     let current_index = app
         .settings
@@ -50,20 +51,22 @@ fn theme_selector(app: &mut AppData, ui: &mut Ui) {
 
     let current_theme = &theme_options[current_index];
 
+    let mut selected_index: Option<usize> = None;
+
     egui::ComboBox::from_label("Theme")
         .selected_text(&current_theme.name)
         .show_ui(ui, |ui| {
             for (i, option) in theme_options.iter().enumerate() {
                 let is_selected = current_index == i;
 
-                if ui
-                    .selectable_label(is_selected, option.name.clone())
-                    .clicked()
-                {
-                    app.settings.selected_theme_index = i;
-
-                    let _ = &app.themes.get(app.settings.selected_theme_index).apply_to_ctx(ui.ctx());
+                if ui.selectable_label(is_selected, &option.name).clicked() {
+                    selected_index = Some(i);
                 }
             }
         });
+
+    if let Some(i) = selected_index {
+        app.settings.selected_theme_index = i;
+        app.current_theme().apply_to_ctx(ui.ctx());
+    }
 }

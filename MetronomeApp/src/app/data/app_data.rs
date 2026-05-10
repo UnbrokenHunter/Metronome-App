@@ -3,6 +3,7 @@ use crate::app::data::{
     AppAccentPresetData, AppPracticeData, AppRunningData, AppSaveData, AppSettingsData,
     AppThemeData,
 };
+use crate::app::data::themes::Theme;
 use crate::app::logic::logs::try_add_log;
 
 pub struct AppData {
@@ -59,4 +60,9 @@ impl AppData {
         self.runtime = default_runtime_data();
         self.parameters = Self::load_default_parameters();
     }
+    
+    pub fn current_theme(&self) -> &Theme {
+        self.themes.get(self.settings.selected_theme_index)
+    }
 }
+
