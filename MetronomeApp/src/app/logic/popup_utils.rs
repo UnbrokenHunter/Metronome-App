@@ -2,7 +2,7 @@
 #![allow(unused_variables)]
 #![allow(clippy::too_many_arguments)]
 
-use egui::{Button, Frame, Id, Response, RichText, Ui};
+use egui::{Align2, Button, Context, Frame, Response, RichText, Ui, Vec2};
 
 /// Button that opens a styled popup menu.
 /// Returns the button response.
@@ -12,7 +12,7 @@ pub fn popup_menu_button(
     button_text: impl Into<egui::WidgetText>,
     content: impl FnOnce(&mut Ui),
 ) -> Response {
-    let popup_id = Id::new(id);
+    let popup_id = ui.make_persistent_id(id);
 
     let btn = ui.button(button_text);
 
@@ -43,7 +43,7 @@ pub fn popup_menu_item(ui: &mut Ui, label: impl Into<egui::WidgetText>) -> bool 
         [ui.available_width(), 24.0],
         Button::new(label).frame(false),
     )
-    .clicked()
+        .clicked()
 }
 
 /// A disabled-looking menu item.
@@ -74,7 +74,7 @@ where
     L: FnMut(&T) -> String,
 {
     let mut picked = None;
-    let popup_id = Id::new(id);
+    let popup_id = ui.make_persistent_id(id);
 
     let btn = ui.button(button_text);
 
@@ -113,7 +113,7 @@ pub fn editable_popup_menu(
     content: impl FnOnce(&mut Ui) -> bool,
 ) -> bool {
     let mut changed = false;
-    let popup_id = Id::new(id);
+    let popup_id = ui.make_persistent_id(id);
 
     let btn = ui.button(button_text);
 
@@ -185,4 +185,91 @@ pub fn confirm_popup_button(
     );
 
     confirmed
+}
+
+pub fn centered_text_input_popup(
+    ctx: &egui::Context,
+    is_open: bool,
+    title: &str,
+    label: &str,
+    text: &mut String,
+    confirm_text: &str,
+) -> Option<Option<String>> {
+    if !is_open {
+        return None;
+    }
+
+    let mut result = None;
+    let input_id = egui::Id::new((title, "text_input"));
+
+    egui::Window::new(title)
+        .collapsible(false)
+        .resizable(false)
+        .anchor(egui::Align2::CENTER_CENTER, egui::Vec2::ZERO)
+        .show(ctx, |ui| {
+            ui.set_min_width(260.0);
+            ui.label(label);
+
+            let text_response = ui.add(
+                egui::TextEdit::singleline(text)
+                    .id(input_id)
+                    .desired_width(ui.available_width()),
+            );
+
+            text_response.request_focus();
+
+            let enter_pressed = ui.input(|i| i.key_pressed(egui::Key::Enter));
+
+            ui.add_space(8.0);
+
+            ui.horizontal(|ui| {
+                if ui.button("Cancel").clicked() {
+                    result = Some(None);
+                }
+
+                if ui.button(confirm_text).clicked() || enter_pressed {
+                    result = Some(Some(text.trim().to_string()));
+                }
+            });
+        });
+
+    result
+}
+
+pub fn confirmation_popup(
+    ctx: &Context,
+    is_open: bool,
+    title: &str,
+    message: &str,
+    confirm_text: &str,
+) -> Option<bool> {
+    if !is_open {
+        return None;
+    }
+
+    let mut result = None;
+
+    egui::Window::new(title)
+        .collapsible(false)
+        .resizable(false)
+        .anchor(Align2::CENTER_CENTER, Vec2::ZERO)
+        .show(ctx, |ui| {
+            ui.label(message);
+            ui.add_space(8.0);
+
+            ui.horizontal(|ui| {
+                if ui.button("Cancel").clicked() {
+                    result = Some(false);
+                }
+
+                let confirm_button =
+                    Button::new(RichText::new(confirm_text).color(ui.visuals().warn_fg_color));
+
+                if ui.add(confirm_button).clicked() {
+                    result = Some(true);
+                }
+            });
+        });
+
+    result
 }

@@ -6,6 +6,7 @@ pub fn migrate(mut version: u32, mut data: Value) -> Option<AppSettingsData> {
     while version < VERSION {
         data = match version {
             0 => migrate_v0_to_v1(data)?,
+            1 => migrate_v1_to_v2(data)?,
             _ => return None,
         };
 
@@ -23,6 +24,14 @@ fn migrate_v0_to_v1(mut data: Value) -> Option<Value> {
     insert_default(obj, "plot_granularity", Value::from(100));
     insert_default(obj, "min_practice_length", Value::from(60_000));
     insert_default(obj, "selected_theme_index", Value::from(0));
+
+    Some(data)
+}
+
+fn migrate_v1_to_v2(mut data: Value) -> Option<Value> {
+    let obj = data.as_object_mut()?;
+
+    insert_default(obj, "do_title_popup", Value::Bool(true));
 
     Some(data)
 }

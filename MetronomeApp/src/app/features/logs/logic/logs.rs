@@ -1,6 +1,6 @@
 use crate::app::{AppData, PracticeLog};
 
-pub fn try_add_log(app: &mut AppData) {
+pub fn try_add_log(app: &mut AppData, title: Option<String>) {
     let duration_ms = app.runtime.time_data.calculated_time_since_start as u64;
 
     if duration_ms <= app.settings.min_practice_length || !app.settings.save_logs {
@@ -12,6 +12,7 @@ pub fn try_add_log(app: &mut AppData) {
         println!("Log Save Canceled. Points < 2");
         return;
     }
+
 
     let time_started = app.runtime.time_data.start_time;
 
@@ -56,8 +57,8 @@ pub fn try_add_log(app: &mut AppData) {
 
         if let Some(last) = datapoints.last()
             && condensed.last() != Some(last) {
-                condensed.push(*last);
-            }
+            condensed.push(*last);
+        }
 
         condensed
     } else {
@@ -72,7 +73,7 @@ pub fn try_add_log(app: &mut AppData) {
         average_tempo,
         average_delta,
         points,
-        title: String::new(),
+        title: title.unwrap_or_default(),
         notes: String::new(),
     });
 

@@ -30,7 +30,7 @@ impl Default for AppData {
 
 impl Drop for AppData {
     fn drop(&mut self) {
-        try_add_log(self);
+        try_add_log(self, None);
 
         if let Err(error) = self.save() {
             eprintln!("{error}");
@@ -53,10 +53,6 @@ impl AppData {
         self.runtime.last_subdivision_time = 0;
         self.runtime.last_click_accent = 0;
         self.runtime.last_tap_tempo_click = 0;
-
-        self.runtime.selected_log_index = 0;
-        self.runtime.beat_menu_state = 0;
-        self.runtime.settings_menu_state = 0;
 
         self.runtime.pending_delete_log = None;
     }

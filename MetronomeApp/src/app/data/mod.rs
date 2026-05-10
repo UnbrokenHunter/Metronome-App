@@ -12,7 +12,7 @@ pub use general::{AppSaveData, GrowthType, Sounds, TempoParams};
 
 pub use practice::{AppPracticeData, PracticeLog};
 
-pub use runtime::{AppRunningData, TimeData};
+pub use runtime::{AppRunningData, TimeData, PendingTitleAction};
 
 pub use settings::AppSettingsData;
 

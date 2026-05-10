@@ -8,6 +8,7 @@ pub fn accents_side(app: &mut AppData, ui: &mut Ui) {
 
     blocks::info(app, ui);
     blocks::play(app, ui);
+    blocks::reset(app, ui);
 
     ui.separator();
 

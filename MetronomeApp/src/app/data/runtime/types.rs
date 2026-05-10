@@ -21,4 +21,12 @@ pub struct AppRunningData {
     pub beat_menu_state: u32,
     pub settings_menu_state: u32,
     pub pending_delete_log: Option<usize>,
+    pub pending_log_title: String,
+    pub pending_title_action: Option<PendingTitleAction>,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum PendingTitleAction {
+    Reset,
+    RevertDefaults,
 }

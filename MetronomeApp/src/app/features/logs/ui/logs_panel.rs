@@ -1,7 +1,8 @@
 use crate::app::features::blocks::plot::draw_plot;
-use crate::app::systems::time::clock::{format_date, format_time, weekday_from_unix_ms};
+use crate::app::systems::time::clock::{format_date, format_time};
 use crate::app::AppData;
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
+use crate::app::logic::popup_utils;
 
 pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
     let selected_index = app.runtime.selected_log_index;
@@ -40,44 +41,6 @@ pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
     draw_delete_log_confirmation(app, ui.ctx());
 }
 
-fn draw_delete_log_confirmation(app: &mut AppData, ctx: &egui::Context) {
-    let Some(index) = app.runtime.pending_delete_log else {
-        return;
-    };
-
-    egui::Window::new("Delete log?")
-        .collapsible(false)
-        .resizable(false)
-        .anchor(egui::Align2::CENTER_CENTER, egui::Vec2::ZERO)
-        .show(ctx, |ui| {
-            ui.label("Are you sure you want to delete this log?");
-            ui.add_space(8.0);
-
-            ui.horizontal(|ui| {
-                if ui.button("Cancel").clicked() {
-                    app.runtime.pending_delete_log = None;
-                }
-
-                let delete_button =
-                    egui::Button::new(RichText::new("Delete").color(ui.visuals().warn_fg_color));
-
-                if ui.add(delete_button).clicked() {
-                    if index < app.practice.logs.len() {
-                        app.practice.logs.remove(index);
-                        if app.practice.logs.is_empty() {
-                            app.runtime.selected_log_index = 0;
-                        } else {
-                            app.runtime.selected_log_index =
-                                index.min(app.practice.logs.len() - 1) as u32;
-                        }
-                    }
-
-                    app.runtime.pending_delete_log = None;
-                }
-            });
-        });
-}
-
 fn log_header(ui: &mut Ui, log: &crate::app::PracticeLog) {
     let color = ui
         .visuals()
@@ -85,14 +48,10 @@ fn log_header(ui: &mut Ui, log: &crate::app::PracticeLog) {
         .unwrap_or(ui.visuals().text_color());
 
     ui.label(
-        RichText::new(format!(
-            "{}, {}",
-            weekday_from_unix_ms(log.time_started),
-            format_date(log.time_started, None)
-        ))
-        .size(28.0)
-        .color(color)
-        .strong(),
+        RichText::new(format_date(log.time_started, Some("%A, %B {day_ordinal}, %Y at %I:%M %p")))
+            .size(28.0)
+            .color(color)
+            .strong(),
     );
 }
 
@@ -137,10 +96,8 @@ fn log_info_panel(ui: &mut Ui, log: &crate::app::PracticeLog) {
         ui.separator();
 
         info_section(ui, "General", |ui| {
-            ui.label(format!(
-                "Duration: {}",
-                format_time(log.duration_ms as u128)
-            ));
+            // Add the time/date of starting
+            ui.label(format!("Duration: {}", format_time(log.duration_ms as u128)));
         });
 
         ui.separator();
@@ -211,4 +168,43 @@ Notes:
         log.max_tempo,
         log.notes.trim()
     )
+}
+
+fn draw_delete_log_confirmation(app: &mut AppData, ctx: &egui::Context) {
+    let Some(index) = app.runtime.pending_delete_log else {
+        return;
+    };
+
+    let result = popup_utils::confirmation_popup(
+        ctx,
+        true,
+        "Delete log?",
+        "Are you sure you want to delete this log?",
+        "Delete",
+    );
+
+    match result {
+        Some(true) => {
+            delete_log(app, index);
+            app.runtime.pending_delete_log = None;
+        }
+        Some(false) => {
+            app.runtime.pending_delete_log = None;
+        }
+        None => {}
+    }
+}
+
+fn delete_log(app: &mut AppData, index: usize) {
+    if index >= app.practice.logs.len() {
+        return;
+    }
+
+    app.practice.logs.remove(index);
+
+    if app.practice.logs.is_empty() {
+        app.runtime.selected_log_index = 0;
+    } else {
+        app.runtime.selected_log_index = index.min(app.practice.logs.len() - 1) as u32;
+    }
 }

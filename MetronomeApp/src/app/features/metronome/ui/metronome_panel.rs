@@ -1,5 +1,4 @@
 use crate::app::features::blocks;
-use crate::app::features::logs::logic::logs;
 use crate::app::AppData;
 use eframe::egui::{self, Ui};
 
@@ -17,15 +16,8 @@ pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {
                 egui::Layout::top_down(egui::Align::Min),
                 |ui| {
                     blocks::play(app, ui);
-                    let size = [ui.available_width(), 30.0];
-
-                    if ui
-                        .add_sized(size, egui::Button::new("Revert Defaults"))
-                        .clicked()
-                    {
-                        logs::try_add_log(app);
-                        app.reset_all_parameters();
-                    }
+                    blocks::reset(app, ui);
+                    blocks::revert_defaults(app, ui);
                 },
             );
             blocks::info(app, ui);

@@ -12,14 +12,45 @@ pub(super) fn save_versioned_json<T>(value: &T, path: &Path, version: u32) -> Re
 where
     T: Serialize,
 {
+    println!(
+        "Saving config version v{} to: {}",
+        version,
+        path.display()
+    );
+
     let versioned = VersionedConfig {
         version,
         data: value,
     };
 
-    let json = serde_json::to_string_pretty(&versioned)?;
+    let json = match serde_json::to_string_pretty(&versioned) {
+        Ok(json) => json,
+        Err(error) => {
+            println!(
+                "Failed to serialize config version v{} for: {}",
+                version,
+                path.display()
+            );
 
-    atomic_write(path, json.as_bytes())?;
+            return Err(error.into());
+        }
+    };
+
+    if let Err(error) = atomic_write(path, json.as_bytes()) {
+        println!(
+            "Failed to save config version v{} to: {}",
+            version,
+            path.display()
+        );
+
+        return Err(error.into());
+    }
+
+    println!(
+        "Saved config version v{} to: {}",
+        version,
+        path.display()
+    );
 
     Ok(())
 }
