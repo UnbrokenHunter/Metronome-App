@@ -1,28 +1,32 @@
-use serde::de::DeserializeOwned;
-use serde_json::Value;
+use serde_json::{Map, Value};
 
-use crate::app::data::settings::AppSettingsData;
+use crate::app::data::settings::{AppSettingsData, VERSION};
 
-pub fn migrate(contents: &str, current_version: u32) -> Option<AppSettingsData> {
-    let version = config_version(contents)?;
+pub fn migrate(mut version: u32, mut data: Value) -> Option<AppSettingsData> {
+    while version < VERSION {
+        data = match version {
+            0 => migrate_v0_to_v1(data)?,
+            _ => return None,
+        };
 
-    match version {
-        1 if current_version == 1 => config_data(contents),
-        _ => None,
+        version += 1;
     }
-}
-
-fn config_version(contents: &str) -> Option<u32> {
-    let value = serde_json::from_str::<Value>(contents).ok()?;
-    value.get("version")?.as_u64().map(|version| version as u32)
-}
-
-fn config_data<T>(contents: &str) -> Option<T>
-where
-    T: DeserializeOwned,
-{
-    let value = serde_json::from_str::<Value>(contents).ok()?;
-    let data = value.get("data")?.clone();
 
     serde_json::from_value(data).ok()
+}
+
+fn migrate_v0_to_v1(mut data: Value) -> Option<Value> {
+    let obj = data.as_object_mut()?;
+
+    insert_default(obj, "save_logs", Value::Bool(true));
+    insert_default(obj, "save_plots", Value::Bool(true));
+    insert_default(obj, "plot_granularity", Value::from(100));
+    insert_default(obj, "min_practice_length", Value::from(60_000));
+    insert_default(obj, "selected_theme_index", Value::from(0));
+
+    Some(data)
+}
+
+fn insert_default(obj: &mut Map<String, Value>, key: &str, value: Value) {
+    obj.entry(key.to_string()).or_insert(value);
 }
