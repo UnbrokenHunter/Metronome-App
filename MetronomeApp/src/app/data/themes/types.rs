@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use eframe::egui::Color32;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AppThemeData(pub Vec<Theme>);
@@ -9,13 +9,20 @@ impl AppThemeData {
         self.0.len()
     }
 
-    pub fn get(&self, index: usize) -> &Theme {
-        let idx = self.clamp_index(index);
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
 
-        self
-            .0
-            .get(idx)
-            .expect("at least one theme present")
+    pub fn get_checked(&self, index: usize) -> Option<&Theme> {
+        if self.0.is_empty() {
+            return None;
+        }
+
+        self.0.get(index.min(self.0.len() - 1))
+    }
+
+    pub fn get(&self, index: usize) -> &Theme {
+        self.get_checked(index).expect("at least one theme present")
     }
 
     pub fn all(&self) -> &[Theme] {
@@ -25,11 +32,7 @@ impl AppThemeData {
     fn clamp_index(&self, idx: usize) -> usize {
         let n = self.len();
 
-        if n == 0 {
-            0
-        } else {
-            idx.min(n - 1)
-        }
+        if n == 0 { 0 } else { idx.min(n - 1) }
     }
 }
 
@@ -38,13 +41,13 @@ pub struct Theme {
     pub name: String,
     pub white: Color32,
     pub black: Color32,
-    
+
     pub beat: BeatColors,
 
     pub ui: Option<UITheme>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub struct BeatColors {
     pub override_color: Color32,
     pub downbeat_color: Color32,
@@ -53,7 +56,7 @@ pub struct BeatColors {
     pub off_color: Color32,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub struct UITheme {
     pub extreme_bg_color: Color32,
     pub panel_fill: Color32,
@@ -67,5 +70,3 @@ pub struct UITheme {
     pub active_bg: Color32,
     pub open_bg: Color32,
 }
-
-

@@ -1,17 +1,17 @@
+use super::{
+    actions::{apply_accent_action, AccentAction},
+    beat_column::draw_beat_column,
+    utils::{icon_button, SMALL_ICON_SIZE, TINY_ICON_SIZE},
+};
+use crate::app::data::BeatColors;
 use crate::app::{
-    AccentData, AppData, BeatData, BeatState, logic::accents::get_accent_and_beat_index,
+    logic::accents::get_accent_and_beat_index, AccentData, AppData, BeatData, BeatState,
 };
 use eframe::egui::{self, Align, Frame, Layout, TextEdit, TextStyle, Ui};
-use crate::app::data::BeatColors;
-use super::{
-    actions::{AccentAction, apply_accent_action},
-    beat_column::draw_beat_column,
-    utils::{SMALL_ICON_SIZE, TINY_ICON_SIZE, icon_button},
-};
 
 pub fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width: f32) {
     let current_click = get_accent_and_beat_index(app, app.runtime.last_click_accent as usize);
-    let colors = app.current_theme().beat.clone();
+    let colors = app.current_theme().beat;
     let playing = app.runtime.playing;
 
     let mut action = None;
@@ -172,7 +172,7 @@ fn draw_accent_beats(
                     menu_state,
                     playing,
                     current_click,
-                    &colors,
+                    colors,
                 );
             }
 
@@ -199,7 +199,7 @@ fn draw_beat_count_controls(ui: &mut Ui, accent: &mut AccentData, colors: &BeatC
                         egui::ImageButton::new(egui::include_image!(
                             "../../../../../../assets/icons/minus.png"
                         ))
-                            .frame(false),
+                        .frame(false),
                     )
                     .clicked()
                     && accent.beats.len() > 1
@@ -213,7 +213,7 @@ fn draw_beat_count_controls(ui: &mut Ui, accent: &mut AccentData, colors: &BeatC
                         egui::ImageButton::new(egui::include_image!(
                             "../../../../../../assets/icons/plus.png"
                         ))
-                            .frame(false),
+                        .frame(false),
                     )
                     .clicked()
                 {
