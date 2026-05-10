@@ -4,6 +4,10 @@ use crate::app::systems::peripherals::keyboard_input::Keyboard;
 use crate::app::AppData;
 
 pub fn check_keyboard(app: &mut AppData) {
+    if Keyboard::wants_keyboard_input() {
+        return;
+    }
+
     // Manual tempo adjustment
     let manual_increment = 5.0;
 
@@ -49,20 +53,30 @@ pub fn check_keyboard(app: &mut AppData) {
 
     // Max tempo
     if Keyboard::pressed(Key::W) {
-        app.parameters.tempo_params.max += 5;
+        app.parameters.tempo_params.max = app.parameters.tempo_params.max.saturating_add(5);
     }
 
     if Keyboard::pressed(Key::S) {
-        app.parameters.tempo_params.max -= 5;
+        app.parameters.tempo_params.max = app
+            .parameters
+            .tempo_params
+            .max
+            .saturating_sub(5)
+            .max(app.parameters.tempo_params.min);
     }
 
     // Min tempo
     if Keyboard::pressed(Key::A) {
-        app.parameters.tempo_params.min -= 5;
+        app.parameters.tempo_params.min = app.parameters.tempo_params.min.saturating_sub(5);
     }
 
     if Keyboard::pressed(Key::D) {
-        app.parameters.tempo_params.min += 5;
+        app.parameters.tempo_params.min = app
+            .parameters
+            .tempo_params
+            .min
+            .saturating_add(5)
+            .min(app.parameters.tempo_params.max);
     }
 
     // Play / pause

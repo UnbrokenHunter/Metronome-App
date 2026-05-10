@@ -3,13 +3,14 @@ use rodio::{Decoder, OutputStream, OutputStreamHandle, Sink, Source};
 use std::{
     fs::File,
     io::BufReader,
+    path::PathBuf,
     sync::mpsc::{channel, Sender},
     thread,
     time::Duration,
 };
 
 pub enum Cmd {
-    File { path: String, volume: f32 },
+    File { path: PathBuf, volume: f32 },
     Cleanup,
 }
 
@@ -21,26 +22,20 @@ pub static AUDIO: Lazy<Audio> = Lazy::new(|| {
     let (tx, rx) = channel::<Cmd>();
 
     thread::spawn(move || {
-        // `OutputStream` never leaves this thread:
-        let (_stream, handle): (OutputStream, OutputStreamHandle) =
-            OutputStream::try_default().unwrap();
+        let Ok((_stream, handle)) = OutputStream::try_default() else {
+            eprintln!("Failed to initialize audio output stream.");
+            return;
+        };
 
         let mut sinks: Vec<Sink> = Vec::new();
 
         while let Ok(cmd) = rx.recv() {
             match cmd {
                 Cmd::File { path, volume } => {
-                    let sink = Sink::try_new(&handle).unwrap();
-                    sink.set_volume(volume);
-                    let file = File::open(path).unwrap();
-                    let src = Decoder::new(BufReader::new(file))
-                        .unwrap()
-                        .fade_in(Duration::from_millis(1));
-                    sink.append(src);
-                    sinks.push(sink);
+                    play_file(&handle, &mut sinks, path, volume);
                 }
                 Cmd::Cleanup => {
-                    sinks.retain(|s| !s.empty());
+                    sinks.retain(|sink| !sink.empty());
                 }
             }
         }
@@ -48,3 +43,25 @@ pub static AUDIO: Lazy<Audio> = Lazy::new(|| {
 
     Audio { tx }
 });
+
+fn play_file(handle: &OutputStreamHandle, sinks: &mut Vec<Sink>, path: PathBuf, volume: f32) {
+    let Ok(sink) = Sink::try_new(handle) else {
+        eprintln!("Failed to create audio sink.");
+        return;
+    };
+
+    let Ok(file) = File::open(&path) else {
+        eprintln!("Failed to open audio file: {}", path.display());
+        return;
+    };
+
+    let Ok(source) = Decoder::new(BufReader::new(file)) else {
+        eprintln!("Failed to decode audio file: {}", path.display());
+        return;
+    };
+
+    sink.set_volume(volume.clamp(0.0, 1.0));
+    sink.append(source.fade_in(Duration::from_millis(1)));
+
+    sinks.push(sink);
+}

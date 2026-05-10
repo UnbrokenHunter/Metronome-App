@@ -9,8 +9,8 @@ use directories::ProjectDirs;
 
 use crate::app::{
     data::{
-        AppAccentPresetData, AppPracticeData, AppSaveData, AppSettingsData, AppThemeData,
-        accents, general, practice, settings, themes,
+        accents, general, practice, settings, themes, AppAccentPresetData,
+        AppPracticeData, AppSaveData, AppSettingsData, AppThemeData,
     },
     AppData,
 };
@@ -114,41 +114,42 @@ impl AppData {
         )
     }
 
-    pub(crate) fn save(&self) {
-        if ensure_config_dir().is_none() {
-            eprintln!("Failed to create MetronomeApp config directory.");
-            return;
-        }
+    pub(crate) fn save(&self) -> Result<(), String> {
+        ensure_config_dir()
+            .ok_or_else(|| "Failed to create MetronomeApp config directory.".to_string())?;
 
         save_versioned_json(
             &self.parameters,
             &config_file(PARAMETERS_FILE),
             general::VERSION,
-        );
+        )
+        .map_err(|err| format!("Failed to save parameters: {err}"))?;
 
         save_versioned_json(
             &self.settings,
             &config_file(SETTINGS_FILE),
             settings::VERSION,
-        );
+        )
+        .map_err(|err| format!("Failed to save settings: {err}"))?;
 
         save_versioned_json(
             &self.practice,
             &config_file(PRACTICE_FILE),
             practice::VERSION,
-        );
+        )
+        .map_err(|err| format!("Failed to save practice data: {err}"))?;
 
         save_versioned_json(
             &self.accent_presets,
             &config_file(ACCENT_PRESETS_FILE),
             accents::VERSION,
-        );
+        )
+        .map_err(|err| format!("Failed to save accent presets: {err}"))?;
 
-        save_versioned_json(
-            &self.themes,
-            &config_file(THEMES_FILE),
-            themes::VERSION,
-        );
+        save_versioned_json(&self.themes, &config_file(THEMES_FILE), themes::VERSION)
+            .map_err(|err| format!("Failed to save themes: {err}"))?;
+
+        Ok(())
     }
 }
 

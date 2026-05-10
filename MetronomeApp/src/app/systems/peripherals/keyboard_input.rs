@@ -20,6 +20,9 @@ fn ctx() -> &'static Context {
 pub struct Keyboard;
 
 impl Keyboard {
+    pub fn wants_keyboard_input() -> bool {
+        ctx().wants_keyboard_input()
+    }
     pub fn pressed(key: Key) -> bool {
         ctx().input(|i| i.key_pressed(key))
     }
@@ -54,11 +57,26 @@ impl Keyboard {
 
     pub fn vertical() -> i8 {
         let mut val = 0;
-        if Self::pressed(Key::ArrowUp) || Self::pressed(Key::S) {
+
+        if Self::pressed(Key::ArrowDown) || Self::pressed(Key::S) {
             val -= 1;
         }
 
         if Self::pressed(Key::ArrowUp) || Self::pressed(Key::W) {
+            val += 1;
+        }
+
+        val
+    }
+
+    pub fn vertical_continous() -> i8 {
+        let mut val = 0;
+
+        if Self::down(Key::ArrowDown) || Self::down(Key::S) {
+            val -= 1;
+        }
+
+        if Self::down(Key::ArrowUp) || Self::down(Key::W) {
             val += 1;
         }
 
@@ -78,20 +96,7 @@ impl Keyboard {
         val
     }
 
-    pub fn vertical_continous() -> i8 {
-        let mut val = 0;
-        if Self::down(Key::ArrowUp) || Self::down(Key::S) {
-            val -= 1;
-        }
-
-        if Self::down(Key::ArrowUp) || Self::down(Key::W) {
-            val += 1;
-        }
-
-        val
-    }
-
-    pub fn horizontal_continous() -> i8 {
+    pub fn horizontal_continuous() -> i8 {
         let mut val = 0;
         if Self::down(Key::ArrowRight) || Self::down(Key::D) {
             val += 1;

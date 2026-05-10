@@ -39,23 +39,30 @@ pub fn update_metronome(app: &mut AppData) {
         app.runtime.last_click_time = now;
         app.runtime.last_subdivision_time = now;
 
-        app.runtime.last_click_accent += 1;
+        if time_since_last_click >= period {
+            app.runtime.last_click_time = now;
+            app.runtime.last_subdivision_time = now;
 
-        if app.runtime.last_click_accent >= total_beats {
-            app.runtime.last_click_accent = 0;
+            play_current_beat(app);
+
+            app.runtime.last_click_accent += 1;
+
+            if app.runtime.last_click_accent >= total_beats {
+                app.runtime.last_click_accent = 0;
+            }
         }
-
-        play_current_beat(app);
     } else if time_since_last_subdivision > subdivision_period {
         app.runtime.last_subdivision_time = now;
 
         let sound = app.parameters.sound.to_string().to_lowercase();
-        audio::play_audio_from_file(&format!("{sound}/{sound}_subdivision"), 1f32);
+        let volume = app.parameters.volume;
+        audio::play_audio_from_file(&format!("{sound}/{sound}_subdivision"), volume);
     }
 }
 
 fn play_current_beat(app: &mut AppData) {
     let sound = app.parameters.sound.to_string().to_lowercase();
+    let volume = app.parameters.volume;
 
     let Some(beat) = get_beat_at_index(app, app.runtime.last_click_accent as usize) else {
         app.runtime.last_click_accent = 0;
@@ -64,13 +71,13 @@ fn play_current_beat(app: &mut AppData) {
 
     match beat.state {
         BeatState::Downbeat => {
-            audio::play_audio_from_file(&format!("{sound}/{sound}"), 1f32);
+            audio::play_audio_from_file(&format!("{sound}/{sound}"), volume);
         }
         BeatState::Strong => {
-            audio::play_audio_from_file(&format!("{sound}/{sound}_strong"), 1f32);
+            audio::play_audio_from_file(&format!("{sound}/{sound}_strong"), volume);
         }
         BeatState::Weak => {
-            audio::play_audio_from_file(&format!("{sound}/{sound}_weak"), 1f32);
+            audio::play_audio_from_file(&format!("{sound}/{sound}_weak"), volume);
         }
         BeatState::Off => {
             // No sound for off beats.
