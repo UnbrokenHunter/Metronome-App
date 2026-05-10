@@ -1,4 +1,5 @@
-use crate::app::{AppData, logic};
+use crate::app::systems::time;
+use crate::app::AppData;
 use eframe::egui::{self, Ui};
 
 pub fn status(app: &mut AppData, ui: &mut Ui) {
@@ -6,7 +7,7 @@ pub fn status(app: &mut AppData, ui: &mut Ui) {
         ui.with_layout(egui::Layout::left_to_right(egui::Align::Min), |ui| {
             ui.label(format!(
                 "Uptime: {}",
-                logic::clock::format_time(app.runtime.time_data.time_since_start)
+                time::clock::format_time(app.runtime.time_data.time_since_start)
             ));
         });
 

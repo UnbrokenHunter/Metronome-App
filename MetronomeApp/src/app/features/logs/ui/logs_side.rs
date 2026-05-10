@@ -1,6 +1,7 @@
 use std::collections::BTreeMap;
 
-use crate::app::{logic, AppData, PracticeLog};
+use crate::app::systems::time;
+use crate::app::{AppData, PracticeLog};
 use eframe::egui::{self, ScrollArea, Ui};
 
 pub fn logs_side(app: &mut AppData, ui: &mut Ui) {
@@ -23,7 +24,7 @@ fn logs_side_contents(app: &mut AppData, ui: &mut Ui) {
             continue;
         };
 
-        let date_label = logic::clock::format_date(first_log.time_started, None);
+        let date_label = time::clock::format_date(first_log.time_started, None);
 
         egui::CollapsingHeader::new(date_label)
             .default_open(false)
@@ -44,7 +45,7 @@ fn grouped_logs(logs: &[PracticeLog]) -> BTreeMap<u64, Vec<(usize, &PracticeLog)
     let mut grouped: BTreeMap<u64, Vec<(usize, &PracticeLog)>> = BTreeMap::new();
 
     for (index, log) in logs.iter().enumerate() {
-        let day = logic::clock::days_since_epoch(log.time_started);
+        let day = time::clock::days_since_epoch(log.time_started);
         grouped.entry(day).or_default().push((index, log));
     }
 
@@ -60,7 +61,7 @@ fn log_card(ui: &mut Ui, index: usize, log: &PracticeLog) -> bool {
 
         ui.label(format!(
             "Duration: {}",
-            logic::clock::format_time(log.duration_ms as u128)
+            time::clock::format_time(log.duration_ms as u128)
         ));
 
         if log.notes.is_empty() {
@@ -81,7 +82,7 @@ fn log_card(ui: &mut Ui, index: usize, log: &PracticeLog) -> bool {
 
 fn log_card_title(log: &PracticeLog) -> String {
     if log.title.is_empty() {
-        logic::clock::format_date(log.time_started, None)
+        time::clock::format_date(log.time_started, None)
     } else {
         log.title.clone()
     }

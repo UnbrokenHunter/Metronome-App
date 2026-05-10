@@ -2,7 +2,8 @@ use eframe::egui::Context;
 use eframe::Frame;
 
 use super::features::{shell, Menu, Registry};
-use super::logic::{clock, metronome, tempo};
+use super::logic::{metronome, tempo};
+use crate::app::systems::time::clock;
 use crate::app::systems::{audio, deployment, peripherals};
 use crate::app::AppData;
 
@@ -29,6 +30,7 @@ impl Default for Window {
 impl Window {
     fn startup(&mut self, ctx: &egui::Context) {
         println!("Window has started!");
+
         self.data.current_theme().apply_to_ctx(ctx);
         peripherals::init_keyboard_ctx(ctx);
 

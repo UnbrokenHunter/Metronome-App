@@ -1,7 +1,5 @@
-use crate::app::{
-    data::runtime::{AppRunningData, TimeData},
-    logic::clock,
-};
+use crate::app::data::runtime::{AppRunningData, TimeData};
+use crate::app::systems::time::clock;
 
 pub fn default_runtime_data() -> AppRunningData {
     AppRunningData {

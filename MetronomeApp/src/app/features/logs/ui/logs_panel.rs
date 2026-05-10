@@ -1,8 +1,6 @@
 use crate::app::features::blocks::plot::draw_plot;
-use crate::app::{
-    logic::clock::{format_date, format_time, weekday_from_unix_ms},
-    AppData,
-};
+use crate::app::systems::time::clock::{format_date, format_time, weekday_from_unix_ms};
+use crate::app::AppData;
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 
 pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
