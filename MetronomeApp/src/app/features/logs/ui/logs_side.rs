@@ -3,6 +3,7 @@ use std::collections::BTreeMap;
 use crate::app::systems::time;
 use crate::app::{AppData, PracticeLog};
 use eframe::egui::{self, ScrollArea, Ui};
+use crate::app::systems::time::clock::format_date;
 
 pub fn logs_side(app: &mut AppData, ui: &mut Ui) {
     ui.allocate_ui_with_layout(
@@ -24,7 +25,7 @@ fn logs_side_contents(app: &mut AppData, ui: &mut Ui) {
             continue;
         };
 
-        let date_label = time::clock::format_date(first_log.time_started, None);
+        let date_label = format_date(first_log.time_started, Some("%A, %B {day_ordinal}, %Y"));
 
         egui::CollapsingHeader::new(date_label)
             .default_open(false)
@@ -56,7 +57,14 @@ fn log_card(ui: &mut Ui, index: usize, log: &PracticeLog) -> bool {
     let response = egui::Frame::group(ui.style()).show(ui, |ui| {
         ui.set_min_width(ui.available_width());
 
-        ui.heading(log_card_title(log));
+        let start_time = format_date(log.time_started, Some("%I:%M %p"));
+        let log_title = if log.title.is_empty() {
+            start_time
+        } else {
+            format!("{} at {}", log.title.clone(), start_time)
+        };
+
+        ui.heading(log_title);
         ui.separator();
 
         ui.label(format!(
@@ -77,13 +85,5 @@ fn log_card(ui: &mut Ui, index: usize, log: &PracticeLog) -> bool {
         egui::Id::new(("log_card", index)),
         egui::Sense::click(),
     )
-    .clicked()
-}
-
-fn log_card_title(log: &PracticeLog) -> String {
-    if log.title.is_empty() {
-        time::clock::format_date(log.time_started, None)
-    } else {
-        log.title.clone()
-    }
+        .clicked()
 }

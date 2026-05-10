@@ -1,5 +1,5 @@
 use crate::app::features::blocks::plot::draw_plot;
-use crate::app::systems::time::clock::{format_date, format_time, weekday_from_unix_ms};
+use crate::app::systems::time::clock::{format_date, format_time};
 use crate::app::AppData;
 use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 use crate::app::logic::popup_utils;
@@ -48,11 +48,7 @@ fn log_header(ui: &mut Ui, log: &crate::app::PracticeLog) {
         .unwrap_or(ui.visuals().text_color());
 
     ui.label(
-        RichText::new(format!(
-            "{}, {}",
-            weekday_from_unix_ms(log.time_started),
-            format_date(log.time_started, None)
-        ))
+        RichText::new(format_date(log.time_started, Some("%A, %B {day_ordinal}, %Y at %I:%M %p")))
             .size(28.0)
             .color(color)
             .strong(),
@@ -100,10 +96,8 @@ fn log_info_panel(ui: &mut Ui, log: &crate::app::PracticeLog) {
         ui.separator();
 
         info_section(ui, "General", |ui| {
-            ui.label(format!(
-                "Duration: {}",
-                format_time(log.duration_ms as u128)
-            ));
+            // Add the time/date of starting
+            ui.label(format!("Duration: {}", format_time(log.duration_ms as u128)));
         });
 
         ui.separator();
