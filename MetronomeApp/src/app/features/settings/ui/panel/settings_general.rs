@@ -1,5 +1,4 @@
 use super::section::{full_width_button, settings_section};
-use crate::app::systems::colors::themes::{all_themes, theme};
 use crate::app::AppData;
 use eframe::egui::{self, RichText, ScrollArea, Ui};
 
@@ -42,7 +41,7 @@ pub(crate) fn settings_general(app: &mut AppData, ui: &mut Ui) {
 }
 
 fn theme_selector(app: &mut AppData, ui: &mut Ui) {
-    let theme_options = all_themes(&app.themes);
+    let theme_options = &app.themes.all();
 
     let current_index = app
         .settings
@@ -63,8 +62,7 @@ fn theme_selector(app: &mut AppData, ui: &mut Ui) {
                 {
                     app.settings.selected_theme_index = i;
 
-                    theme(&app.themes, app.settings.selected_theme_index)
-                        .apply_to_ctx(ui.ctx());
+                    let _ = &app.themes.get(app.settings.selected_theme_index).apply_to_ctx(ui.ctx());
                 }
             }
         });

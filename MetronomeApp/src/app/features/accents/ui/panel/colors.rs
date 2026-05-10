@@ -1,6 +1,6 @@
 use crate::app::{BeatState};
 use eframe::egui::{Color32, CornerRadius};
-use crate::app::systems::colors::theme_presets::Theme;
+use crate::app::data::themes::Theme;
 
 pub(super) fn beat_state_rows(theme: &Theme) -> [(BeatState, Color32, CornerRadius); 4] {
     let radius = 2;

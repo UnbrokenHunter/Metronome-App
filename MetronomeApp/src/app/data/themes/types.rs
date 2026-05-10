@@ -1,29 +1,71 @@
 use serde::{Deserialize, Serialize};
 use crate::app::AppData;
-use crate::app::systems::colors::theme_presets::Theme;
+use eframe::egui::Color32;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AppThemeData(pub Vec<Theme>);
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct Theme {
+    pub name: String,
+    pub white: Color32,
+    pub black: Color32,
+    pub override_color: Color32,
+    pub downbeat_color: Color32,
+    pub strong_color: Color32,
+    pub weak_color: Color32,
+    pub off_color: Color32,
+
+    pub ui: Option<UITheme>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct UITheme {
+    pub extreme_bg_color: Color32,
+    pub panel_fill: Color32,
+    pub window_fill: Color32,
+    pub faint_bg_color: Color32,
+    pub override_text_color: Color32,
+    pub hyperlink_color: Color32,
+    pub selection_bg: Color32,
+    pub selection_stroke: Color32,
+    pub hovered_bg: Color32,
+    pub active_bg: Color32,
+    pub open_bg: Color32,
+}
 
 impl AppThemeData {
     pub fn len(&self) -> usize {
         self.0.len()
     }
 
-    pub fn get(&self, index: usize) -> Option<&Theme> {
-        self.0.get(index)
+    pub fn get(&self, index: usize) -> &Theme {
+        let idx = self.clamp_index(index);
+
+        self
+            .0
+            .get(idx)
+            .expect("at least one theme present")
     }
 
     pub fn all(&self) -> &[Theme] {
         &self.0
     }
-}
 
-impl AppData {
-    pub fn current_theme(&self) -> Theme {
-        crate::app::systems::colors::themes::theme(
-            &self.themes,
-            self.settings.selected_theme_index,
-        )
+    fn clamp_index(&self, idx: usize) -> usize {
+        let n = self.len();
+
+        if n == 0 {
+            0
+        } else {
+            idx.min(n - 1)
+        }
     }
 }
+
+impl AppData { // I kinda hate this but whatever
+    pub fn current_theme(&self) -> &Theme {
+        self.themes.get(self.settings.selected_theme_index)
+    }
+}
+
