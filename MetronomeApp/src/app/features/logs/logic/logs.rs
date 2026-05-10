@@ -73,7 +73,7 @@ pub fn try_add_log(app: &mut AppData, title: Option<String>) {
         average_tempo,
         average_delta,
         points,
-        title: title.unwrap_or(String::new()),
+        title: title.unwrap_or_default(),
         notes: String::new(),
     });
 
