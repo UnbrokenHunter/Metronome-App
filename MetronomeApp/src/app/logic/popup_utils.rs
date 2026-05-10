@@ -2,7 +2,7 @@
 #![allow(unused_variables)]
 #![allow(clippy::too_many_arguments)]
 
-use egui::{Align2, Button, Context, Frame, Response, RichText, TextEdit, Ui};
+use egui::{Align2, Button, Context, Frame, Response, RichText, TextEdit, Ui, Vec2};
 
 /// Button that opens a styled popup menu.
 /// Returns the button response.
@@ -240,4 +240,42 @@ pub fn centered_text_input_popup(
     }
 
     submitted.filter(|s| !s.is_empty())
+}
+
+pub fn confirmation_popup(
+    ctx: &Context,
+    is_open: bool,
+    title: &str,
+    message: &str,
+    confirm_text: &str,
+) -> Option<bool> {
+    if !is_open {
+        return None;
+    }
+
+    let mut result = None;
+
+    egui::Window::new(title)
+        .collapsible(false)
+        .resizable(false)
+        .anchor(Align2::CENTER_CENTER, Vec2::ZERO)
+        .show(ctx, |ui| {
+            ui.label(message);
+            ui.add_space(8.0);
+
+            ui.horizontal(|ui| {
+                if ui.button("Cancel").clicked() {
+                    result = Some(false);
+                }
+
+                let confirm_button =
+                    Button::new(RichText::new(confirm_text).color(ui.visuals().warn_fg_color));
+
+                if ui.add(confirm_button).clicked() {
+                    result = Some(true);
+                }
+            });
+        });
+
+    result
 }
