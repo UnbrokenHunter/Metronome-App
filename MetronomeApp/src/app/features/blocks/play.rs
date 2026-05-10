@@ -1,7 +1,8 @@
-use eframe::egui::{self, Ui};
+use crate::app::data::PendingTitleAction;
 use crate::app::features::logs::logic::logs;
-use crate::app::AppData;
 use crate::app::logic::popup_utils;
+use crate::app::AppData;
+use eframe::egui::{self, Ui};
 
 pub fn play(app: &mut AppData, ui: &mut Ui) {
     let size = [ui.available_width(), 30.0];
@@ -15,52 +16,61 @@ pub fn reset(app: &mut AppData, ui: &mut Ui) {
     let size = [ui.available_width(), 30.0];
 
     if ui.add_sized(size, egui::Button::new("Reset")).clicked() {
-        if app.settings.do_title_popup {
-            app.runtime.pending_log_title.clear();
-            app.runtime.show_log_title_popup = true;
-        } else {
-            logs::try_add_log(app, None);
-            app.reset_metronome();
-        }
+        start_or_run(app, PendingTitleAction::Reset);
     }
 
-    if let Some(title) = popup_utils::centered_text_input_popup(
-        ui.ctx(),
-        &mut app.runtime.show_log_title_popup,
-        "Log Title",
-        "Description",
-        &mut app.runtime.pending_log_title,
-        "Save",
-    ) {
-        logs::try_add_log(app, Some(title));
-        app.reset_metronome();
-        app.runtime.pending_log_title.clear();
-    }
+    draw_title_popup_for(app, ui, PendingTitleAction::Reset);
 }
 
 pub fn revert_defaults(app: &mut AppData, ui: &mut Ui) {
     let size = [ui.available_width(), 30.0];
 
     if ui.add_sized(size, egui::Button::new("Revert Defaults")).clicked() {
-        if app.settings.do_title_popup {
-            app.runtime.pending_log_title.clear();
-            app.runtime.show_log_title_popup = true;
-        } else {
-            logs::try_add_log(app, None);
-            app.reset_all_parameters();
-        }
+        start_or_run(app, PendingTitleAction::RevertDefaults);
     }
 
-    if let Some(title) = popup_utils::centered_text_input_popup(
+    draw_title_popup_for(app, ui, PendingTitleAction::RevertDefaults);
+}
+
+fn draw_title_popup_for(app: &mut AppData, ui: &mut Ui, action: PendingTitleAction) {
+    if app.runtime.pending_title_action != Some(action) {
+        return;
+    }
+
+    match popup_utils::centered_text_input_popup(
         ui.ctx(),
-        &mut app.runtime.show_log_title_popup,
+        true,
         "Log Title",
         "Description",
         &mut app.runtime.pending_log_title,
         "Save",
     ) {
-        logs::try_add_log(app, Some(title));
-        app.reset_all_parameters();
-        app.runtime.pending_log_title.clear();
+        Some(Some(title)) => finish_action(app, action, Some(title)),
+        Some(None) => {
+            app.runtime.pending_title_action = None;
+            app.runtime.pending_log_title.clear();
+        }
+        None => {}
     }
+}
+
+fn start_or_run(app: &mut AppData, action: PendingTitleAction) {
+    if app.settings.do_title_popup {
+        app.runtime.pending_log_title.clear();
+        app.runtime.pending_title_action = Some(action);
+    } else {
+        finish_action(app, action, None);
+    }
+}
+
+fn finish_action(app: &mut AppData, action: PendingTitleAction, title: Option<String>) {
+    logs::try_add_log(app, title);
+
+    match action {
+        PendingTitleAction::Reset => app.reset_metronome(),
+        PendingTitleAction::RevertDefaults => app.reset_all_parameters(),
+    }
+
+    app.runtime.pending_log_title.clear();
+    app.runtime.pending_title_action = None;
 }

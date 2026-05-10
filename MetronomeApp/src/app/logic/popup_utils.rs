@@ -2,7 +2,7 @@
 #![allow(unused_variables)]
 #![allow(clippy::too_many_arguments)]
 
-use egui::{Align2, Button, Context, Frame, Response, RichText, TextEdit, Ui, Vec2};
+use egui::{Align2, Button, Context, Frame, Response, RichText, Ui, Vec2};
 
 /// Button that opens a styled popup menu.
 /// Returns the button response.
@@ -188,58 +188,52 @@ pub fn confirm_popup_button(
 }
 
 pub fn centered_text_input_popup(
-    ctx: &Context,
-    open: &mut bool,
+    ctx: &egui::Context,
+    is_open: bool,
     title: &str,
     label: &str,
     text: &mut String,
     confirm_text: &str,
-) -> Option<String> {
-    if !*open {
+) -> Option<Option<String>> {
+    if !is_open {
         return None;
     }
 
-    let mut submitted = None;
-    let mut should_close = false;
+    let mut result = None;
+    let input_id = egui::Id::new((title, "text_input"));
 
     egui::Window::new(title)
         .collapsible(false)
         .resizable(false)
-        .anchor(Align2::CENTER_CENTER, [0.0, 0.0])
-        .open(open)
+        .anchor(egui::Align2::CENTER_CENTER, egui::Vec2::ZERO)
         .show(ctx, |ui| {
             ui.set_min_width(260.0);
-
             ui.label(label);
 
             let text_response = ui.add(
-                TextEdit::singleline(text)
+                egui::TextEdit::singleline(text)
+                    .id(input_id)
                     .desired_width(ui.available_width()),
             );
 
             text_response.request_focus();
 
-            ui.add_space(8.0);
-
             let enter_pressed = ui.input(|i| i.key_pressed(egui::Key::Enter));
+
+            ui.add_space(8.0);
 
             ui.horizontal(|ui| {
                 if ui.button("Cancel").clicked() {
-                    should_close = true;
+                    result = Some(None);
                 }
 
-                if ui.add(Button::new(confirm_text)).clicked() || enter_pressed {
-                    submitted = Some(text.trim().to_string());
-                    should_close = true;
+                if ui.button(confirm_text).clicked() || enter_pressed {
+                    result = Some(Some(text.trim().to_string()));
                 }
             });
         });
 
-    if should_close {
-        *open = false;
-    }
-
-    submitted.filter(|s| !s.is_empty())
+    result
 }
 
 pub fn confirmation_popup(

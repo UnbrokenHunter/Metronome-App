@@ -15,8 +15,8 @@ pub fn default_runtime_data() -> AppRunningData {
         beat_menu_state: 0,
         settings_menu_state: 0,
         pending_delete_log: None,
-        pending_log_title: "".to_string(),
-        show_log_title_popup: false,
+        pending_log_title: String::new(),
+        pending_title_action: None,
     }
 }
 
