@@ -60,7 +60,7 @@ where
 
     let Some(version) = raw.get("version").and_then(|v| v.as_u64()) else {
         println!(
-            "Loaded legacy unversioned config. Migrating from v0 to v{}.",
+            "\tLoaded legacy unversioned config. Migrating from v0 to v{}.",
             current_version
         );
 
@@ -69,18 +69,18 @@ where
 
     let version = version as u32;
 
-    println!("Loaded config version v{}.", version);
+    println!("\tLoaded config version v{}.", version);
 
     let data = raw.get("data")?.clone();
 
     if version == current_version {
-        println!("Config is already current at v{}.", current_version);
+        println!("\tConfig is already current at v{}.", current_version);
         return serde_json::from_value(data).ok();
     }
 
     if version < current_version {
         println!(
-            "Config migration required: v{} -> v{}.",
+            "\tConfig migration required: v{} -> v{}.",
             version, current_version
         );
 
@@ -88,7 +88,7 @@ where
     }
 
     println!(
-        "Config version v{} is newer than app-supported v{}. Refusing to load.",
+        "\tConfig version v{} is newer than app-supported v{}. Refusing to load.",
         version, current_version
     );
 
