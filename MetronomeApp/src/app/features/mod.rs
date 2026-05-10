@@ -12,3 +12,6 @@ pub use registry::Registry;
 pub use shell::Menu;
 
 pub use metronome::calculate_tempo;
+pub use metronome::update_metronome;
+
+pub use logs::try_add_log;

@@ -1,7 +1,7 @@
-use crate::app::logic::functions::calculate;
 use crate::app::systems::time::clock::format_time;
-use crate::app::{logic::functions::derivative, AppData};
+use crate::app::AppData;
 use eframe::egui::{self, Frame, Grid, RichText, Ui};
+use crate::app::features::metronome::{calculate, derivative};
 
 pub fn info(app: &mut AppData, ui: &mut Ui) {
     ui.vertical(|ui| {
@@ -27,13 +27,13 @@ pub fn info(app: &mut AppData, ui: &mut Ui) {
                                     "ET:"
                                 },
                             )
-                            .size(28.0),
+                                .size(28.0),
                         );
                         ui.label(
                             RichText::new(format_time(
                                 app.runtime.time_data.calculated_time_since_start,
                             ))
-                            .size(28.0),
+                                .size(28.0),
                         );
                         ui.end_row();
 
@@ -46,7 +46,7 @@ pub fn info(app: &mut AppData, ui: &mut Ui) {
                                         + app.parameters.tempo_params.manual_time_offset * 1000.0)
                                         as u128,
                                 ))
-                                .size(28.0),
+                                    .size(28.0),
                             );
                             ui.end_row();
                         }
@@ -66,7 +66,7 @@ pub fn info(app: &mut AppData, ui: &mut Ui) {
                                         / 1000.0
                                 )
                             ))
-                            .size(28.0),
+                                .size(28.0),
                         );
                         ui.end_row();
                     });

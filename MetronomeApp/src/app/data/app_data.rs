@@ -4,7 +4,7 @@ use crate::app::data::{
     AppAccentPresetData, AppPracticeData, AppRunningData, AppSaveData, AppSettingsData,
     AppThemeData,
 };
-use crate::app::logic::logs::try_add_log;
+use crate::app::features::try_add_log;
 
 pub struct AppData {
     pub parameters: AppSaveData,

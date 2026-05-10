@@ -4,9 +4,8 @@ use super::{
     utils::{icon_button, SMALL_ICON_SIZE, TINY_ICON_SIZE},
 };
 use crate::app::data::BeatColors;
-use crate::app::{
-    logic::accents::get_accent_and_beat_index, AccentData, AppData, BeatData, BeatState,
-};
+use crate::app::features::accents::logic::accents::get_accent_and_beat_index;
+use crate::app::{AccentData, AppData, BeatData, BeatState};
 use eframe::egui::{self, Align, Frame, Layout, TextEdit, TextStyle, Ui};
 
 pub fn draw_accent(app: &mut AppData, ui: &mut Ui, accent_index: usize, total_width: f32) {

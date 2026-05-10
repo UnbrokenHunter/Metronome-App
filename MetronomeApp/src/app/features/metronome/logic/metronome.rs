@@ -1,8 +1,8 @@
-use crate::app::systems::audio;
-use crate::app::{
-    logic::accents::{calculate_number_of_beats, get_accent_at_beat_index, get_beat_at_index}, AppData,
-    BeatState,
+use crate::app::features::accents::accents::{
+    calculate_number_of_beats, get_accent_at_beat_index, get_beat_at_index,
 };
+use crate::app::systems::audio;
+use crate::app::{AppData, BeatState};
 
 pub fn update_metronome(app: &mut AppData) {
     let total_beats = calculate_number_of_beats(app) as u32;

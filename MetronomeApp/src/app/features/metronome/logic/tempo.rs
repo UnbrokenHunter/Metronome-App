@@ -1,4 +1,4 @@
-use crate::app::logic::functions::calculate;
+use crate::app::features::metronome::logic::functions::calculate;
 use crate::app::AppData;
 
 pub fn calculate_tempo(app: &mut AppData) {

@@ -1,7 +1,7 @@
-use crate::app::logic::functions::calculate;
 use crate::app::{GrowthType, TempoParams};
 use eframe::egui::Ui;
 use egui_plot::{Line, Plot, PlotPoints};
+use crate::app::features::metronome::calculate;
 
 pub fn draw_plot(ui: &mut Ui, points: &[[f64; 2]]) {
     Plot::new("live_plot")
