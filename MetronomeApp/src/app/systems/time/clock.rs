@@ -1,6 +1,6 @@
 extern crate chrono;
 use chrono::prelude::DateTime;
-use chrono::{Datelike, TimeZone, Utc};
+use chrono::{Datelike, Local, TimeZone, Utc};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::app::TimeData;
@@ -77,7 +77,7 @@ pub fn format_date(date: u128, format: Option<&str>) -> String {
     let seconds = (date / 1000) as i64;
     let nanos = ((date % 1000) * 1_000_000) as u32;
 
-    let datetime: DateTime<Utc> = Utc
+    let datetime: DateTime<Local> = Local
         .timestamp_opt(seconds, nanos)
         .single()
         .expect("Invalid timestamp");
@@ -95,35 +95,37 @@ pub fn format_date(date: u128, format: Option<&str>) -> String {
             .replace(placeholder, &day_ordinal);
     }
 
-    return format!(
+    format!(
         "{} {}, {} at {}",
         datetime.format("%B"),
         day_ordinal,
         datetime.year(),
         format_ampm_time(&datetime),
-    );
+    )
+}
 
-    fn ordinal_suffix(day: u32) -> &'static str {
-        match day {
-            11..=13 => "th",
-            _ => match day % 10 {
-                1 => "st",
-                2 => "nd",
-                3 => "rd",
-                _ => "th",
-            },
-        }
-    }
-
-    fn format_ampm_time(datetime: &DateTime<Utc>) -> String {
-        datetime
-            .format("%I:%M %p")
-            .to_string()
-            .trim_start_matches('0')
-            .to_string()
+fn ordinal_suffix(day: u32) -> &'static str {
+    match day {
+        11..=13 => "th",
+        _ => match day % 10 {
+            1 => "st",
+            2 => "nd",
+            3 => "rd",
+            _ => "th",
+        },
     }
 }
 
+fn format_ampm_time<Tz: chrono::TimeZone>(datetime: &DateTime<Tz>) -> String
+where
+    Tz::Offset: std::fmt::Display,
+{
+    datetime
+        .format("%I:%M %p")
+        .to_string()
+        .trim_start_matches('0')
+        .to_string()
+}
 
 pub fn days_since_epoch(epoch_millis: u128) -> u64 {
     // Convert milliseconds to seconds, then to days
