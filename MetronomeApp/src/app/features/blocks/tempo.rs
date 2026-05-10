@@ -50,7 +50,12 @@ fn tap_tempo(app: &mut AppData) -> u32 {
         return app.runtime.tempo as u32;
     }
 
-    let elapsed_seconds = (now - last) as f64 / 1000.0;
+    let elapsed_ms = now.saturating_sub(last);
 
-    (60.0 / elapsed_seconds) as u32
+    if elapsed_ms < 100 {
+        return app.runtime.tempo.round() as u32;
+    }
+
+    let bpm = 60_000.0 / elapsed_ms as f64;
+    bpm.clamp(1.0, 400.0).round() as u32
 }
