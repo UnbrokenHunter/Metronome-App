@@ -1,8 +1,8 @@
 use crate::app::{BeatState};
 use eframe::egui::{Color32, CornerRadius};
-use crate::app::data::themes::Theme;
+use crate::app::data::BeatColors;
 
-pub(super) fn beat_state_rows(theme: &Theme) -> [(BeatState, Color32, CornerRadius); 4] {
+pub(super) fn beat_state_rows(colors: &BeatColors) -> [(BeatState, Color32, CornerRadius); 4] {
     let radius = 2;
 
     let rounding_top = CornerRadius {
@@ -22,18 +22,18 @@ pub(super) fn beat_state_rows(theme: &Theme) -> [(BeatState, Color32, CornerRadi
     };
 
     [
-        (BeatState::Downbeat, theme.downbeat_color, rounding_top),
-        (BeatState::Strong, theme.strong_color, rounding_mid),
-        (BeatState::Weak, theme.weak_color, rounding_mid),
-        (BeatState::Off, theme.off_color, rounding_bot),
+        (BeatState::Downbeat, colors.downbeat_color, rounding_top),
+        (BeatState::Strong, colors.strong_color, rounding_mid),
+        (BeatState::Weak, colors.weak_color, rounding_mid),
+        (BeatState::Off, colors.off_color, rounding_bot),
     ]
 }
 
-pub(super) fn selected_beat_color(state: BeatState, theme: &Theme) -> Color32 {
+pub(super) fn selected_beat_color(state: BeatState, colors: &BeatColors) -> Color32 {
     match state {
-        BeatState::Downbeat => theme.downbeat_color,
-        BeatState::Strong => theme.strong_color,
-        BeatState::Weak => theme.weak_color,
-        BeatState::Off => theme.off_color,
+        BeatState::Downbeat => colors.downbeat_color,
+        BeatState::Strong => colors.strong_color,
+        BeatState::Weak => colors.weak_color,
+        BeatState::Off => colors.off_color,
     }
 }

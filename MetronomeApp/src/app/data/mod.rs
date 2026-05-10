@@ -16,4 +16,4 @@ pub use runtime::{AppRunningData, TimeData};
 
 pub use settings::AppSettingsData;
 
-pub use themes::AppThemeData;
+pub use themes::{AppThemeData, BeatColors};

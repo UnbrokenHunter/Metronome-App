@@ -2,7 +2,7 @@ use crate::app::BeatData;
 use eframe::egui::{
     self, Color32, CornerRadius, Frame, Rect, Sense, Stroke, TextStyle, Ui, Vec2,
 };
-use crate::app::data::themes::Theme;
+use crate::app::data::BeatColors;
 use super::{
     colors::{beat_state_rows, selected_beat_color},
     utils::{beat_menu_state, BEAT_BUTTON_HEIGHT, BEAT_BUTTON_WIDTH},
@@ -17,7 +17,7 @@ pub fn draw_beat_column(
     menu_state: &mut u32,
     playing: bool,
     current_click: Option<(usize, usize)>,
-    colors: &Theme,
+    colors: &BeatColors,
 ) {
     let button_size = Vec2::new(BEAT_BUTTON_WIDTH, BEAT_BUTTON_HEIGHT);
     let start_pos = ui.cursor().min;
