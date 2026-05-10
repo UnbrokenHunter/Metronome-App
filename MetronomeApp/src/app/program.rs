@@ -1,10 +1,10 @@
-use eframe::egui::Context;
 use eframe::Frame;
+use eframe::egui::Context;
 
-use super::features::{calculate_tempo, update_metronome, shell, Menu, Registry};
+use super::features::{Menu, Registry, calculate_tempo, shell, update_metronome};
+use crate::app::AppData;
 use crate::app::systems::time::clock;
 use crate::app::systems::{audio, deployment, peripherals};
-use crate::app::AppData;
 
 pub struct Window {
     data: AppData,

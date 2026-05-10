@@ -1,5 +1,5 @@
-use crate::app::features::metronome::logic::functions::calculate;
 use crate::app::AppData;
+use crate::app::features::metronome::logic::functions::calculate;
 
 pub fn calculate_tempo(app: &mut AppData) {
     if app.runtime.playing {

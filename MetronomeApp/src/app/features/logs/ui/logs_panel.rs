@@ -1,8 +1,8 @@
-use crate::app::features::blocks::plot::draw_plot;
-use crate::app::systems::time::clock::{format_date, format_time};
 use crate::app::AppData;
-use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
+use crate::app::features::blocks::plot::draw_plot;
 use crate::app::logic::popup_utils;
+use crate::app::systems::time::clock::{format_date, format_time};
+use eframe::egui::{self, RichText, ScrollArea, TextEdit, TextStyle, Ui};
 
 pub fn logs_panel(app: &mut AppData, ui: &mut Ui) {
     let selected_index = app.runtime.selected_log_index;
@@ -48,10 +48,13 @@ fn log_header(ui: &mut Ui, log: &crate::app::PracticeLog) {
         .unwrap_or(ui.visuals().text_color());
 
     ui.label(
-        RichText::new(format_date(log.time_started, Some("%A, %B {day_ordinal}, %Y at %I:%M %p")))
-            .size(28.0)
-            .color(color)
-            .strong(),
+        RichText::new(format_date(
+            log.time_started,
+            Some("%A, %B {day_ordinal}, %Y at %I:%M %p"),
+        ))
+        .size(28.0)
+        .color(color)
+        .strong(),
     );
 }
 
@@ -97,7 +100,10 @@ fn log_info_panel(ui: &mut Ui, log: &crate::app::PracticeLog) {
 
         info_section(ui, "General", |ui| {
             // Add the time/date of starting
-            ui.label(format!("Duration: {}", format_time(log.duration_ms as u128)));
+            ui.label(format!(
+                "Duration: {}",
+                format_time(log.duration_ms as u128)
+            ));
         });
 
         ui.separator();

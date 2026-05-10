@@ -13,7 +13,6 @@ pub fn try_add_log(app: &mut AppData, title: Option<String>) {
         return;
     }
 
-
     let time_started = app.runtime.time_data.start_time;
 
     let min_tempo = app.parameters.tempo_params.min;
@@ -56,7 +55,8 @@ pub fn try_add_log(app: &mut AppData, title: Option<String>) {
         let mut condensed: Vec<[f64; 2]> = datapoints.iter().step_by(step).cloned().collect();
 
         if let Some(last) = datapoints.last()
-            && condensed.last() != Some(last) {
+            && condensed.last() != Some(last)
+        {
             condensed.push(*last);
         }
 

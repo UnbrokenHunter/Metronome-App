@@ -1,9 +1,9 @@
 use std::collections::BTreeMap;
 
 use crate::app::systems::time;
+use crate::app::systems::time::clock::format_date;
 use crate::app::{AppData, PracticeLog};
 use eframe::egui::{self, ScrollArea, Ui};
-use crate::app::systems::time::clock::format_date;
 
 pub fn logs_side(app: &mut AppData, ui: &mut Ui) {
     ui.allocate_ui_with_layout(
@@ -85,5 +85,5 @@ fn log_card(ui: &mut Ui, index: usize, log: &PracticeLog) -> bool {
         egui::Id::new(("log_card", index)),
         egui::Sense::click(),
     )
-        .clicked()
+    .clicked()
 }

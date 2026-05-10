@@ -2,9 +2,9 @@ use egui::Context;
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
+use crate::app::AppData;
 use crate::app::features::registry::Registry;
 use crate::app::logic::ui_utils::tabs;
-use crate::app::AppData;
 
 pub fn draw_layout(
     app: &mut AppData,

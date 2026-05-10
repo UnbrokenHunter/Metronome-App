@@ -1,7 +1,7 @@
 use super::{
-    actions::{apply_accent_action, AccentAction},
+    actions::{AccentAction, apply_accent_action},
     beat_column::draw_beat_column,
-    utils::{icon_button, SMALL_ICON_SIZE, TINY_ICON_SIZE},
+    utils::{SMALL_ICON_SIZE, TINY_ICON_SIZE, icon_button},
 };
 use crate::app::data::BeatColors;
 use crate::app::features::accents::logic::accents::get_accent_and_beat_index;

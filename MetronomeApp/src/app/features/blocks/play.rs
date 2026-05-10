@@ -1,7 +1,7 @@
+use crate::app::AppData;
 use crate::app::data::PendingTitleAction;
 use crate::app::features::logs::logic::logs;
 use crate::app::logic::popup_utils;
-use crate::app::AppData;
 use eframe::egui::{self, Ui};
 
 pub fn play(app: &mut AppData, ui: &mut Ui) {
@@ -25,7 +25,10 @@ pub fn reset(app: &mut AppData, ui: &mut Ui) {
 pub fn revert_defaults(app: &mut AppData, ui: &mut Ui) {
     let size = [ui.available_width(), 30.0];
 
-    if ui.add_sized(size, egui::Button::new("Revert Defaults")).clicked() {
+    if ui
+        .add_sized(size, egui::Button::new("Revert Defaults"))
+        .clicked()
+    {
         start_or_run(app, PendingTitleAction::RevertDefaults);
     }
 

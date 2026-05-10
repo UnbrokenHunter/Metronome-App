@@ -1,5 +1,5 @@
-use egui::{Color32, CornerRadius, Stroke};
 use crate::app::data::themes::Theme;
+use egui::{Color32, CornerRadius, Stroke};
 
 impl Theme {
     pub fn apply_to_ctx(&self, ctx: &egui::Context) {

@@ -1,7 +1,7 @@
 use eframe::egui::Key;
 
-use crate::app::systems::peripherals::keyboard_input::Keyboard;
 use crate::app::AppData;
+use crate::app::systems::peripherals::keyboard_input::Keyboard;
 
 pub fn check_keyboard(app: &mut AppData) {
     if Keyboard::wants_keyboard_input() {

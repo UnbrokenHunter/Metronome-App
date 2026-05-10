@@ -4,7 +4,7 @@ use std::{
     fs::File,
     io::BufReader,
     path::PathBuf,
-    sync::mpsc::{channel, Sender},
+    sync::mpsc::{Sender, channel},
     thread,
     time::Duration,
 };

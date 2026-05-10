@@ -1,12 +1,10 @@
-use crate::app::BeatData;
-use eframe::egui::{
-    self, Color32, CornerRadius, Frame, Rect, Sense, Stroke, TextStyle, Ui, Vec2,
-};
-use crate::app::data::BeatColors;
 use super::{
     colors::{beat_state_rows, selected_beat_color},
-    utils::{beat_menu_state, BEAT_BUTTON_HEIGHT, BEAT_BUTTON_WIDTH},
+    utils::{BEAT_BUTTON_HEIGHT, BEAT_BUTTON_WIDTH, beat_menu_state},
 };
+use crate::app::BeatData;
+use crate::app::data::BeatColors;
+use eframe::egui::{self, Color32, CornerRadius, Frame, Rect, Sense, Stroke, TextStyle, Ui, Vec2};
 
 #[allow(clippy::too_many_arguments)]
 pub fn draw_beat_column(

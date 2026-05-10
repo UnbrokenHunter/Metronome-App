@@ -43,7 +43,7 @@ pub fn popup_menu_item(ui: &mut Ui, label: impl Into<egui::WidgetText>) -> bool 
         [ui.available_width(), 24.0],
         Button::new(label).frame(false),
     )
-        .clicked()
+    .clicked()
 }
 
 /// A disabled-looking menu item.

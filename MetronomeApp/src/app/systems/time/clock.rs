@@ -1,6 +1,6 @@
 extern crate chrono;
 use chrono::prelude::DateTime;
-use chrono::{Datelike, Local, TimeZone, Utc};
+use chrono::{Datelike, Local, TimeZone};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::app::TimeData;

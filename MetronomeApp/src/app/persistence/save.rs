@@ -12,11 +12,7 @@ pub(super) fn save_versioned_json<T>(value: &T, path: &Path, version: u32) -> Re
 where
     T: Serialize,
 {
-    println!(
-        "Saving config version v{} to: {}",
-        version,
-        path.display()
-    );
+    println!("Saving config version v{} to: {}", version, path.display());
 
     let versioned = VersionedConfig {
         version,
@@ -46,11 +42,7 @@ where
         return Err(error.into());
     }
 
-    println!(
-        "Saved config version v{} to: {}",
-        version,
-        path.display()
-    );
+    println!("Saved config version v{} to: {}", version, path.display());
 
     Ok(())
 }

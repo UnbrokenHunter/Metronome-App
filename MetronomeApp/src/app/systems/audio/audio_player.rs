@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use crate::app::systems::audio::audio_manager::{Cmd, AUDIO};
+use crate::app::systems::audio::audio_manager::{AUDIO, Cmd};
 
 pub fn play_audio_from_file(sound: &str, volume: f32) {
     let path = sound_path(sound);

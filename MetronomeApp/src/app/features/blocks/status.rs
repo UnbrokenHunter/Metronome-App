@@ -1,5 +1,5 @@
-use crate::app::systems::time;
 use crate::app::AppData;
+use crate::app::systems::time;
 use eframe::egui::{self, Ui};
 
 pub fn status(app: &mut AppData, ui: &mut Ui) {
