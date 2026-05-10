@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AppThemeData(pub Vec<Theme>);
 
+#[allow(dead_code)]
 impl AppThemeData {
     pub fn len(&self) -> usize {
         self.0.len()

@@ -54,11 +54,10 @@ pub fn try_add_log(app: &mut AppData) {
         let datapoints = &app.runtime.points;
         let mut condensed: Vec<[f64; 2]> = datapoints.iter().step_by(step).cloned().collect();
 
-        if let Some(last) = datapoints.last() {
-            if condensed.last() != Some(last) {
+        if let Some(last) = datapoints.last()
+            && condensed.last() != Some(last) {
                 condensed.push(*last);
             }
-        }
 
         condensed
     } else {
