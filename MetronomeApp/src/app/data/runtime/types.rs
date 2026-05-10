@@ -21,4 +21,6 @@ pub struct AppRunningData {
     pub beat_menu_state: u32,
     pub settings_menu_state: u32,
     pub pending_delete_log: Option<usize>,
+    pub pending_log_title: String,
+    pub show_log_title_popup: bool,
 }

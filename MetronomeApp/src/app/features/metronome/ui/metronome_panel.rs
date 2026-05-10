@@ -2,6 +2,7 @@ use crate::app::features::blocks;
 use crate::app::features::logs::logic::logs;
 use crate::app::AppData;
 use eframe::egui::{self, Ui};
+use log::warn;
 
 pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {
     let total_width = ui.available_width();
@@ -23,7 +24,8 @@ pub fn metronome_panel(app: &mut AppData, ui: &mut Ui) {
                         .add_sized(size, egui::Button::new("Revert Defaults"))
                         .clicked()
                     {
-                        logs::try_add_log(app);
+                        logs::try_add_log(app, None);
+                        warn!("LOG SAVED HERE SHOULD ALSO USE POPUP");
                         app.reset_all_parameters();
                     }
                 },

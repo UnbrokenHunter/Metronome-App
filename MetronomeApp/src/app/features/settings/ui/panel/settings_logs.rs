@@ -26,6 +26,21 @@ pub(crate) fn settings_logs(app: &mut AppData, ui: &mut Ui) {
 
             settings_section(
                 ui,
+                "Request Log Title on Save",
+                "If enabled, a popup requesting a title will appear on every log save. This can be used to quickly label what was practiced during the session.",
+                |ui| {
+                    let label = if app.settings.do_title_popup {
+                        "Popup Enabled"
+                    } else {
+                        "Popup Disabled"
+                    };
+
+                    ui.toggle_value(&mut app.settings.do_title_popup, label);
+                },
+            );
+
+            settings_section(
+                ui,
                 "Minimum Practice Length",
                 "How long a practice must be before it is saved as a log. This prevents accidental play-button clicks from clogging up the logs.",
                 |ui| {

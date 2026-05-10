@@ -30,7 +30,7 @@ impl Default for AppData {
 
 impl Drop for AppData {
     fn drop(&mut self) {
-        try_add_log(self);
+        try_add_log(self, None);
 
         if let Err(error) = self.save() {
             eprintln!("{error}");
