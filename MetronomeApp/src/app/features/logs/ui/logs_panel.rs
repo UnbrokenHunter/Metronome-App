@@ -60,14 +60,18 @@ fn draw_delete_log_confirmation(app: &mut AppData, ctx: &egui::Context) {
                     app.runtime.pending_delete_log = None;
                 }
 
-                let delete_button = egui::Button::new(
-                    egui::RichText::new("Delete").color(ui.visuals().warn_fg_color),
-                );
+                let delete_button =
+                    egui::Button::new(RichText::new("Delete").color(ui.visuals().warn_fg_color));
 
                 if ui.add(delete_button).clicked() {
                     if index < app.practice.logs.len() {
                         app.practice.logs.remove(index);
-                        app.runtime.menu_state = app.runtime.menu_state.saturating_sub(1);
+                        if app.practice.logs.is_empty() {
+                            app.runtime.selected_log_index = 0;
+                        } else {
+                            app.runtime.selected_log_index =
+                                index.min(app.practice.logs.len() - 1) as u32;
+                        }
                     }
 
                     app.runtime.pending_delete_log = None;

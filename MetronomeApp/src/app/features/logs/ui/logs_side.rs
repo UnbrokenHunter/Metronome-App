@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use crate::app::{AppData, PracticeLog, logic};
+use crate::app::{logic, AppData, PracticeLog};
 use eframe::egui::{self, ScrollArea, Ui};
 
 pub fn logs_side(app: &mut AppData, ui: &mut Ui) {
