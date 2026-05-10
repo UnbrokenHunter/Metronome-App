@@ -13,7 +13,9 @@ pub fn default_runtime_data() -> AppRunningData {
         last_tap_tempo_click: 0,
         tempo: 120.0,
         time_data: default_time_data(),
-        menu_state: 0,
+        selected_log_index: 0,
+        beat_menu_state: 0,
+        settings_menu_state: 0,
         pending_delete_log: None,
     }
 }
