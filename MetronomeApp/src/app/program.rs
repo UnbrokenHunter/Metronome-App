@@ -1,8 +1,8 @@
 use eframe::egui::Context;
 use eframe::Frame;
 
-use super::features::{shell, Menu, Registry};
-use super::logic::{metronome, tempo};
+use super::features::{calculate_tempo, shell, Menu, Registry};
+use super::logic::metronome;
 use crate::app::systems::time::clock;
 use crate::app::systems::{audio, deployment, peripherals};
 use crate::app::AppData;
@@ -52,7 +52,7 @@ impl eframe::App for Window {
         peripherals::check_keyboard(&mut self.data);
         clock::update_time(&mut self.data.runtime.time_data, self.data.runtime.playing);
         metronome::update_metronome(&mut self.data);
-        tempo::calculate_tempo(&mut self.data);
+        calculate_tempo(&mut self.data);
 
         shell::draw_layout(
             &mut self.data,

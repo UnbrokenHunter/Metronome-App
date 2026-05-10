@@ -10,3 +10,5 @@ mod traits;
 
 pub use registry::Registry;
 pub use shell::Menu;
+
+pub use metronome::calculate_tempo;
